@@ -11,41 +11,72 @@
 
 <body>
   <div class="left">
-  <div class="div_left_title">
+    <div class="div_left_title">
       <h5 class="title_left">StudySync</h5>
     </div>
     <div class="div_left_paragraph">
-      <p class="left_paragraph">Faça parte dessa comunidade incrível. </p>
+      <p class="left_paragraph">Faça parte dessa <br> comunidade <br> incrível. </p>
     </div>
   </div>
   <div class="right">
+  <div  class="div_header">
+      <div class="header_sobre">
+        <a href="#">Sobre</a>
+      </div>
+      <div class="header_login">
+        <a href="#">Login</a>
+      </div>
+    </div>
     <div class="col-6">
       <form method="POST" action="cadastro_facul.php" enctype="multipart/form-data">
         <div class="mb-2">
-          <input type="text" name="nome" class="form-control" placeholder="Nome da faculdade" required>
+          <div class="div_paragrafo">
+            <p class="paragros_left">Nome</p>
+          </div>
+          <input type="text" name="nome" class="form-control"  required>
         </div>
         <div class="mb-2">
-          <input type="text" name="cnpj" class="form-control" placeholder="CNPJ" required>
+          <div class="div_paragrafo">
+            <p class="paragros_left">CNPJ</p>
+          </div>
+          <input type="text" name="cnpj" class="form-control" required>
         </div>
         <div class="mb-2">
-          <input type="text" name="cep" class="form-control" placeholder="CEP" required>
+          <div class="div_paragrafo">
+            <p class="paragros_left">CEP</p>
+          </div>
+          <input type="text" name="cep" class="form-control"  required>
         </div>
         <div class="mb-2">
-          <input type="text" name="telefone" class="form-control" placeholder="Telefone" required>
+          <div class="div_paragrafo">
+            <p class="paragros_left">Telefone</p>
+          </div>
+          <input type="text" name="telefone" class="form-control"  required>
         </div>
         <div class="mb-2">
-          <input type="text" name="usuario" class="form-control" placeholder="Usuário" required>
+          <div class="div_paragrafo">
+            <p class="paragros_left">Usuário</p>
+          </div>
+          <input type="text" name="usuario" class="form-control"  required>
         </div>
         <div class="mb-2">
-          <input type="email" name="email" class="form-control" placeholder="E-mail" required>
+          <div class="div_paragrafo">
+            <p class="paragros_left">Email</p>
+          </div>
+          <input type="email" name="email" class="form-control"  required>
         </div>
         <div class="mb-2">
-          <input type="password" name="senha" class="form-control" placeholder="Senha" required>
+          <div class="div_paragrafo">
+            <p class="paragros_left">senha</p>
+          </div>
+          <input type="password" name="senha" class="form-control"  required>
         </div>
         <div class="mb-2">
-          <input type="file" name="documentacao" class="form-control" placeholder="Documentação">
+          <input type="file" name="documentacao" class="envio_documentos" placeholder="Documentação">
         </div>
-        <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>
+        <div class="mb-2">
+          <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>
+        </div>
       </form>
     </div>
   </div>
