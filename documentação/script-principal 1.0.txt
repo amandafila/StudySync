@@ -1,0 +1,37 @@
+create database studysync;
+use studysync;
+create table usuario(
+	id int primary key auto_increment,
+    email varchar(50) unique,
+    usuername varchar(50),
+    senha varchar(50),
+    nome varchar(50)
+);
+create table Faculdade(
+	id_faculdade int primary key auto_increment,
+    cnpj varchar(20) unique,
+    cep varchar(13),
+    telefone varchar(13),
+    documentacao longblob,
+    id_usuario int,
+    foreign key(id_usuario) references usuario(id)
+);
+create table aluno(
+	cpf varchar(14) unique,
+    id_usuario int,
+    foreign key (id_usuario) references	usuario(id)
+);
+create table grupo(
+	id_grupo int primary key auto_increment,
+    id_faculdade int,
+    nome varchar(50),
+    descricao varchar(1000),
+    foreign key(id_faculdade) references faculdade(id_faculdade)
+);
+create table grupo_aluno(
+	id_grupo int,
+    id_aluno int,
+    is_adm bool,
+    foreign key (id_grupo) references grupo(id_grupo),
+    foreign key (id_aluno) references aluno(id_aluno)
+);
