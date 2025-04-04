@@ -21,12 +21,13 @@
   <div class="right">
   <div  class="div_header">
       <div class="header_sobre">
-        <a href="#">Sobre</a>
+        <a href="#" class="link_right">Sobre</a>
       </div>
       <div class="header_login">
-        <a href="#">Login</a>
+        <a class="link_right" href="#">Login</a>
       </div>
     </div>
+    <h2 class="subtitulo_cadastro">Cadastre a sua instituição</h2>
     <div class="col-6">
       <form method="POST" action="cadastro_facul.php" enctype="multipart/form-data">
         <div class="mb-2">
@@ -67,11 +68,11 @@
         </div>
         <div class="mb-2">
           <div class="div_paragrafo">
-            <p class="paragros_left">senha</p>
+            <p class="paragros_left">Senha</p>
           </div>
           <input type="password" name="senha" class="form-control"  required>
         </div>
-        <div class="mb-2">
+        <div class="mb-2 documentacao_div">
           <input type="file" name="documentacao" class="envio_documentos" placeholder="Documentação">
         </div>
         <div class="mb-2">
