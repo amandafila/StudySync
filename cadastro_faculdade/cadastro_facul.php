@@ -102,14 +102,19 @@ if (isset($_POST['nome'])) {
     $telefone = $_POST['telefone'];
     $usuario = $_POST['usuario'];
     $email = $_POST['email'];
-    $senha = $_POST['senha'];
+    $senha = password_hash($_POST["senha"], PASSWORD_DEFAULT);
     $documentacao = $_FILES['documentacao']['tmp_name'] ? file_get_contents($_FILES['documentacao']['tmp_name']) : null;
 
 
     $query = "
-    INSERT INTO cadastro_faculdade (nome, cnpj, cep, telefone, usuario, email, senha, documentacao) 
-    VALUES ('$nome', '$cnpj', '$cep', '$telefone', '$usuario', '$email', '$senha', ?)";
+    INSERT INTO usuario (nome, usuario, email, senha) 
+    VALUES ('$nome', '$usuario', '$email', '$senha', ?)";
+
+    $id_usuario = $pdo->lastInsertId();// isso talvez não funcione devido ao pdo. Testar
     
+    $query = "
+    INSERT INTO faculdade (cnpj, cep, telefone, id_usuario) 
+    VALUES ('$cnpj', '$cep', '$telefone', '$id_usuario', ?)";
 
     $stmt = $obj->prepare($query);
     $stmt->bind_param("s", $documentacao);  
