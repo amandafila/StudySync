@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+body{
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+.left{
+    width: 50vw;
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/cadastro_aluno.jpg);
+    height: 100vh;
+    background-position:center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+.div_left_title{
+    font-family: 'Montserrat';
+    font-size: 36px;
+    margin: 30px;
+}
+.title_left{
+    margin: 0;
+}
+.div_left_paragraph{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    font-family: 'Montserrat';
+    font-size: 48px ;
+    width: 100%;
+    margin-top: 29vh;
+    color: #f8f4e3; 
+}
+.left_paragraph{
+    margin: 0;
+    font-family: 'Montserrat';
+    font-weight: 600;
+}
+.right {
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #d0c4b4; 
+}
+.col-6 {
+    position: absolute;
+    bottom: 12vw;
+    right: 14vw;
+    /* width: 80%; */
+    margin: auto; 
+    flex-grow: 1; 
+    /* display: flex; */
+    flex-direction: column;
+    justify-content: center; 
+}
+.mb-2{
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.form-control{
+    width: 22vw;
+    height: 5vh;
+    border-radius: 30px;
+    border: 1px solid black;
+    margin-left: 5%;
+    text-indent: 10px;
+    background-color: #d0c4b4;
+}
+.paragros_left{
+    margin: 0;
+}
+.btn-primary{
+    margin: 0;
+}
+.envio_documentos{
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Montserrat';  
+}
+.div_paragrafo{
+    width: 10%;
+}
+.div_header {
+    width: 50vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center; 
+    margin-top: 3vh;
+}
+.link_right{
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+    font-family: 'Montserrat';
+}
+.subtitulo_cadastro{
+    font-family: 'Montserrat';
+    width: 50vw;
+    text-align: center;
+    margin: 0;
+    margin-top: 15vh;
+    font-size: 32px;
+}
+.btn-primary{
+    padding: 10px 50px 10px 50px;
+    margin-top: 2vh;
+    border-radius: 5px;
+    border: black 0px;
+    cursor: pointer;
+}
