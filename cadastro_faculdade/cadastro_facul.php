@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,50 +82,33 @@
 </body>
 </html>
 <?php
-function conecta_db() {
-  $server = "127.0.0.1";
-  $user = "root"; 
-  $pass = ""; 
-  $db_name = "studysync"; 
+$conexao = new mysqli("127.0.0.1", "root", "", "studysync");
 
-  $conexao = new mysqli($server, $user, $pass, $db_name);
-    return $conexao;
-}
-
-if (isset($_POST['nome'])) {
-    $obj = conecta_db();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $cnpj = $_POST['cnpj'];
     $cep = $_POST['cep'];
     $telefone = $_POST['telefone'];
     $usuario = $_POST['usuario'];
     $email = $_POST['email'];
-    $senha = password_hash($_POST["senha"], PASSWORD_DEFAULT);
-    $documentacao = $_FILES['documentacao']['tmp_name'] ? file_get_contents($_FILES['documentacao']['tmp_name']) : null;
-
-
-    $query = "
-    INSERT INTO usuario (nome, usuario, email, senha) 
-    VALUES ('$nome', '$usuario', '$email', '$senha', ?)";
-
-    $id_usuario = $pdo->lastInsertId();// isso talvez não funcione devido ao pdo. Testar
+    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
     
-    $query = "
-    INSERT INTO faculdade (cnpj, cep, telefone, id_usuario) 
-    VALUES ('$cnpj', '$cep', '$telefone', '$id_usuario', ?)";
-
-    $stmt = $obj->prepare($query);
-    $stmt->bind_param("s", $documentacao);  
+    $sql_usuario = "INSERT INTO usuario (nome, username, email, senha) 
+    VALUES ('$nome', '$usuario', '$email', '$senha')";
     
-
-    $resultado = $stmt->execute();
-    
-    if ($resultado) {
-        header("location:../menu/index.html");  
+    if ($conexao->query($sql_usuario)) {
+        $id_usuario = $conexao->insert_id;
+        $sql_faculdade = "INSERT INTO faculdade (cnpj, cep, telefone, id_usuario) 
+        VALUES ('$cnpj', '$cep', '$telefone', '$id_usuario')";
+        
+        if ($conexao->query($sql_faculdade)) {
+            header("Location: ../menu/index.html");
+            exit();
+        } else {
+            echo "Erro ao cadastrar faculdade: " . $conexao->error;
+        }
     } else {
-        echo "<span class='alert alert-danger'>
-        <h5>Não funcionou!</h5>
-        </span>";
+        echo "Erro ao cadastrar usuário: " . $conexao->error;
     }
 }
 ?>
