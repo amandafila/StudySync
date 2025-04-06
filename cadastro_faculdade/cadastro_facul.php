@@ -1,5 +1,43 @@
+<?php
+require_once("conexao.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nome = $_POST['nome'];
+    $cnpj = $_POST['cnpj'];
+    $cep = $_POST['cep'];
+    $telefone = $_POST['telefone'];
+    $usuario = $_POST['usuario'];
+    $email = $_POST['email'];
+    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+
+    // Corrigido: username (não usuername)
+    $sql_usuario = "INSERT INTO usuario (nome, username, email, senha) 
+                    VALUES ('$nome', '$usuario', '$email', '$senha')";
+
+    if ($conexao->query($sql_usuario)) {
+        $id_usuario = $conexao->insert_id;
+
+        $documento_binario = null;
+        if (isset($_FILES['documentacao']) && $_FILES['documentacao']['error'] === UPLOAD_ERR_OK) {
+            $documento_binario = addslashes(file_get_contents($_FILES['documentacao']['tmp_name']));
+        }
+
+        $sql_faculdade = "INSERT INTO faculdade (cnpj, cep, telefone, documentacao, id_usuario) 
+                          VALUES ('$cnpj', '$cep', '$telefone', '$documento_binario', '$id_usuario')";
+
+        if ($conexao->query($sql_faculdade)) {
+            header("Location: ../menu/index.html");
+            exit();
+        } else {
+            $erro = "Erro ao cadastrar faculdade: " . $conexao->error;
+        }
+    } else {
+        $erro = "Erro ao cadastrar usuário: " . $conexao->error;
+    }
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <title>Cadastro de Faculdade</title>
   <meta charset="utf-8">
@@ -13,11 +51,12 @@
       <h5 class="title_left">StudySync</h5>
     </div>
     <div class="div_left_paragraph">
-      <p class="left_paragraph">Faça parte dessa <br> comunidade <br> incrível. </p>
+      <p class="left_paragraph">Faça parte dessa <br> comunidade <br> incrível.</p>
     </div>
   </div>
+
   <div class="right">
-  <div  class="div_header">
+    <div class="div_header">
       <div class="header_sobre">
         <a href="#" class="link_right">Sobre</a>
       </div>
@@ -25,53 +64,43 @@
         <a class="link_right" href="#">Login</a>
       </div>
     </div>
+
     <h2 class="subtitulo_cadastro">Cadastre a sua instituição</h2>
+
+    <?php if (isset($erro)) { echo "<p style='color:red;'>$erro</p>"; } ?>
+
     <div class="col-6">
-      <form method="POST" action="cadastro_facul.php" enctype="multipart/form-data">
+      <form method="POST" action="" enctype="multipart/form-data">
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Nome</p>
-          </div>
-          <input type="text" name="nome" class="form-control"  required>
+          <p class="paragros_left">Nome</p>
+          <input type="text" name="nome" class="form-control" required>
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">CNPJ</p>
-          </div>
+          <p class="paragros_left">CNPJ</p>
           <input type="text" name="cnpj" class="form-control" required>
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">CEP</p>
-          </div>
-          <input type="text" name="cep" class="form-control"  required>
+          <p class="paragros_left">CEP</p>
+          <input type="text" name="cep" class="form-control" required>
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Telefone</p>
-          </div>
-          <input type="text" name="telefone" class="form-control"  required>
+          <p class="paragros_left">Telefone</p>
+          <input type="text" name="telefone" class="form-control" required>
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Usuário</p>
-          </div>
-          <input type="text" name="usuario" class="form-control"  required>
+          <p class="paragros_left">Usuário</p>
+          <input type="text" name="usuario" class="form-control" required>
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Email</p>
-          </div>
-          <input type="email" name="email" class="form-control"  required>
+          <p class="paragros_left">Email</p>
+          <input type="email" name="email" class="form-control" required>
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Senha</p>
-          </div>
-          <input type="password" name="senha" class="form-control"  required>
+          <p class="paragros_left">Senha</p>
+          <input type="password" name="senha" class="form-control" required>
         </div>
         <div class="mb-2 documentacao_div">
-          <input type="file" name="documentacao" class="envio_documentos" placeholder="Documentação">
+          <input type="file" name="documentacao" class="envio_documentos">
         </div>
         <div class="mb-2">
           <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>
@@ -81,34 +110,3 @@
   </div>
 </body>
 </html>
-<?php
-$conexao = new mysqli("127.0.0.1", "root", "", "studysync");
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nome = $_POST['nome'];
-    $cnpj = $_POST['cnpj'];
-    $cep = $_POST['cep'];
-    $telefone = $_POST['telefone'];
-    $usuario = $_POST['usuario'];
-    $email = $_POST['email'];
-    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
-    
-    $sql_usuario = "INSERT INTO usuario (nome, username, email, senha) 
-    VALUES ('$nome', '$usuario', '$email', '$senha')";
-    
-    if ($conexao->query($sql_usuario)) {
-        $id_usuario = $conexao->insert_id;
-        $sql_faculdade = "INSERT INTO faculdade (cnpj, cep, telefone, id_usuario) 
-        VALUES ('$cnpj', '$cep', '$telefone', '$id_usuario')";
-        
-        if ($conexao->query($sql_faculdade)) {
-            header("Location: ../menu/index.html");
-            exit();
-        } else {
-            echo "Erro ao cadastrar faculdade: " . $conexao->error;
-        }
-    } else {
-        echo "Erro ao cadastrar usuário: " . $conexao->error;
-    }
-}
-?>

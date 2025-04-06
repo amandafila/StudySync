@@ -1,50 +1,32 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+require_once("conexao.php");
 
-function conecta_db() {
-    $conn = new mysqli("127.0.0.1", "root", "", "studysync");
-    if ($conn->connect_error) {
-        die("Erro de conexão: " . $conn->connect_error);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id_faculdade = $_POST['id_faculdade'];
+    $id_usuario = $_POST['id_usuario'];
+    $usuario = $_POST['usuario'];
+    $email = $_POST['email'];
+    $cnpj = $_POST['cnpj'];
+
+    if ($conexao->connect_error) {
+        die("Erro na conexão: " . $conexao->connect_error);
     }
-    return $conn;
-}
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: index.php?erro=metodo_invalido");
+    // Atualiza a tabela usuario
+    $stmt_usuario = $conexao->prepare("UPDATE usuario SET username = ?, email = ? WHERE id = ?");
+    $stmt_usuario->bind_param("ssi", $usuario, $email, $id_usuario);
+    $stmt_usuario->execute();
+    $stmt_usuario->close();
+
+    // Atualiza a tabela faculdade
+    $stmt_faculdade = $conexao->prepare("UPDATE faculdade SET cnpj = ? WHERE id_faculdade = ?");
+    $stmt_faculdade->bind_param("si", $cnpj, $id_faculdade);
+    $stmt_faculdade->execute();
+    $stmt_faculdade->close();
+
+    $conexao->close();
+
+    header("Location: index.php?sucesso=atualizado");
     exit();
 }
-
-$campos_obrigatorios = ['id', 'usuario', 'email', 'cnpj'];
-foreach ($campos_obrigatorios as $campo) {
-    if (empty($_POST[$campo])) {
-        header("Location: update_facul.php?id=".$_POST['id']."&erro=campo_vazio");
-        exit();
-    }
-}
-
-$id = (int)$_POST['id'];
-$usuario = htmlspecialchars(strip_tags($_POST['usuario']));
-$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-$cnpj = preg_replace('/[^0-9]/', '', $_POST['cnpj']);
-
-
-$conn = conecta_db();
-
-$stmt = $conn->prepare("UPDATE cadastro_faculdade SET usuario = ?, email = ?, cnpj = ? WHERE id = ?");
-$stmt->bind_param("sssi", $usuario, $email, $cnpj, $id);
-
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        header("Location: index.php?sucesso=atualizado");
-    } else {
-        header("Location: index.php?aviso=nada_alterado");
-    }
-} else {
-    header("Location: update_facul.php?id=".$id."&erro=banco_dados");
-}
-
-$stmt->close();
-$conn->close();
-exit();
 ?>

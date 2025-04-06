@@ -33,54 +33,40 @@
           </tr>
         </thead>
         <tbody>
-          <?php
-          function conecta_db() {
-            $server = "127.0.0.1";
-            $user = "root"; 
-            $pass = ""; 
-            $db_name = "studysync"; 
-            return new mysqli($server, $user, $pass, $db_name);
-          }
-          
-          $conn = conecta_db();
-          
-          // Verifica conexão
-          if ($conn->connect_error) {
-            die("<tr><td colspan='5' class='text-danger'>Erro de conexão: " . $conn->connect_error . "</td></tr>");
-          }
-          
-          // TABELA CORRIGIDA AQUI
-          $query = "SELECT id, usuario, email, cnpj FROM cadastro_faculdade";
-          $resultado = $conn->query($query);
-          
-          if ($resultado->num_rows > 0) {
-            while($faculdade = $resultado->fetch_assoc()) {
-              echo "<tr>";
-              echo "<td>
-                      <a href='update_facul.php?id=".$faculdade['id']."' class='btn btn-sm btn-primary'>
-                        <i class='fa fa-edit'></i> Editar
-                      </a>
-                      <a href='delete.php?id=".$faculdade['id']."' class='btn btn-sm btn-danger' onclick='return confirm(\"Tem certeza?\")'>
-                        <i class='fa fa-trash'></i> Excluir
-                      </a>
-                    </td>";
-              echo "<td>".$faculdade['id']."</td>";
-              echo "<td>".htmlspecialchars($faculdade['usuario'])."</td>";
-              echo "<td>".htmlspecialchars($faculdade['email'])."</td>";
-              echo "<td>".htmlspecialchars($faculdade['cnpj'])."</td>";
-              echo "</tr>";
-            }
-          } else {
-            echo "<tr><td colspan='5' class='text-center'>Nenhuma faculdade cadastrada</td></tr>";
-          }
-          
-          $conn->close();
-          ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?php
+require_once("conexao.php");
+
+if ($conexao->connect_error) {
+  die("<tr><td colspan='5' class='text-danger'>Erro de conexão: " . $conexao->connect_error . "</td></tr>");
+}
+
+$query = "SELECT u.id, u.username, u.email, f.cnpj 
+          FROM usuario u
+          JOIN faculdade f ON u.id = f.id_usuario";
+
+$resultado = $conexao->query($query);
+
+if ($resultado->num_rows > 0) {
+  while($faculdade = $resultado->fetch_assoc()) {
+    echo "<tr>";
+    echo "<td>
+            <a href='update_facul.php?id=".$faculdade['id']."' class='btn btn-sm btn-primary'>
+              <i class='fa fa-edit'></i> Editar
+            </a>
+            <a href='delete.php?id=".$faculdade['id']."' class='btn btn-sm btn-danger' onclick='return confirm(\"Tem certeza?\")'>
+                <i class='fa fa-trash'></i> Excluir
+            </a>
+
+          </td>";
+    echo "<td>".$faculdade['id']."</td>";
+    echo "<td>".htmlspecialchars($faculdade['username'])."</td>";
+    echo "<td>".htmlspecialchars($faculdade['email'])."</td>";
+    echo "<td>".htmlspecialchars($faculdade['cnpj'])."</td>";
+    echo "</tr>";
+  }
+} else {
+  echo "<tr><td colspan='5' class='text-center'>Nenhuma faculdade cadastrada</td></tr>";
+}
+
+$conexao->close();
+?>
