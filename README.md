@@ -1,1 +1,2 @@
 # StudySync
+Projeto em execução.
