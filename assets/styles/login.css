@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+*{
+    margin: 0%;
+    padding: 0%;
+}
+
+body{
+    background-color: rgb(29, 27, 27);
+    background-image: url('../img/library.png');
+    background-size: cover; 
+    background-position: top left; 
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+.quadrado_login{
+    display: flex;
+    background-color:rgba(36, 24, 18, 0.5);
+    font-family: "Montserrat";
+    font-weight: 200;
+    width: 25vw;
+    height: 17vw;
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+    color: white;
+    padding: 20px;
+    border-radius: 40px;
+    justify-content: center;
+    align-items: center;
+    border: solid #ffff 1px;
+    font-size: large ;
+}
+
+.item{
+    margin: 15px;
+    border-radius:40px;
+}
+
+.texto{
+    width: 250px;
+    height: 25px;
+}
+
+.radio{
+    margin-left: -2px;
+}
+
+button {
+    height: 40px;
+    width: 60px;
+    background-color: rgb(255, 252, 255);
+    font-family: "Montserrat";
+    border: 0px;
+    margin-top: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+h1{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    font-family: "Montserrat";
+    color: #ffff;
+    font-weight: 300;
+}
+
+button:hover{
+    background-color: rgb(182, 155, 130);
+    font-weight: 500;
+    transform: scale(1.05);
+}
