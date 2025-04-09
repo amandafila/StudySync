@@ -1,37 +1,44 @@
-create database studysync;
-use studysync;
-create table usuario(
-	id int primary key auto_increment,
-    email varchar(50) unique,
-    usuername varchar(50),
-    senha varchar(50),
-    nome varchar(50)
+CREATE DATABASE studysync;
+USE studysync;
+
+CREATE TABLE usuario (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    senha VARCHAR(255) NOT NULL, -- Para armazenar hash de senha
+    nome VARCHAR(100) NOT NULL
 );
-create table Faculdade(
-	id_faculdade int primary key auto_increment,
-    cnpj varchar(20) unique,
-    cep varchar(13),
-    telefone varchar(13),
-    documentacao longblob,
-    id_usuario int,
-    foreign key(id_usuario) references usuario(id)
+
+CREATE TABLE faculdade (
+    id_faculdade INT PRIMARY KEY AUTO_INCREMENT,
+    cnpj VARCHAR(18) UNIQUE NOT NULL,
+    cep VARCHAR(9) NOT NULL,
+    telefone VARCHAR(15) NOT NULL,
+    documentacao LONGBLOB, -- Guardar documento binário (avaliar necessidade)
+    id_usuario INT UNIQUE NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
-create table aluno(
-	cpf varchar(14) unique,
-    id_usuario int,
-    foreign key (id_usuario) references	usuario(id)
+
+CREATE TABLE aluno (
+    id_aluno INT PRIMARY KEY AUTO_INCREMENT,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    id_usuario INT UNIQUE NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
-create table grupo(
-	id_grupo int primary key auto_increment,
-    id_faculdade int,
-    nome varchar(50),
-    descricao varchar(1000),
-    foreign key(id_faculdade) references faculdade(id_faculdade)
+
+CREATE TABLE grupo (
+    id_grupo INT PRIMARY KEY AUTO_INCREMENT,
+    id_faculdade INT NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(1000),
+    FOREIGN KEY (id_faculdade) REFERENCES faculdade(id_faculdade) ON DELETE CASCADE
 );
-create table grupo_aluno(
-	id_grupo int,
-    id_aluno int,
-    is_adm bool,
-    foreign key (id_grupo) references grupo(id_grupo),
-    foreign key (id_aluno) references aluno(id_aluno)
+
+CREATE TABLE grupo_aluno (
+    id_grupo INT NOT NULL,
+    id_aluno INT NOT NULL,
+    is_adm TINYINT(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (id_grupo, id_aluno),
+    FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON DELETE CASCADE,
+    FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno) ON DELETE CASCADE
 );
