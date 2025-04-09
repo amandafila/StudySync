@@ -10,30 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 
-    $sql_usuario = "INSERT INTO usuario (nome, username, email, senha) 
-                    VALUES ('$nome', '$usuario', '$email', '$senha')";
-
-    if ($conexao->query($sql_usuario)) {
-        $id_usuario = $conexao->insert_id;
-
-        $documento_binario = null;
-        if (isset($_FILES['documentacao']) && $_FILES['documentacao']['error'] === UPLOAD_ERR_OK) {
-            $documento_binario = addslashes(file_get_contents($_FILES['documentacao']['tmp_name']));
-        }
-
-        $sql_faculdade = "INSERT INTO faculdade (cnpj, cep, telefone, documentacao, id_usuario) 
-                          VALUES ('$cnpj', '$cep', '$telefone', '$documento_binario', '$id_usuario')";
-
-        if ($conexao->query($sql_faculdade)) {
-            header("Location: ../menu/index.html");
-            exit();
-        } else {
-            $erro = "Erro ao cadastrar faculdade: " . $conexao->error;
-        }
-    } else {
-        $erro = "Erro ao cadastrar usuário: " . $conexao->error;
-    }
-}
+    $sql_faculdade = "INSERT INTO faculdade (nome, username, email, senha, cnpj, cep, telefone) 
+                    VALUES ('$nome', '$usuario', '$email', '$senha', '$cnpj', '$cep', '$telefone')";
+      if ($conexao->query($sql_faculdade)) {
+          header("Location: ../menu/index.html");
+          exit();
+      } else {
+          $erro = "Erro ao cadastrar faculdade: " . $conexao->error;
+      }
+  } 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -97,9 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="mb-2">
           <p class="paragros_left">Senha</p>
           <input type="password" name="senha" class="form-control" required>
-        </div>
-        <div class="mb-2 documentacao_div">
-          <input type="file" name="documentacao" class="envio_documentos">
         </div>
         <div class="mb-2">
           <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>

@@ -3,30 +3,20 @@ require_once("conexao.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
-    $usuario = $_POST['usuario'];
     $cpf = $_POST['cpf'];
+    $usuario = $_POST['usuario'];
     $email = $_POST['email'];
     $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 
-    $sql_usuario = "INSERT INTO usuario (nome, username, email, senha) 
-                    VALUES ('$nome', '$usuario', '$email', '$senha')";
-
-    if ($conexao->query($sql_usuario)) {
-        $id_usuario = $conexao->insert_id;
-
-        $sql_aluno = "INSERT INTO aluno (cpf, id_usuario) 
-                      VALUES ('$cpf', '$id_usuario')";
-
-        if ($conexao->query($sql_aluno)) {
-            header("Location: ../menu/index.html");
-            exit();
-        } else {
-            $erro = "Erro ao cadastrar aluno: " . $conexao->error;
-        }
-    } else {
-        $erro = "Erro ao cadastrar usuário: " . $conexao->error;
-    }
-}
+    $sql_aluno = "INSERT INTO aluno (nome, username, email, senha, cpf) 
+                    VALUES ('$nome', '$usuario', '$email', '$senha', '$cpf')";
+      if ($conexao->query($sql_aluno)) {
+          header("Location: ../menu_aluno/menu_aluno.html");
+          exit();
+      } else {
+          $erro = "Erro ao cadastrar aluno: " . $conexao->error;
+      }
+  } 
 ?>
 <!DOCTYPE html>
 <html lang="en">
