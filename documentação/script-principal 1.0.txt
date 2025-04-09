@@ -5,7 +5,7 @@ CREATE TABLE usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(100) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
-    senha VARCHAR(255) NOT NULL, -- Para armazenar hash de senha
+    senha VARCHAR(255) NOT NULL, 
     nome VARCHAR(100) NOT NULL
 );
 
@@ -14,7 +14,7 @@ CREATE TABLE faculdade (
     cnpj VARCHAR(18) UNIQUE NOT NULL,
     cep VARCHAR(9) NOT NULL,
     telefone VARCHAR(15) NOT NULL,
-    documentacao LONGBLOB, -- Guardar documento binário (avaliar necessidade)
+    documentacao LONGBLOB,
     id_usuario INT UNIQUE NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );

@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 
-    // Corrigido: username (não usuername)
     $sql_usuario = "INSERT INTO usuario (nome, username, email, senha) 
                     VALUES ('$nome', '$usuario', '$email', '$senha')";
 
@@ -61,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a href="#" class="link_right">Sobre</a>
       </div>
       <div class="header_login">
-        <a class="link_right" href="#">Login</a>
+        <a class="link_right" href="../login/login.php">Login</a>
       </div>
     </div>
 

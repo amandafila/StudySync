@@ -1,3 +1,33 @@
+<?php
+require_once("conexao.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nome = $_POST['nome'];
+    $usuario = $_POST['usuario'];
+    $cpf = $_POST['cpf'];
+    $email = $_POST['email'];
+    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+
+    $sql_usuario = "INSERT INTO usuario (nome, username, email, senha) 
+                    VALUES ('$nome', '$usuario', '$email', '$senha')";
+
+    if ($conexao->query($sql_usuario)) {
+        $id_usuario = $conexao->insert_id;
+
+        $sql_aluno = "INSERT INTO aluno (cpf, id_usuario) 
+                      VALUES ('$cpf', '$id_usuario')";
+
+        if ($conexao->query($sql_aluno)) {
+            header("Location: ../menu/index.html");
+            exit();
+        } else {
+            $erro = "Erro ao cadastrar aluno: " . $conexao->error;
+        }
+    } else {
+        $erro = "Erro ao cadastrar usuário: " . $conexao->error;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,12 +52,12 @@
         <a href="#" class="link_right">Sobre</a>
       </div>
       <div class="header_login">
-        <a class="link_right" href="#">Login</a>
+        <a class="link_right" href="../login/login.php">Login</a>
       </div>
     </div>
     <h2 class="subtitulo_cadastro">Faça já seu cadastro</h2>
     <div class="col-6">
-      <form method="POST" action="cadastro_facul.php" enctype="multipart/form-data">
+      <form method="POST" action="" enctype="multipart/form-data">
         <div class="mb-2">
           <div class="div_paragrafo">
             <p class="paragros_left">Nome</p>
@@ -66,33 +96,3 @@
   </div>
 </body>
 </html>
-<?php
-$conexao = new mysqli("127.0.0.1", "root", "", "studysync");
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nome = $_POST['nome'];
-    $cnpj = $_POST['cpf'];
-    $telefone = $_POST['telefone'];
-    $usuario = $_POST['usuario'];
-    $email = $_POST['email'];
-    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
-    
-    $sql_usuario = "INSERT INTO usuario (nome, username, email, senha) 
-    VALUES ('$nome', '$usuario', '$email', '$senha')";
-    
-    if ($conexao->query($sql_usuario)) {
-        $id_usuario = $conexao->insert_id;
-        $sql_faculdade = "INSERT INTO aluno (cpf, id_usuario) 
-        VALUES ('$cnpj', '$cep', '$telefone', '$id_usuario')";
-        
-        if ($conexao->query($sql_faculdade)) {
-            header("Location: ../menu/index.html");
-            exit();
-        } else {
-            echo "Erro ao cadastrar faculdade: " . $conexao->error;
-        }
-    } else {
-        echo "Erro ao cadastrar usuário: " . $conexao->error;
-    }
-}
-?>
