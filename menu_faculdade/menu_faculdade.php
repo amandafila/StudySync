@@ -18,7 +18,7 @@
 
     <div class="div_botoes">
         <div class="div_primeira_linha">
-            <a href="#"  class="botao_funcao">Criar grupo</a>
+            <a href="criar_grupo.php"  class="botao_funcao">Criar grupo</a>
             <a href="#"  class="botao_funcao">Visualizar grupos</a>
         </div>
         <div class="div_segunda_linha">

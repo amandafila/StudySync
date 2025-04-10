@@ -2,7 +2,40 @@
 require_once("conexao.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $tipo = $_POST['selecao_login']; 
+
+    $email = mysqli_real_escape_string($conexao, $email);
+    $senha = mysqli_real_escape_string($conexao, $senha);
+
+    if ($tipo === 'faculdade') {
+        $tabela = 'FACULDADE';
+    } elseif ($tipo === 'aluno') {
+        $tabela = 'ALUNO';
+    } else {
+        echo "Tipo de login inválido.";
+        exit;
+    }
+
+    $sql = "SELECT * FROM $tabela WHERE email = '$email'";
+    $resultado = mysqli_query($conexao, $sql);
+    $usuario = mysqli_fetch_assoc($resultado);
+
+    if ($usuario && password_verify($senha, $usuario['senha'])) {
+        session_start();
+        $_SESSION['usuario'] = $usuario;
+        $_SESSION['tipo'] = $tipo;
+
+        if ($tipo === 'faculdade') {
+            header("Location: /StudySync/menu_faculdade/menu_faculdade.php");
+        } elseif ($tipo === 'aluno') {
+            header("Location: teste.php");
+        }
+        exit;
+    } else {
+        echo "<script>alert('Email ou senha incorretos.');</script>";
+    }
 }
 ?>
 
