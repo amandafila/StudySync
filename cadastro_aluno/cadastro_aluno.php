@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql_aluno = "INSERT INTO aluno (nome, username, email, senha, cpf) 
                     VALUES ('$nome', '$usuario', '$email', '$senha', '$cpf')";
       if ($conexao->query($sql_aluno)) {
-          header("Location: ../menu_aluno/menu_aluno.html");
+          header("Location: sucesso_aluno.php");
           exit();
       } else {
           $erro = "Erro ao cadastrar aluno: " . $conexao->error;

@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql_faculdade = "INSERT INTO faculdade (nome, username, email, senha, cnpj, cep, telefone) 
                     VALUES ('$nome', '$usuario', '$email', '$senha', '$cnpj', '$cep', '$telefone')";
       if ($conexao->query($sql_faculdade)) {
-          header("Location: ../menu/index.html");
+          header("Location: sucesso_facul.php");
           exit();
       } else {
           $erro = "Erro ao cadastrar faculdade: " . $conexao->error;
