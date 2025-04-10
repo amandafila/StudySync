@@ -71,17 +71,16 @@ body{
     margin-left: 5%;
     text-indent: 10px;
     background-color: #d0c4b4;
+    font-family: 'Montserrat';
 }
 .paragros_left{
     margin: 0;
+    font-family: 'Montserrat';
+    font-weight: 600;
 }
 .btn-primary{
     margin: 0;
-}
-.envio_documentos{
-    text-align: center;
-    cursor: pointer;
-    font-family: 'Montserrat';  
+    font-family: 'Montserrat';
 }
 .div_paragrafo{
     width: 10%;

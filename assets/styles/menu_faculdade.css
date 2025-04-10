@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 12vh;
+    border-bottom: 1px solid rgb(142, 142, 142);
+    background-color: #F8F4E3;
+}
+body{
+    background-color: #F8F4E3;
+}
+.header_titulo{
+    font-family: 'Montserrat';  
+    font-weight: 600;
+    font-size: 26px;
+    text-decoration: none;
+    color: black;
+
+}
+.header_faculdade{
+    font-family: 'Montserrat';  
+    font-weight: 600;
+    font-size: 26px;
+    text-decoration: none;
+    color: black;
+}
+.botao_funcao{
+    height: 10vh;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20vw;
+    margin-left: 2vw;
+}   
+.div_botoes{
+    display: flex;
+    width: 100vw;
+    height: 88vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.div_primeira_linha{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4vh;
+
+}
+.div_segunda_linha{
+    width: 100%;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+
