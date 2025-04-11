@@ -12,13 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Erro na conexão: " . $conexao->connect_error);
     }
 
-    // Atualiza a tabela usuario
+
     $stmt_usuario = $conexao->prepare("UPDATE usuario SET username = ?, email = ? WHERE id = ?");
     $stmt_usuario->bind_param("ssi", $usuario, $email, $id_usuario);
     $stmt_usuario->execute();
     $stmt_usuario->close();
 
-    // Atualiza a tabela faculdade
+
     $stmt_faculdade = $conexao->prepare("UPDATE faculdade SET cnpj = ? WHERE id_faculdade = ?");
     $stmt_faculdade->bind_param("si", $cnpj, $id_faculdade);
     $stmt_faculdade->execute();
