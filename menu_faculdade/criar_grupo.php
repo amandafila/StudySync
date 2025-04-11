@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
     echo "<script>
         alert('Você não está logado!');
-        window.location.href = '/STUDYSYNC-MAIN/login/login.php';
+        window.location.href = '../login/login.php';
     </script>";
     exit;
 }else{
