@@ -12,7 +12,7 @@
         <h1>Tabela de alunos</h1>
     </header>
 <?php
-    require_once("../cadastro_faculdade/conexao.php");
+    require_once("../conexao/conexao.php");
     
     function delete_row($id, $conexao){
         $delete_sql ="DELETE FROM aluno WHERE id_aluno = $id";
