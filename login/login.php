@@ -26,6 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_start();
         $_SESSION['usuario'] = $usuario;
         $_SESSION['tipo'] = $tipo;
+        
+        if ($tipo === 'faculdade') {
+            $_SESSION['id_faculdade'] = $usuario['id_faculdade']; 
+        } elseif ($tipo === 'aluno') {
+            $_SESSION['id_aluno'] = $usuario['id_aluno']; 
+        }
 
         if ($tipo === 'faculdade') {
             header("Location: ../menu_faculdade/menu_faculdade.php");

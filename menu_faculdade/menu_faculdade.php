@@ -22,7 +22,7 @@
             <a href="#"  class="botao_funcao">Visualizar grupos</a>
         </div>
         <div class="div_segunda_linha">
-            <a href="#"  class="botao_funcao">Visualizar Alunos</a>
+            <a href="listar_alunos.php"  class="botao_funcao">Visualizar Alunos</a>
             <a href="#"  class="botao_funcao">Adiconar administrador</a>
         </div>
     </div>
