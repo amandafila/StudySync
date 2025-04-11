@@ -1,16 +1,16 @@
 <?php
 require_once("conexao.php");
 
-// Verifica conexão
+
 if ($conexao->connect_error) {
   die("Erro na conexão: " . $conexao->connect_error);
 }
 
-// Verifica se veio o ID do usuário
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    // Primeiro exclui da tabela faculdade (dependente)
+    
     $stmt_facul = $conexao->prepare("DELETE FROM faculdade WHERE id_usuario = ?");
     $stmt_facul->bind_param("i", $id);
     $stmt_facul->execute();

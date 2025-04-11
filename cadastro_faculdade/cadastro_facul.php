@@ -1,24 +1,46 @@
 <?php
 require_once("conexao.php");
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nome = $_POST['nome'];
-    $cnpj = $_POST['cnpj'];
-    $cep = $_POST['cep'];
-    $telefone = $_POST['telefone'];
-    $usuario = $_POST['usuario'];
-    $email = $_POST['email'];
-    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+$erros = [];
 
-    $sql_faculdade = "INSERT INTO faculdade (nome, username, email, senha, cnpj, cep, telefone) 
-                    VALUES ('$nome', '$usuario', '$email', '$senha', '$cnpj', '$cep', '$telefone')";
-      if ($conexao->query($sql_faculdade)) {
-          header("Location: sucesso_facul.php");
-          exit();
-      } else {
-          $erro = "Erro ao cadastrar faculdade: " . $conexao->error;
-      }
-  } 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nome = trim($_POST['nome']);
+    $cnpj = trim($_POST['cnpj']);
+    $cep = trim($_POST['cep']);
+    $telefone = trim($_POST['telefone']);
+    $usuario = trim($_POST['usuario']);
+    $email = trim($_POST['email']);
+    $senha_raw = $_POST['senha'];
+
+
+    if (empty($nome)) $erros[] = "O campo Nome é obrigatório.";
+    if (empty($cnpj)) $erros[] = "O campo CNPJ é obrigatório.";
+    if (empty($cep)) $erros[] = "O campo CEP é obrigatório.";
+    if (empty($telefone)) $erros[] = "O campo Telefone é obrigatório.";
+    if (empty($usuario)) $erros[] = "O campo Usuário é obrigatório.";
+    if (empty($email)) $erros[] = "O campo Email é obrigatório.";
+    if (empty($senha_raw)) $erros[] = "O campo Senha é obrigatório.";
+
+    if (empty($erros)) {
+        $check = "SELECT * FROM faculdade WHERE username = '$usuario' OR email = '$email'";
+        $result = $conexao->query($check);
+        if ($result && $result->num_rows > 0) {
+            $erros[] = "Usuário ou email já cadastrado.";
+        }
+    }
+
+    if (empty($erros)) {
+        $senha = password_hash($senha_raw, PASSWORD_DEFAULT);
+        $sql_faculdade = "INSERT INTO faculdade (nome, username, email, senha, cnpj, cep, telefone) 
+                          VALUES ('$nome', '$usuario', '$email', '$senha', '$cnpj', '$cep', '$telefone')";
+        if ($conexao->query($sql_faculdade)) {
+            header("Location: sucesso_facul.php");
+            exit();
+        } else {
+            $erros[] = "Erro ao cadastrar faculdade: " . $conexao->error;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -51,7 +73,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <h2 class="subtitulo_cadastro">Cadastre a sua instituição</h2>
 
-    <?php if (isset($erro)) { echo "<p style='color:red;'>$erro</p>"; } ?>
+    <?php if (!empty($erros)): ?>
+      <div style="color: red; margin-bottom: 10px;">
+        <ul>
+          <?php foreach ($erros as $erro): ?>
+            <li><?= htmlspecialchars($erro) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
 
     <div class="col-6">
       <form method="POST" action="" enctype="multipart/form-data">
@@ -73,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div class="mb-2">
           <p class="paragros_left">Usuário</p>
-          <input type="text" name="usuario" class="form-control" required>
+          <input type="text" name="usuario" class="form-control" >
         </div>
         <div class="mb-2">
           <p class="paragros_left">Email</p>
