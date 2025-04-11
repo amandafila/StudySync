@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['tipo'] = $tipo;
 
         if ($tipo === 'faculdade') {
-            header("Location: /StudySync/menu_faculdade/menu_faculdade.php");
+            header("Location: ../menu_faculdade/menu_faculdade.php");
         } elseif ($tipo === 'aluno') {
             header("Location: teste.php");
         }
