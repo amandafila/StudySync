@@ -6,23 +6,29 @@
     box-sizing: border-box;
     overflow-x: hidden;
 }
-header{
+header {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between; 
+    padding: 0 2vw; 
     height: 12vh;
     border-bottom: 1px solid rgb(142, 142, 142);
-    background-color: #F8F4E3;
+    background-color: #3a2404;
 }
-body{
-    background-color: #F8F4E3;
+
+body {
+    background-image: url('../img/grupo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
+
 .header_titulo{
     font-family: 'Montserrat';  
     font-weight: 600;
     font-size: 26px;
     text-decoration: none;
-    color: black;
+    color: rgb(239, 233, 233);
 
 }
 .header_faculdade{
@@ -30,17 +36,36 @@ body{
     font-weight: 600;
     font-size: 26px;
     text-decoration: none;
-    color: black;
+    color: rgb(228, 219, 219);
 }
-.botao_funcao{
+.botao_funcao {
     height: 10vh;
-    background-color: black;
+    width: 20vw;
+    margin-left: 2vw;
+    text-decoration: none;
+    color: white;
+    background-color: #3a2404; 
+    border: 2px solid #ebe7e1; 
+    border-radius: 14px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20vw;
-    margin-left: 2vw;
-}   
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.botao_funcao:hover {
+    background-color: #6f4506;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    opacity: 0.7; 
+}
+
+  
 .div_botoes{
     display: flex;
     width: 100vw;

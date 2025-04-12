@@ -7,6 +7,9 @@
     <title>Menu Faculdade</title>
 </head>
 <body>
+    
+    <div class="overlay"></div>
+
     <header> 
         <div class="header_div_titulo">
             <a class="header_titulo" href="#">StudySync</a>
@@ -18,14 +21,13 @@
 
     <div class="div_botoes">
         <div class="div_primeira_linha">
-            <a href="criar_grupo.php"  class="botao_funcao">Criar grupo</a>
-            <a href="visualizar_grupos.php"  class="botao_funcao">Visualizar grupos</a>
+            <a href="criar_grupo.php" class="botao_funcao">Criar grupo</a>
+            <a href="#" class="botao_funcao">Visualizar grupos</a>
         </div>
         <div class="div_segunda_linha">
-            <a href="listar_alunos.php"  class="botao_funcao">Visualizar Alunos</a>
-            <a href="#"  class="botao_funcao">Adiconar administrador</a>
+            <a href="#" class="botao_funcao">Visualizar Alunos</a>
+            <a href="#" class="botao_funcao">Adicionar administrador</a>
         </div>
     </div>
-
 </body>
 </html>
