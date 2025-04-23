@@ -17,7 +17,10 @@
     function delete_row($id, $conexao){
         $delete_sql ="DELETE FROM aluno WHERE id_aluno = $id";
             if ($conexao->query($delete_sql)) {
-                echo"Deletado com sucesso!";
+                echo"<script> 
+                alert('Deletado com sucesso');
+                window.location.href = 'listar_alunos.php';
+                </script>";
             } else {
                 echo "Erro ao deletar: " . $conexao->error;
             }
