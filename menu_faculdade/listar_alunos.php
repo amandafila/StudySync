@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/styles/listar_alunos.css">
+    <link rel="stylesheet" href="../assets/styles/listar_alunos.css?">
+
     <title>Lista de alunos</title>
 </head>
 <body>
@@ -41,7 +42,15 @@
     if($resultado->num_rows > 0){
         while($linha = $resultado->fetch_assoc()){
             echo"<tr>";
-            echo "<td><button><a href='listar_alunos.php?delete_id=".$linha["id_aluno"]."'>Excluir</a></button>";
+            echo "<td style='display: flex; gap: 10px;'>
+                    <a href='editar_aluno.php?id=".$linha["id_aluno"]."' style='text-decoration: none;'>
+                        <button style='padding: 5px 10px;'>Alterar</button>
+                    </a>
+                    <a href='listar_alunos.php?delete_id=".$linha["id_aluno"]."' style='text-decoration: none;'>
+                        <button style='padding: 5px 10px;'>Excluir</button>
+                    </a>
+                  </td>";
+            
             echo "<td>" . $linha["id_aluno"] . "</td>";
             echo "<td>" . $linha["email"] . "</td>";
             echo "<td>" . $linha["username"] . "</td>";
