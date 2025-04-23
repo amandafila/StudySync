@@ -52,7 +52,7 @@
                     <a href='listar_alunos.php?delete_id=".$linha["id_aluno"]."' style='text-decoration: none;'>
                         <button style='padding: 5px 10px;'>Excluir</button>
                     </a>
-                  </td>";
+                </td>";
             
             echo "<td>" . $linha["id_aluno"] . "</td>";
             echo "<td>" . $linha["email"] . "</td>";

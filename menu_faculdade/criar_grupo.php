@@ -52,7 +52,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
 
         if (empty($erros)) {
             $sql_grupo = "INSERT INTO grupo (id_faculdade, nome, descricao) 
-                          VALUES ('$idUsuario', '$nome_grupo', '$descricao')";
+                        VALUES ('$idUsuario', '$nome_grupo', '$descricao')";
             if ($conexao->query($sql_grupo)) {
                 $id_grupo = mysqli_insert_id($conexao);
                 
@@ -100,16 +100,22 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <form action="" method="post">
-        <input type="text" placeholder="Nome do grupo" name="nome_grupo" required><br>
-        <input type="email" placeholder="Email Administrador" name="adm" required> <br>
-        <input type="text" placeholder="Descrição" name="descricao" required>
-        <button type="submit">Criar</button>
-    </form>
+    <link rel="stylesheet" href="../assets/styles/criar_grupo.css">
+    <title>Criar Grupo</title>
 </head>
 <body>
+    <header class="cabecalho">
+        <h1 class="cabecalho_titulo">Criar grupo</h1>
+    </header>
+
+    <form class="formulario" action="" method="post">
+        <div class="formulario_div">
+            <input class="campo" type="text" placeholder="Nome do grupo" name="nome_grupo" required>
+            <input class="campo" type="email" placeholder="Email Administrador" name="adm" required>
+            <input  class="campo" type="text" placeholder="Descrição" name="descricao" required>
+            <button  class="botao" type="submit">Criar</button>
+        </div>
+    </form>
     
 </body>
 </html>
