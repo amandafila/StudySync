@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($tipo === 'faculdade') {
             header("Location: ../menu_faculdade/menu_faculdade.php");
         } elseif ($tipo === 'aluno') {
-            header("Location: teste.php");
+            header("Location: ../menu_aluno/menu_aluno.php");
         }
         exit;
     } else {
