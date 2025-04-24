@@ -37,3 +37,14 @@ CREATE TABLE grupo_aluno (
     FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON DELETE CASCADE,
     FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno) ON DELETE CASCADE
 );
+
+CREATE TABLE solicitacao_grupo (
+    id_solicitacao INT PRIMARY KEY AUTO_INCREMENT,
+    id_grupo INT NOT NULL,
+    id_aluno INT NOT NULL,
+    mensagem TEXT,
+    data_solicitacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pendente', 'aprovado', 'rejeitado') DEFAULT 'pendente',
+    FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON DELETE CASCADE,
+    FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno) ON DELETE CASCADE
+);
