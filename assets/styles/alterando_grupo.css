@@ -37,7 +37,7 @@ header h1 {
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
-    margin-top: 20px; /* Adicionando um pequeno espaço entre o nome e o container */
+    margin-top: 20px; 
 }
 
 h1 {
