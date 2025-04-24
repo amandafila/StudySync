@@ -22,12 +22,13 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="../assets/styles/menu_aluno.css">
 </head>
 <body>
-    <p>Login realizado com sucesso</p>
-    <a href="meus_grupos.php">meus grupos</a> <br>
-    <a href="solicitar_entrada.php">solicitar entrada em grupo</a> <br>
-    <a href="notificacoes.php">notificações</a>
+    <div class="geral">
+        <a class='quadrado' href="solicitar_entrada.php">Solicitar entrada em grupo</a> <br>
+        <a class='quadrado' href="notificacoes.php">Notificações</a> <br>
+        <a class='quadrado' href="meus_grupos.php">Meus grupos</a> <br>
+    </div>
 </body>
 </html>

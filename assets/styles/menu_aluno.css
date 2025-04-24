@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background: -webkit-linear-gradient(90deg, #cbaaaa,#8a532e,#5a1f11);                         
+    background: linear-gradient(90deg, #cbaaaa,#8a532e,#5a1f11);                                       
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center;
+    height: 100vh;
+}
+.quadrado{
+    box-sizing: border-box;
+    display: inline-block; 
+    border: 1px solid #000; 
+    padding: 10px; border-radius: 8px; 
+    text-decoration: none; 
+    color: black;
+    height: 40vh;
+    width: 15vw;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Montserrat";
+    background-color: rgba(129, 90, 64, 0.5);
+    font-size: 2vh;
+    font-weight:450 ;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.geral{
+    display: flex; 
+    flex-direction: row;
+    position: relative;
+    padding-left: 24vw;
+    padding-top: 28vh;
+}
+
+:hover.quadrado{
+    background-color: rgba(37, 19, 7, 0.623);
+    color: white;
+}
