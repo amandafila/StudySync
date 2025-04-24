@@ -32,7 +32,7 @@ if (isset($_GET['id_grupo'])) {
             <th>Nome</th>
             <th>CPF</th>
             <th></th> <!-- só pra alinhar os botões -->
-          </tr>";
+        </tr>";
 
     if ($resultado->num_rows > 0) {
         while ($linha = $resultado->fetch_assoc()) {
@@ -43,13 +43,13 @@ if (isset($_GET['id_grupo'])) {
             echo "<td>" . $linha["nome"] . "</td>";
             echo "<td>" . $linha["cpf"] . "</td>";
             echo "<td style='display: flex; gap: 10px; justify-content: center;'>
-                    <a href='editar_aluno.php?id=" . $linha["id_aluno"] . "' style='text-decoration: none;'>
-                        <button>Alterar</button>
-                    </a>
-                    <a href='listar_alunos_grupo.php?id_grupo=$idGrupo&delete_id=" . $linha["id_aluno"] . "' style='text-decoration: none;'>
-                        <button>remover</button>
-                    </a>
-                  </td>";
+            <a href='editar_aluno.php?id_aluno=" . $linha["id_aluno"] . "&id_grupo=$idGrupo' style='text-decoration: none;'>
+                <button>Alterar</button>
+            </a>
+            <a href='listar_alunos_grupo.php?id_grupo=$idGrupo&delete_id=" . $linha["id_aluno"] . "' style='text-decoration: none;'>
+                <button>Remover</button>
+            </a>
+            </td>";
             echo "</tr>";
         }
     } else {
