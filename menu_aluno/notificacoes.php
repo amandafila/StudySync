@@ -21,8 +21,8 @@ $sql = "SELECT
         JOIN aluno a ON sg.id_aluno = a.id_aluno
         JOIN grupo_aluno ga ON ga.id_grupo = g.id_grupo
         WHERE ga.id_aluno = $id_admin
-          AND ga.is_adm = 1
-          AND sg.status = 'pendente'";
+        AND ga.is_adm = 1
+        AND sg.status = 'pendente'";
 
 $result = $conexao->query($sql);
 ?>
@@ -45,7 +45,7 @@ $result = $conexao->query($sql);
                     <input type='hidden' name='id_solicitacao' value='" . $row['id_solicitacao'] . "'>
                     <button name='acao' value='aprovar'>Aprovar</button>
                     <button name='acao' value='rejeitar'>Rejeitar</button>
-                  </form>";
+                </form>";
             echo "</div>";
         }
     } else {

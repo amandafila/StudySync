@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
     $senha_raw = $_POST['senha'];
 
- 
+
     if (empty($nome)) $erros[] = "O  nome é obrigatório.";
     if (empty($cpf)) $erros[] = "O  CPF é obrigatório.";
     if (empty($usuario)) $erros[] = "O  usuário é obrigatório.";

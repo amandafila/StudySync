@@ -28,16 +28,15 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
             $row = $result->fetch_assoc();
             $id_grupo = $row['id_grupo'];
     
-            // Verifica se já há uma solicitação pendente
             $checkSql = "SELECT * FROM solicitacao_grupo 
-                         WHERE id_grupo = $id_grupo AND id_aluno = $id_aluno AND status = 'pendente'";
+                        WHERE id_grupo = $id_grupo AND id_aluno = $id_aluno AND status = 'pendente'";
             $checkResult = $conexao->query($checkSql);
     
             if ($checkResult->num_rows > 0) {
                 echo "<script>alert('Você já solicitou entrada neste grupo. Aguarde aprovação.');</script>";
             } else {
                 $insertSql = "INSERT INTO solicitacao_grupo (id_grupo, id_aluno, mensagem) 
-                              VALUES ($id_grupo, $id_aluno, '$mensagem')";
+                            VALUES ($id_grupo, $id_aluno, '$mensagem')";
                 if ($conexao->query($insertSql)) {
                     echo "<script>alert('Solicitação enviada com sucesso!');</script>";
                 } else {

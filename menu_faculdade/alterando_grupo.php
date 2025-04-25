@@ -19,10 +19,10 @@ $idGrupo = intval($_GET['id_grupo']);
 $erros = [];
 
 $sqlGrupo = "SELECT g.nome, g.descricao, a.email AS email_adm
-             FROM grupo g
-             LEFT JOIN grupo_aluno ga ON g.id_grupo = ga.id_grupo AND ga.is_adm = 1
-             LEFT JOIN aluno a ON ga.id_aluno = a.id_aluno
-             WHERE g.id_grupo = $idGrupo";
+            FROM grupo g
+            LEFT JOIN grupo_aluno ga ON g.id_grupo = ga.id_grupo AND ga.is_adm = 1
+            LEFT JOIN aluno a ON ga.id_aluno = a.id_aluno
+            WHERE g.id_grupo = $idGrupo";
 
 $result = $conexao->query($sqlGrupo);
 $grupo = $result->fetch_assoc();
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <textarea name="descricao" placeholder="Nova descrição"
                 oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';" required><?= htmlspecialchars($grupo['descricao']) ?></textarea><br><br>
             <input type="email" name="adm" placeholder="Novo email do administrador"
-                   value="<?= htmlspecialchars($grupo['email_adm']) ?>" required><br><br>
+                value="<?= htmlspecialchars($grupo['email_adm']) ?>" required><br><br>
             <button type="submit">Salvar alterações</button>
         </form>
     </div>
