@@ -28,7 +28,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
 </head>
 <body>
     <header class="cabecalho">
-        <h1>StudySnic</h1>
+        <h1>StudySync</h1>
     </header>
 
     <div class="geral">
