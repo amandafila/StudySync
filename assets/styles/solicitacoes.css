@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-image: url('../img/grupo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 400px;
+}
+
+form input[type="text"] {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+form input[type="text"]:focus {
+    outline: none;
+    border-color: #6f4506;
+    box-shadow: 0 0 8px rgba(111, 69, 6, 0.3);
+}
+form textarea {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    min-height: 100px;
+    resize: vertical;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+form textarea:focus {
+    outline: none;
+    border-color: #6f4506;
+    box-shadow: 0 0 8px rgba(111, 69, 6, 0.3);
+}
+
+
+form button {
+    padding: 12px;
+    background-color: #3a2404;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+form button:hover {
+    background-color: #6f4506;
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+.container-form {
+    background-color: rgba(255, 255, 255, 0.92);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+
+.container-form h1 {
+    font-size: 32px;
+    color: #000;
+    font-weight: 800;
+    margin-bottom: 24px;
+    font-family: 'Playfair Display', serif;
+}

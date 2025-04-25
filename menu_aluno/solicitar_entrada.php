@@ -55,14 +55,19 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../assets/styles/solicitacoes.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="POST">
-        <input type="text" name='nome_grupo'required placeholder="Digite o nome do grupo"> <br>
-        <input type="text" name='mensagem' required placeholder="Digite uma mensagem"> <br>
-        <button type="submit">Solicitar</button>
-    </form>
+    <div class="container-form">
+        <h1>Solicitar entrada em grupo</h1>
+        <form action="" method="POST">
+            <input type="text" name='nome_grupo' required placeholder="Digite o nome do grupo"> <br>
+            <textarea name="mensagem" placeholder="Digite uma mensagem" required></textarea> <br>
+            <button type="submit">Solicitar</button>
+        </form>
+    </div>
 </body>
+
 </html>

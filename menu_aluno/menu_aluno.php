@@ -14,17 +14,23 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
         alert('Você não está logado!');
         window.location.href = '../login/login.php';
     </script>";
-    exit;}
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Aluno</title>
     <link rel="stylesheet" href="../assets/styles/menu_aluno.css">
 </head>
 <body>
+    <header class="cabecalho">
+        <h1>StudySnic</h1>
+    </header>
+
     <div class="geral">
         <a class='quadrado' href="solicitar_entrada.php">Solicitar entrada em grupo</a> <br>
         <a class='quadrado' href="notificacoes.php">Notificações</a> <br>
