@@ -22,9 +22,14 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/meus_grupos.css">
     <title>Document</title>
 </head>
 <body>
-
+    <header> 
+        <a class="esquerda" href="../menu/index.html">StudySync</a> 
+        <a href="menu_aluno.php" class="menu_aluno">menu</a>
+        <div class="identificador">Olá, aluno</div>
+    </header>
 </body>
 </html>
