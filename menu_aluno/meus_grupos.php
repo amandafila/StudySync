@@ -60,8 +60,7 @@ $grupos = $resultado->fetch_all(MYSQLI_ASSOC);
                 <?php foreach ($grupos as $grupo): ?>
                     <div class="grupo-card">
                         <h2><?php echo htmlspecialchars($grupo['nome_grupo']); ?></h2>
-                        <p><?php echo htmlspecialchars($grupo['descricao']); ?></p>
-                        <a href="grupo_detalhes.php?id=<?php echo $grupo['id_grupo']; ?>">Acessar Grupo</a>
+                        <a class="botaoacessar" href="grupo_detalhes.php?id=<?php echo $grupo['id_grupo']; ?>">Acessar Grupo</a>
                     </div>
                 <?php endforeach; ?>
             </div>
