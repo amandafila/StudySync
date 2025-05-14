@@ -46,11 +46,7 @@ $grupos = $resultado->fetch_all(MYSQLI_ASSOC);
     <title>Meus Grupos</title>
 </head>
 <body>
-    <header> 
-        <a class="esquerda" href="../menu/index.html">StudySync</a> 
-        <a href="menu_aluno.php" class="menu_aluno">menu</a>
-        <div class="identificador">Olá, aluno</div>
-    </header>
+    <?php include('../header/header_aluno.php'); ?>
     
     <main>
         <h1>Meus Grupos</h1>

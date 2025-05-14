@@ -27,9 +27,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
     <link rel="stylesheet" href="../assets/styles/menu_aluno.css">
 </head>
 <body>
-    <header class="cabecalho">
-        <h1>StudySync</h1>
-    </header>
+    <?php include('../header/header_aluno.php'); ?>
 
     <div class="geral">
         <a class='quadrado' href="solicitar_entrada.php">Solicitar entrada em grupo</a> <br>
