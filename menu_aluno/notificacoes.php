@@ -31,25 +31,29 @@ $result = $conexao->query($sql);
 <html>
 <head>
     <title>Solicitações de Entrada</title>
+    <link rel="stylesheet" href="../assets/styles/notificacoes.css">
 </head>
 <body>
+    <?php include('../header/header_aluno.php'); ?>
     <h2>Solicitações pendentes nos seus grupos</h2>
     <?php
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>";
-            echo "<strong>Grupo:</strong> " . $row['nome_grupo'] . "<br>";
-            echo "<strong>Aluno:</strong> " . $row['nome_aluno'] . "<br>";
-            echo "<strong>Mensagem:</strong> " . $row['mensagem'] . "<br>";
-            echo "<form action='responder_solicitacao.php' method='POST'>
+            echo "<div class='caixa_not' style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>";
+            echo "<div class='info'>";
+            echo "<p><strong>Grupo:</strong> " . $row['nome_grupo'] . "</p>";
+            echo "<p><strong>Aluno:</strong> " . $row['nome_aluno'] . "</p>";
+            echo "<p><strong>Mensagem:</strong> " . $row['mensagem'] . "</p>";
+            echo "</div>";
+            echo "<form class='botoes' action='responder_solicitacao.php' method='POST'>
                     <input type='hidden' name='id_solicitacao' value='" . $row['id_solicitacao'] . "'>
-                    <button name='acao' value='aprovar'>Aprovar</button>
-                    <button name='acao' value='rejeitar'>Rejeitar</button>
+                    <button name='acao' class='verde' value='aprovar'>Aprovar</button>
+                    <button name='acao' class='vermelho' value='rejeitar'>Rejeitar</button>
                 </form>";
             echo "</div>";
         }
     } else {
-        echo "<p>Não há solicitações pendentes.</p>";
+        echo "<p class='nao_tem'>Não há solicitações pendentes.</p>";
     }
     ?>
 </body>
