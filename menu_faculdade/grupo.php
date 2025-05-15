@@ -8,6 +8,23 @@
 <body>
 <?php
     require_once("../conexao/conexao.php");
+    session_start();
+
+    $erros = [];
+
+    if (!isset($_SESSION['id_faculdade'])) {
+        echo "Erro: Não há uma faculdade associada à sua sessão. Verifique o login.";
+        exit;
+    }
+
+    if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
+        echo "<script>
+            alert('Você não está logado!');
+            window.location.href = '../login/login.php';
+        </script>";
+        exit;
+    }
+
     if (isset($_GET['id_grupo'])) {
         $idGrupo = intval($_GET['id_grupo']);
 
@@ -26,18 +43,15 @@
         if ($resultado->num_rows > 0) {
             $grupo = $resultado->fetch_assoc();
 ?>
-    <header class="cabecalho">
-        <h1><?php echo htmlspecialchars($grupo['nome_grupo']); ?></h1>
-    </header>
+    <?php include('../header/header_facul.php'); ?>
 
     <div class="div_corpo">
         <div class="div_corpo_div">
-            <p><strong>Descrição:</strong> <?php echo htmlspecialchars($grupo['descricao']); ?></p>
-
-            <div class="admin-info">
-                <h3>Administrador:</h3>
-                <p><strong>Usuário:</strong> <?php echo htmlspecialchars($grupo['username']); ?></p>
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($grupo['email']); ?></p>
+            <div class="informacoes">
+                <p><strong>Nome:</strong> <?php echo htmlspecialchars($grupo['nome_grupo']); ?></p>
+                    <p><strong>Descrição:</strong> <?php echo htmlspecialchars($grupo['descricao']); ?></p>
+                    <p><strong>Administrador:</strong> <?php echo htmlspecialchars($grupo['username']); ?></p>
+                    <p><strong>Email:</strong> <?php echo htmlspecialchars($grupo['email']); ?></p>
             </div>
 
             <div class="acoes-grupo">

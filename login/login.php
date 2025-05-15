@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($tipo === 'faculdade') {
-            header("Location: ../menu_faculdade/menu_faculdade.php");
+            header("Location: ../menu_faculdade/visualizar_grupos.php");
         } elseif ($tipo === 'aluno') {
             header("Location: ../menu_aluno/meus_grupos.php");
         }

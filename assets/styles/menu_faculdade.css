@@ -2,91 +2,21 @@
 
 *{
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    overflow-x: hidden;
+    padding-top: 0;
 }
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    padding: 0 2vw; 
-    height: 12vh;
-    border-bottom: 1px solid rgb(142, 142, 142);
-    background-color: #3a2404;
-}
-
 body {
-    background-image: url('../img/grupo.jpg');
-    background-size: cover;
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+        url('../img/classroom_facul.jpg');
+    background-size: cover; 
+    background-position: top left; 
     background-repeat: no-repeat;
-    background-position: center;
-}
-
-.header_titulo{
-    font-family: 'Montserrat';  
-    font-weight: 600;
-    font-size: 26px;
-    text-decoration: none;
-    color: rgb(239, 233, 233);
-
-}
-.header_faculdade{
-    font-family: 'Montserrat';  
-    font-weight: 600;
-    font-size: 26px;
-    text-decoration: none;
-    color: rgb(228, 219, 219);
-}
-.botao_funcao {
-    height: 10vh;
-    width: 20vw;
-    margin-left: 2vw;
-    text-decoration: none;
-    color: white;
-    background-color: #3a2404; 
-    border: 2px solid #ebe7e1; 
-    border-radius: 14px;
-    font-family: 'Montserrat';
-    font-weight: 600;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-
-.botao_funcao:hover {
-    background-color: #6f4506;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-    opacity: 0.7; 
-}
-
-  
-.div_botoes{
-    display: flex;
-    width: 100vw;
-    height: 88vh;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.div_primeira_linha{
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 4vh;
-
+    overflow-x: hidden;
+    overflow-y: auto;
 }
-.div_segunda_linha{
-    width: 100%;
-    display: flex;
-    justify-content:center;
-    align-items: center;
-}
-
 
