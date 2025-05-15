@@ -59,9 +59,11 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
     <title>Document</title>
 </head>
 <body>
+    <?php include('../header/header_aluno.php'); ?>
+
     <div class="container-form">
         <h1>Solicitar entrada em grupo</h1>
-        <form action="" method="POST">
+        <form class="form-container" action="" method="POST">
             <input type="text" name='nome_grupo' required placeholder="Digite o nome do grupo"> <br>
             <textarea name="mensagem" placeholder="Digite uma mensagem" required></textarea> <br>
             <button type="submit">Solicitar</button>
