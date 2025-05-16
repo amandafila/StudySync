@@ -1,0 +1,518 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+        url('../img/classroom.jpg');
+    background-size: cover;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    line-height: 1.6;
+}
+
+main {
+    padding: 2rem 18vw;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.grupo-header {
+    background-color: rgba(15, 8, 2, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.grupo-header h1 {
+    font-weight: 500;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    color: #f5f5f5;
+}
+
+.grupo-header p {
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.grupo-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    background-color: rgba(228, 219, 205, 0.95);
+    color: rgba(29, 14, 2, 0.9);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: rgba(228, 219, 205, 1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-admin {
+    background-color: rgba(100, 46, 10, 0.8);
+    color: white;
+}
+
+.btn-admin:hover {
+    background-color: rgba(100, 46, 10, 0.95);
+}
+
+.forum-container {
+    background-color: rgba(15, 8, 2, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-top: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.forum-container h2 {
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.membros-list {
+    list-style-type: none;
+}
+
+.membros-list li {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    gap: 1rem;
+}
+
+.membros-list li:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.membro-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: 1rem;
+}
+
+.membro-nome {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.membro-email {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.membro-adm {
+    color: #d4af37;
+    font-weight: 500;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.btn-remover {
+    background-color: rgba(200, 50, 50, 0.8);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-remover:hover {
+    background-color: rgba(200, 50, 50, 0.95);
+    transform: translateY(-2px);
+}
+
+.post-form {
+    margin-bottom: 2rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.post-form textarea,
+.post-form input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    transition: all 0.3s ease;
+}
+
+.post-form textarea:focus,
+.post-form input[type="text"]:focus {
+    outline: none;
+    border-color: rgba(228, 219, 205, 0.5);
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.post-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.post {
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.post:hover {
+    background-color: rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.post-author {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.post-date {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.post-title {
+    color: #d4af37;
+    margin: 0.5rem 0;
+    width: 100%;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.post-content {
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.ver-mais {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: rgba(100, 46, 10, 0.8);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.ver-mais:hover {
+    background-color: rgba(100, 46, 10, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1200px) {
+    main {
+        padding: 2rem 10vw;
+    }
+    
+    .membro-email {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 992px) {
+    .grupo-actions {
+        gap: 0.75rem;
+    }
+    
+    .btn {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.9rem;
+    }
+    
+    .membro-info {
+        gap: 0.5rem;
+    }
+    
+    .membro-email {
+        max-width: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 1.5rem 5vw;
+    }
+    
+    .grupo-header {
+        padding: 1.5rem;
+    }
+    
+    .grupo-actions {
+        flex-direction: row;
+        gap: 0.75rem;
+    }
+    
+    .membros-list li {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .membro-info {
+        flex-wrap: wrap;
+    }
+    
+    .membro-email {
+        max-width: 100%;
+    }
+    
+    .form-remover {
+        margin-top: 0;
+    }
+    
+    .forum-container {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .grupo-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .membros-list li {
+        flex-wrap: wrap;
+    }
+    
+    .membro-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    .post-form {
+        padding: 1rem;
+    }
+    
+    .post {
+        padding: 1rem;
+    }
+}
+
+.forum-header {
+    background-color: rgba(15, 8, 2, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.forum-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.post {
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.post:hover {
+    background-color: rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.post-author {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.post-date {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.post-content {
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pagination a, .pagination span {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: rgba(228, 219, 205, 0.2);
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: rgba(228, 219, 205, 0.4);
+}
+
+.pagination .current {
+    background-color: rgba(100, 46, 10, 0.7);
+    font-weight: bold;
+}
+
+.post-form {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.post-form h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.post-form textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    resize: vertical;
+}
+
+.new-post-btn {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    background-color: rgba(228, 219, 205, 0.9);
+    color: rgba(29, 14, 2, 0.9);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.new-post-btn:hover {
+    background-color: rgba(228, 219, 205, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .forum-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .post-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+

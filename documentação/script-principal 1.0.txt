@@ -48,3 +48,30 @@ CREATE TABLE solicitacao_grupo (
     FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON DELETE CASCADE,
     FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno) ON DELETE CASCADE
 );
+
+CREATE TABLE forum_geral (
+    id_post INT PRIMARY KEY AUTO_INCREMENT,
+    id_grupo INT NOT NULL,
+    id_aluno INT NOT NULL,
+    mensagem TEXT NOT NULL,
+    data_postagem TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON DELETE CASCADE,
+    FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno) ON DELETE CASCADE
+);
+
+CREATE TABLE forum_admins (
+    id_post INT PRIMARY KEY AUTO_INCREMENT,
+    id_grupo INT NOT NULL,
+    id_aluno INT NOT NULL,
+    titulo VARCHAR(100) NOT NULL,
+    mensagem TEXT NOT NULL,
+    data_postagem TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON DELETE CASCADE,
+    FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno) ON DELETE CASCADE
+);
+
+ALTER TABLE forum_geral ADD COLUMN id_resposta INT NULL AFTER id_aluno;
+ALTER TABLE forum_geral ADD FOREIGN KEY (id_resposta) REFERENCES forum_geral(id_post);
+
+ALTER TABLE forum_admins ADD COLUMN id_resposta INT NULL AFTER id_aluno;
+ALTER TABLE forum_admins ADD FOREIGN KEY (id_resposta) REFERENCES forum_admins(id_post);

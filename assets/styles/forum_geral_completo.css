@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+        url('../img/classroom.jpg');
+    background-size: cover;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    line-height: 1.6;
+}
+
+main {
+    padding: 2rem 18vw;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.forum-header {
+    background-color: rgba(15, 8, 2, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 15px rgba(100, 46, 10, 0.1);
+}
+
+.forum-header h1 {
+    font-weight: 400;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
+
+.posts-container {
+    background-color: rgba(15, 8, 2, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(100, 46, 10, 0.1);
+}
+
+.post {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.post:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.post-author {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.post-date {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.post-content {
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.btn {
+    background-color: rgba(228, 219, 205, 0.9);
+    color: rgba(29, 14, 2, 0.8);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 550;
+    font-family: "Montserrat";
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    background-color: rgba(228, 219, 205, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination a, 
+.pagination span {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: rgba(228, 219, 205, 0.2);
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: rgba(228, 219, 205, 0.4);
+}
+
+.pagination .current {
+    background-color: rgba(100, 46, 10, 0.7);
+    font-weight: bold;
+}
+
+.post-form {
+    margin-top: 30px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.post-form textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-family: "Montserrat";
+    resize: vertical;
+}
+
+@media (max-width: 1200px) {
+    main {
+        padding: 40px 10vw;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 30px 5vw;
+    }
+    
+    .post-header {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+.new-post-btn {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    background-color: rgba(228, 219, 205, 0.9);
+    color: rgba(29, 14, 2, 0.9);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.new-post-btn:hover {
+    background-color: rgba(228, 219, 205, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
