@@ -25,6 +25,7 @@ $sql = "SELECT
         AND sg.status = 'pendente'";
 
 $result = $conexao->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +56,7 @@ $result = $conexao->query($sql);
     } else {
         echo "<p class='nao_tem'>Não há solicitações pendentes.</p>";
     }
+
     ?>
 </body>
 </html>

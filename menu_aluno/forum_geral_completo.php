@@ -85,6 +85,12 @@ $posts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                             <div class="post-content">
                                 <?php echo nl2br(htmlspecialchars($post['mensagem'])); ?>
                             </div>
+                            <form action="denunciar_post.php" method="post" class="denunciar-form" style="margin-top: 5px;">
+                                <input type="hidden" name="id_post" value="<?php echo $post['id_post']; ?>">
+                                <input type="hidden" name="tipo_forum" value="geral">
+                                <button type="submit" class="btn-denunciar">Denunciar</button>
+                            </form>
+
                         </div>
                     <?php endforeach; ?>
                     

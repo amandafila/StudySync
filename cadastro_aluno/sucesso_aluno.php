@@ -25,7 +25,7 @@
     <div class="content_center">
   <h1 class="mensagem_sucesso">Cadastro realizado com sucesso!</h1>
   <p class="mensagem_boas_vindas">Seja bem-vindo ao StudySync</p>
-  <a href="../menu/index.html">
+  <a href="../menu/index.php">
     <button class="btn btn-primary">Voltar para a página inicial</button>
   </a>
 </div>

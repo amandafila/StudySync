@@ -88,13 +88,14 @@
 </head>
 <body>
     <header> 
-        <a class="esquerda" href="../menu/index.html">StudySync</a> 
+        <a class="esquerda" href="../menu/index.php">StudySync</a> 
         <div class="menu-container">
             <a href="#" class="menu_aluno">Menu</a>
             <div class="dropdown-content">
                 <a href="../menu_aluno/meus_grupos.php">Meus grupos</a>
                 <a href="../menu_aluno/solicitar_entrada.php">Entrar em grupo</a>
                 <a href="../menu_aluno/notificacoes.php">Notificações</a>
+                <a href="../menu_aluno/ver_denuncias.php">denuncias</a>
             </div>
         </div>
         <div class="identificador">Olá, aluno</div>

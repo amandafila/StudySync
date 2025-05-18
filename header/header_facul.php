@@ -88,7 +88,7 @@
 </head>
 <body>
     <header> 
-        <a class="esquerda" href="../menu/index.html">StudySync</a> 
+        <a class="esquerda" href="../menu/index.php">StudySync</a> 
         <div class="menu-container">
             <a href="#" class="menu_aluno">Menu</a>
             <div class="dropdown-content">
