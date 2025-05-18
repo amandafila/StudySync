@@ -1,66 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Alunos do Grupo</title>
-    <link rel="stylesheet" href="../assets/styles/listar_alunos_grupo.css">
+    <link rel="stylesheet" href="../assets/styles/listar_alunos_grupo.css" />
 </head>
 <body>
-    <header>
-        <h1>Alunos do Grupo</h1>
-    </header>
+    <?php include('../header/header_facul.php'); ?>
 
-<?php
-require_once("../conexao/conexao.php");
+    <h1>Alunos do Grupo</h1>
 
-if (isset($_GET['id_grupo'])) {
-    $idGrupo = intval($_GET['id_grupo']);
+    <?php
+    require_once("../conexao/conexao.php");
 
-    $sql = "SELECT a.id_aluno, a.email, a.username, a.nome, a.cpf
-            FROM aluno a
-            INNER JOIN grupo_aluno ga ON a.id_aluno = ga.id_aluno
-            WHERE ga.id_grupo = $idGrupo";
+    if (isset($_GET['id_grupo'])) {
+        $idGrupo = intval($_GET['id_grupo']);
 
-    $resultado = $conexao->query($sql);
+        $sql = "SELECT a.id_aluno, a.email, a.username, a.nome, a.cpf
+                FROM aluno a
+                INNER JOIN grupo_aluno ga ON a.id_aluno = ga.id_aluno
+                WHERE ga.id_grupo = $idGrupo";
 
-    echo "<table>";
-    echo "<tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Username</th>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th></th> <!-- só pra alinhar os botões -->
-        </tr>";
+        $resultado = $conexao->query($sql);
 
-    if ($resultado->num_rows > 0) {
-        while ($linha = $resultado->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $linha["id_aluno"] . "</td>";
-            echo "<td>" . $linha["email"] . "</td>";
-            echo "<td>" . $linha["username"] . "</td>";
-            echo "<td>" . $linha["nome"] . "</td>";
-            echo "<td>" . $linha["cpf"] . "</td>";
-            echo "<td style='display: flex; gap: 10px; justify-content: center;'>
-            <a href='editar_aluno.php?id_aluno=" . $linha["id_aluno"] . "&id_grupo=$idGrupo' style='text-decoration: none;'>
-                <button>Alterar</button>
-            </a>
-            <a href='listar_alunos_grupo.php?id_grupo=$idGrupo&delete_id=" . $linha["id_aluno"] . "' style='text-decoration: none;'>
-                <button>Remover</button>
-            </a>
-            </td>";
-            echo "</tr>";
+        echo "<table>";
+        echo "<tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th></th>
+            </tr>";
+
+        if ($resultado->num_rows > 0) {
+            while ($linha = $resultado->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $linha["id_aluno"] . "</td>";
+                echo "<td>" . $linha["email"] . "</td>";
+                echo "<td>" . $linha["username"] . "</td>";
+                echo "<td>" . $linha["nome"] . "</td>";
+                echo "<td>" . $linha["cpf"] . "</td>";
+                echo "<td style='display: flex; gap: 10px; justify-content: center;'>
+                        <a href='editar_aluno.php?id_aluno=" . $linha["id_aluno"] . "&id_grupo=$idGrupo' style='text-decoration: none;'>
+                            <button>Alterar</button>
+                        </a>
+                        <a href='listar_alunos_grupo.php?id_grupo=$idGrupo&delete_id=" . $linha["id_aluno"] . "' style='text-decoration: none;'>
+                            <button>Remover</button>
+                        </a>
+                      </td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='6'>Nenhum aluno encontrado para este grupo.</td></tr>";
         }
-    } else {
-        echo "<tr><td colspan='6'>Nenhum aluno encontrado para este grupo.</td></tr>";
-    }
 
-    echo "</table>";
-    $conexao->close();
-} else {
-    echo "<p>ID do grupo não foi informado.</p>";
-}
-?>
+        echo "</table>";
+        $conexao->close();
+    } else {
+        echo "<p>ID do grupo não foi informado.</p>";
+    }
+    ?>
 </body>
 </html>

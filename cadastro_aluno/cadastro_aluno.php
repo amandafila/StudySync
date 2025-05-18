@@ -50,9 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
   <div class="left">
-    <div class="div_left_title">
-      <h5 class="title_left">StudySync</h5>
-    </div>
     <div class="div_left_paragraph">
       <p class="left_paragraph">De estudantes,  <br> para estudantes.</p>
     </div>
@@ -60,12 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <div class="right">
     <div class="div_header">
-      <div class="header_sobre">
-        <a href="#" class="link_right">Sobre</a>
-      </div>
-      <div class="header_login">
-        <a class="link_right" href="../login/login.php">Login</a>
-      </div>
+      <?php include('../header/header_menu.php'); ?>
     </div>
 
     <h2 class="subtitulo_cadastro">Faça já seu cadastro</h2>

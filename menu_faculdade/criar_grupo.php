@@ -67,8 +67,10 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
                     $inserir_grupo_aluno = "INSERT INTO grupo_aluno (id_grupo, id_aluno, is_adm)
                                             VALUES('$id_grupo', '$id_aluno', 1)";
                     if ($conexao->query($inserir_grupo_aluno)) {
-                        echo "<script>alert('Grupo e administrador criados com sucesso.');
-                        window.location.href = '../menu_faculdade/criar_grupo.php';</script>";
+                        header("Location: ../menu_faculdade/sucesso_grupo.php");
+
+
+
                         exit();
                     } else {
                         $erros[] = "Erro ao adicionar administrador ao grupo: " . $conexao->error;
