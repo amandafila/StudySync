@@ -119,11 +119,13 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             <div id="forumGeralContainer" class="forum-container">
                 <h2>Fórum Geral</h2>
                 
-                <form action="postar_forum_geral.php" method="post" class="post-form">
+                <form action="postar_forum_geral.php" method="post" class="post-form" enctype="multipart/form-data">
                     <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
                     <textarea name="mensagem" placeholder="Escreva sua mensagem..." required></textarea>
+                    <input type="file" name="arquivo" accept=".jpg,.jpeg,.png,.gif,.pdf">
                     <button type="submit" class="btn">Postar</button>
                 </form>
+
                 
                 <div class="posts-list">
                     <?php if (count($ultimos_posts_geral) > 0): ?>
@@ -135,7 +137,23 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                                 </div>
                                 <div class="post-content">
                                     <?php echo nl2br(htmlspecialchars($post['mensagem'])); ?>
+                                    <?php if (!empty($post['arquivo'])): ?>
+                                        <div class="post-arquivo">
+                                            <?php 
+                                                $ext = pathinfo($post['arquivo'], PATHINFO_EXTENSION);
+                                                $url_arquivo = "../uploads/" . htmlspecialchars($post['arquivo']);
+                                                if (in_array(strtolower($ext), ['jpg','jpeg','png','gif'])) {
+                                                    echo "<br><img src=\"$url_arquivo\" alt=\"Anexo\" style=\"max-width:300px; max-height:300px;\">";
+                                                } elseif (strtolower($ext) === 'pdf') {
+                                                    echo "<br><a href=\"$url_arquivo\" target=\"_blank\">Abrir arquivo PDF anexado</a>";
+                                                } else {
+                                                    echo "<br><a href=\"$url_arquivo\" target=\"_blank\">Download do arquivo anexado</a>";
+                                                }
+                                            ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
+
                             </div>
                         <?php endforeach; ?>
                         <a href="forum_geral_completo.php?id_grupo=<?php echo $id_grupo; ?>" class="btn ver-mais">Ver todas as postagens</a>
