@@ -1,3 +1,4 @@
+
 <?php
 require_once("../conexao/conexao.php");
 
@@ -53,7 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
   <div class="left">
-    
+    <div class="div_left_title">
+      <h5 class="title_left">StudySync</h5>
+    </div>
     <div class="div_left_paragraph">
       <p class="left_paragraph">Faça parte dessa <br> comunidade <br> incrível.</p>
     </div>
@@ -61,8 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <div class="right">
     <div class="div_header">
-      
-      <?php include('../header/header_menu.php'); ?>
+      <div class="header_sobre">
+        <a href="#" class="link_right">Sobre</a>
+      </div>
+      <div class="header_login">
+        <a class="link_right" href="../login/login.php">Login</a>
+      </div>
     </div>
 
     <h2 class="subtitulo_cadastro">Cadastre a sua instituição</h2>
