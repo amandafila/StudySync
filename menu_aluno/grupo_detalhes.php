@@ -334,7 +334,6 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 	"chochota"
 ];
 
-    // Função que detecta palavras ofensivas
     function temPalavrao(texto) {
         return palavrasProibidas.some(
             palavra => new RegExp(`\\b${palavra}\\b`, 'i').test(texto)

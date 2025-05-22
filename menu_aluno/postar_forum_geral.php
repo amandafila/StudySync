@@ -1,15 +1,12 @@
 <?php
-// postar_forum_geral.php
 require_once("../conexao/conexao.php");
 session_start();
 
-// Verifica se o usuário está logado e é aluno
 if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
     header("Location: ../login/login.php");
     exit;
 }
 
-// Valida os dados enviados
 if (!isset($_POST['id_grupo']) || !isset($_POST['mensagem']) || empty(trim($_POST['mensagem']))) {
     header("Location: grupo_detalhes.php?id=" . ($_POST['id_grupo'] ?? ''));
     exit;
@@ -19,7 +16,6 @@ $id_grupo = $_POST['id_grupo'];
 $id_aluno = $_SESSION['id_aluno'];
 $mensagem = trim($_POST['mensagem']);
 
-// Verifica se o aluno pertence ao grupo
 $sql_verifica = "SELECT 1 FROM grupo_aluno WHERE id_grupo = ? AND id_aluno = ?";
 $stmt = $conexao->prepare($sql_verifica);
 $stmt->bind_param("ii", $id_grupo, $id_aluno);
@@ -30,7 +26,6 @@ if ($stmt->get_result()->num_rows === 0) {
     exit;
 }
 
-// Upload do arquivo (opcional)
 $nome_arquivo = null;
 if (isset($_FILES['arquivo']) && $_FILES['arquivo']['error'] === UPLOAD_ERR_OK) {
     $pasta_upload = '../uploads/';

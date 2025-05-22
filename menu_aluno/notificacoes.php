@@ -9,13 +9,7 @@ if (!isset($_SESSION['id_aluno'])) {
 
 $id_admin = $_SESSION['id_aluno'];
 
-$sql = "SELECT 
-            sg.id_solicitacao,
-            sg.mensagem,
-            sg.data_solicitacao,
-            sg.id_aluno,
-            a.nome AS nome_aluno,
-            g.nome AS nome_grupo
+$sql = "SELECT sg.id_solicitacao, sg.mensagem, sg.data_solicitacao, sg.id_aluno, a.nome AS nome_aluno, g.nome AS nome_grupo
         FROM solicitacao_grupo sg
         JOIN grupo g ON sg.id_grupo = g.id_grupo
         JOIN aluno a ON sg.id_aluno = a.id_aluno

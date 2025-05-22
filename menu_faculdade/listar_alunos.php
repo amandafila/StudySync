@@ -9,9 +9,7 @@
     <title>Lista de alunos</title>
 </head>
 <body>
-    <header>
-        <h1>Tabela de alunos</h1>
-    </header>
+    <?php include('../header/header_aluno.php'); ?>
 <?php
     require_once("../conexao/conexao.php");
     
