@@ -32,20 +32,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssss", $titulo, $empresa, $descricao, $requisitos, $localizacao);
     $stmt->execute();
 
-    echo "Vaga criada com sucesso!";
+    echo "<script>alert('Vaga criada com sucesso');</script>";
 }
 ?>
-
-<form method="POST">
-    <label>Título da vaga:</label><br>
-    <input type="text" name="titulo" required><br>
-    <label>Empresa:</label><br>
-    <input type="text" name="empresa" required><br>
-    <label>Descrição:</label><br>
-    <textarea name="descricao" required></textarea><br>
-    <label>Requisitos:</label><br>
-    <textarea name="requisitos"></textarea><br>
-    <label>Localização:</label><br>
-    <input type="text" name="localizacao"><br><br>
-    <button type="submit">Criar Vaga</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/criar_vaga.css">
+    <title>Criar Vagas</title>
+</head>
+<body>
+    <form method="POST">
+        <?php include('../header/header_facul.php'); ?>
+        <div class="formulario">
+            <div class="formulario_div">
+                <label>Título da vaga:</label>
+                <input class="campo type="text" name="titulo" required>
+                <label>Empresa:</label>
+                <input class="campo" type="text" name="empresa" required>
+                <label>Descrição:</label>
+                <textarea class="campo" name="descricao" required></textarea>
+                <label>Requisitos:</label>
+                <textarea class="campo" name="requisitos"></textarea>
+                <label>Localização:</label>
+                <input class="campo" type="text" name="localizacao">
+                <button class="botao" type="submit">Criar Vaga</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
