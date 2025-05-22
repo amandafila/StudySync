@@ -75,6 +75,14 @@ ALTER TABLE forum_geral ADD FOREIGN KEY (id_resposta) REFERENCES forum_geral(id_
 
 ALTER TABLE forum_admins ADD COLUMN id_resposta INT NULL AFTER id_aluno;
 ALTER TABLE forum_admins ADD FOREIGN KEY (id_resposta) REFERENCES forum_admins(id_post);
+CREATE TABLE denuncias (
+    id_denuncia INT AUTO_INCREMENT PRIMARY KEY,
+    id_post INT NOT NULL,
+    id_aluno INT NOT NULL,
+    tipo_forum ENUM('geral', 'admins') NOT NULL,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ALTER TABLE forum_geral ADD COLUMN arquivo VARCHAR(255) NULL AFTER mensagem;
 
 CREATE TABLE vagas (
     id INT AUTO_INCREMENT PRIMARY KEY,

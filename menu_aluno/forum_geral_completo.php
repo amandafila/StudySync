@@ -64,16 +64,16 @@ $posts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 </head>
 <body>
     <?php include('../header/header_aluno.php'); ?>
-    
+
     <main>
         <div class="forum-header">
             <h1>Fórum Geral - <?php echo htmlspecialchars($nome_grupo); ?></h1>
             <a href="grupo_detalhes.php?id=<?php echo $id_grupo; ?>" class="btn">Voltar para o Grupo</a>
         </div>
-        
+
         <div class="forum-content">
             <a href="#post-form" class="new-post-btn">Nova Postagem</a>
-            
+
             <div class="posts-container">
                 <?php if (count($posts) > 0): ?>
                     <?php foreach ($posts as $post): ?>
@@ -93,12 +93,12 @@ $posts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
                         </div>
                     <?php endforeach; ?>
-                    
+
                     <div class="pagination">
                         <?php if ($pagina > 1): ?>
                             <a href="?id_grupo=<?php echo $id_grupo; ?>&pagina=<?php echo $pagina-1; ?>">Anterior</a>
                         <?php endif; ?>
-                        
+
                         <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
                             <?php if ($i == $pagina): ?>
                                 <span class="current"><?php echo $i; ?></span>
@@ -106,7 +106,7 @@ $posts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                                 <a href="?id_grupo=<?php echo $id_grupo; ?>&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
                             <?php endif; ?>
                         <?php endfor; ?>
-                        
+
                         <?php if ($pagina < $total_paginas): ?>
                             <a href="?id_grupo=<?php echo $id_grupo; ?>&pagina=<?php echo $pagina+1; ?>">Próxima</a>
                         <?php endif; ?>
@@ -115,7 +115,7 @@ $posts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                     <p>Nenhuma postagem ainda no fórum geral.</p>
                 <?php endif; ?>
             </div>
-            
+
             <div id="post-form" class="post-form">
                 <h2>Criar Nova Postagem</h2>
                 <form action="postar_forum_geral.php" method="post">

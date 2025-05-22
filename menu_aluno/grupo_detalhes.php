@@ -11,6 +11,24 @@ if (!isset($_GET['id'])) {
     header("Location: meus_grupos.php");
     exit;
 }
+if (!empty($_FILES['arquivo']['name'])) {
+    $arquivo = $_FILES['arquivo'];
+    $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
+
+    
+    if ($extensao !== 'pdf') {
+        die("❌ Apenas arquivos PDF são permitidos.");
+    }
+
+   
+    if ($arquivo['type'] !== 'application/pdf') {
+        die("❌ Tipo de arquivo inválido. Somente PDFs são permitidos.");
+    }
+
+ 
+    $arquivo_nome = uniqid() . '.' . $extensao;
+    move_uploaded_file($arquivo['tmp_name'], "../uploads/" . $arquivo_nome);
+}
 
 $id_grupo = $_GET['id'];
 $id_aluno = $_SESSION['id_aluno'];
@@ -54,6 +72,7 @@ $stmt = $conexao->prepare($sql_forum_geral);
 $stmt->bind_param("i", $id_grupo);
 $stmt->execute();
 $ultimos_posts_geral = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
 
 $sql_forum_admins = "SELECT fa.*, a.nome as autor 
                      FROM forum_admins fa
@@ -122,7 +141,7 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                 <form action="postar_forum_geral.php" method="post" class="post-form" enctype="multipart/form-data">
                     <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
                     <textarea name="mensagem" placeholder="Escreva sua mensagem..." required></textarea>
-                    <input type="file" name="arquivo" accept=".jpg,.jpeg,.png,.gif,.pdf">
+                    <input type="file" name="arquivo" accept=".pdf">
                     <button type="submit" class="btn">Postar</button>
                 </form>
 

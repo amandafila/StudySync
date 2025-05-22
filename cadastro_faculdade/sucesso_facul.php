@@ -24,7 +24,7 @@
 
     <div class="content_center">
       <h1 class="mensagem_sucesso">Cadastro realizado com sucesso!</h1>
-      <a href="../menu/index.php">
+      <a href="../menu/index.html">
         <button class="btn btn-primary">Voltar para a página inicial</button>
       </a>
     </div>
