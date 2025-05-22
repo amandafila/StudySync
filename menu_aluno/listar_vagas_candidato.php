@@ -1,5 +1,23 @@
 <?php
 require_once("../conexao/conexao.php");
+session_start();
+
+$erros = [];
+
+if (!isset($_SESSION['id_aluno'])) {
+    echo "Erro: Não há um aluno associado à sua sessão. Verifique o login.";
+    exit;
+}
+
+if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
+    echo "<script>
+        alert('Você não está logado!');
+        window.location.href = '../login/login.php';
+    </script>";
+    exit;
+}
+
+$id_aluno = $_SESSION['id_aluno'];
 
 $result = $conexao->query("SELECT * FROM vagas ORDER BY data_postagem DESC");
 ?>

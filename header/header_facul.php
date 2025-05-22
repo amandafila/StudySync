@@ -95,6 +95,8 @@
                 <a href="../menu_faculdade/criar_grupo.php">Criar Grupo</a>
                 <a href="../menu_faculdade/visualizar_grupos.php">Visualizar Grupos</a>
                 <a href="../menu_faculdade/listar_alunos.php">Visualizar Alunos</a>
+                <a href="../menu_faculdade/criar_vaga.php">Criar Vaga</a>
+                <a href="../menu_faculdade/listar_vagas_admin.php">Listar Vagas</a>
             </div>
         </div>
         <div class="identificador">Olá, faculdade</div>

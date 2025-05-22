@@ -95,7 +95,8 @@
                 <a href="../menu_aluno/meus_grupos.php">Meus grupos</a>
                 <a href="../menu_aluno/solicitar_entrada.php">Entrar em grupo</a>
                 <a href="../menu_aluno/notificacoes.php">Notificações</a>
-                <a href="../menu_aluno/ver_denuncias.php">denuncias</a>
+                <a href="../menu_aluno/ver_denuncias.php">Denuncias</a>
+                <a href="../menu_aluno/listar_vagas_candidato.php">Vagas</a>
             </div>
         </div>
         <div class="identificador">Olá, aluno</div>

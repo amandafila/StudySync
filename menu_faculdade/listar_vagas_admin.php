@@ -1,6 +1,23 @@
 <?php
 require_once("../conexao/conexao.php");
 
+session_start();
+
+$erros = [];
+
+if (!isset($_SESSION['id_faculdade'])) {
+    echo "Erro: Não há uma faculdade associada à sua sessão. Verifique o login.";
+    exit;
+}
+
+if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
+    echo "<script>
+        alert('Você não está logado!');
+        window.location.href = '../login/login.php';
+        </script>";
+    exit; 
+}
+
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $conexao->query("DELETE FROM vagas WHERE id = $id");
