@@ -26,21 +26,42 @@ if (isset($_GET['delete'])) {
 
 $result = $conexao->query("SELECT * FROM vagas ORDER BY data_postagem DESC");
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/listar_vagas_admin.css">
+    <title>Vagas admin</title>
+</head>
+<body>
+    <?php include('../header/header_facul.php'); ?>
+    <div class="div_tabela">
+        <table class="tabela">
+            <tr class="tabela">
+                <th class = "coluna">Título</th>
+                <th>Empresa &nbsp;</th>
+                <th>Localização &nbsp;</th>
+                <th>Link de Inscrição &nbsp;</th>
+                <th>Ações &nbsp;</th>
+            </tr>
+            <?php while($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td class = "coluna"><?= htmlspecialchars($row['titulo']) ?></td>
+                <td><?= htmlspecialchars($row['empresa']) ?></td>
+                <td><?= htmlspecialchars($row['localizacao']) ?></td>
+                <td>
+                    <?php if (!empty($row['link'])): ?>
+                        <a class="botao" href="<?= htmlspecialchars($row['link']) ?>" target="_blank">Inscrever-se</a>
+                    <?php else: ?>
+                        Sem link
+                    <?php endif; ?>
+                </td>
+                <td class = "coluna"><a class="botao" href="?delete=<?= $row['id'] ?>" onclick="return confirm('Excluir esta vaga?')">Excluir</a></td>
+            </tr>
+            <?php endwhile; ?>
+        </table>
+    </div>
+</body>
+</html>
 
-<h2>Vagas de Trabalho</h2>
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Título</th>
-        <th>Empresa</th>
-        <th>Localização</th>
-        <th>Ações</th>
-    </tr>
-    <?php while($row = $result->fetch_assoc()): ?>
-    <tr>
-        <td><?= $row['titulo'] ?></td>
-        <td><?= $row['empresa'] ?></td>
-        <td><?= $row['localizacao'] ?></td>
-        <td><a href="?delete=<?= $row['id'] ?>" onclick="return confirm('Excluir esta vaga?')">Excluir</a></td>
-    </tr>
-    <?php endwhile; ?>
-</table>

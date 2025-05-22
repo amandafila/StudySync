@@ -5,7 +5,6 @@
     padding-top: 0;
     font-family: 'Montserrat', sans-serif;
 }
-
 body {
     background: 
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
@@ -20,59 +19,58 @@ body {
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-}
-.formulario{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 85vh;
     color: white;
 }
-
-.formulario_div{
+.div_vaga_interna{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items:flex-start;
+    align-items: normal;
     background-color:rgba(36, 24, 18, 0.5);; 
     backdrop-filter: blur(5px); 
-    height: 90%;
-    width: 35%;
+    padding: 5vh;
+    width: 50%;
     border: 1px solid white;
     border-radius: 20px;
 }
-
-.campo{
-    margin-bottom: 10px;
-    height: 5vh;
-    width: 20vw;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-indent: 5px;
+.div_vagas{
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
-
-.botao{
-    height: 5vh;
-    width: 15vw;
+h3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+}
+p{
+    margin-left: 10px;
+}
+.div_link_inscricao{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.link_inscricao{
+    text-decoration: none;
+    padding: 8px;
     border: 2px solid black;
     border-radius: 20px;
     cursor: pointer;
     margin-top: 10px;
+    color: white;
+    font-size: 16px;
+
+
+}
+.data_postagem{
+    margin-bottom: 30px;
 }
 
-label{
-    margin-bottom: 10px;
+.paragrafo{
+    margin-top: 20px;
 }
-textarea{
-    padding-top: 5px;
-}
-
-
-
-
-
-
-
-
-

@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+*{
+    margin: 0;
+    padding-top: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+        url('../img/classroom_facul.jpg');
+    background-size: cover; 
+    background-position: top left; 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: white;
+}
+
+.tabela{
+    border-radius: 20px;
+    border: 1px solid white;
+}
+
+.div_tabela{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+.coluna{
+    padding: 10px;
+}
+.botao{
+    color: white;
+    text-decoration: none;
+    border: 2px solid wheat;
+    border-radius: 8px ;
+    padding: 5px;
+}
+
+

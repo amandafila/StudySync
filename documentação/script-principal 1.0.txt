@@ -91,5 +91,6 @@ CREATE TABLE vagas (
     descricao TEXT NOT NULL,
     requisitos TEXT,
     localizacao VARCHAR(100),
+    link VARCHAR(100),
     data_postagem TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

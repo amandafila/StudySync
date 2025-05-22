@@ -1,6 +1,5 @@
 <?php
 require_once("../conexao/conexao.php");
-
 session_start();
 
 $erros = [];
@@ -20,23 +19,23 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
 
 $id_faculdade = $_SESSION['id_faculdade'];
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = $_POST['titulo'];
     $empresa = $_POST['empresa'];
     $descricao = $_POST['descricao'];
     $requisitos = $_POST['requisitos'];
     $localizacao = $_POST['localizacao'];
+    $link = $_POST['link']; // Novo campo
 
-    $stmt = $conexao->prepare("INSERT INTO vagas (titulo, empresa, descricao, requisitos, localizacao) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $titulo, $empresa, $descricao, $requisitos, $localizacao);
+    $stmt = $conexao->prepare("INSERT INTO vagas (titulo, empresa, descricao, requisitos, localizacao, link) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $titulo, $empresa, $descricao, $requisitos, $localizacao, $link);
     $stmt->execute();
 
     echo "<script>alert('Vaga criada com sucesso');</script>";
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,15 +48,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="formulario">
             <div class="formulario_div">
                 <label>Título da vaga:</label>
-                <input class="campo type="text" name="titulo" required>
+                <input class="campo" type="text" name="titulo" required>
+
                 <label>Empresa:</label>
                 <input class="campo" type="text" name="empresa" required>
+
                 <label>Descrição:</label>
                 <textarea class="campo" name="descricao" required></textarea>
+
                 <label>Requisitos:</label>
                 <textarea class="campo" name="requisitos"></textarea>
+
                 <label>Localização:</label>
                 <input class="campo" type="text" name="localizacao">
+
+                <label>Link para inscrição:</label>
+                <input class="campo" type="url" name="link" placeholder="https://exemplo.com" required>
+
                 <button class="botao" type="submit">Criar Vaga</button>
             </div>
         </div>
