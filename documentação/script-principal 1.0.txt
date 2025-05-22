@@ -75,3 +75,13 @@ ALTER TABLE forum_geral ADD FOREIGN KEY (id_resposta) REFERENCES forum_geral(id_
 
 ALTER TABLE forum_admins ADD COLUMN id_resposta INT NULL AFTER id_aluno;
 ALTER TABLE forum_admins ADD FOREIGN KEY (id_resposta) REFERENCES forum_admins(id_post);
+
+CREATE TABLE vagas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    empresa VARCHAR(100) NOT NULL,
+    descricao TEXT NOT NULL,
+    requisitos TEXT,
+    localizacao VARCHAR(100),
+    data_postagem TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
