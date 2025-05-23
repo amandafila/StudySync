@@ -12,6 +12,7 @@
     <?php include('../header/header_aluno.php'); ?>
 <?php
     require_once("../conexao/conexao.php");
+    require_once('../verifica_sessao/verifica_sessao.php');
     
     function delete_row($id, $conexao){
         $delete_sql ="DELETE FROM aluno WHERE id_aluno = $id";

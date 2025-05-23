@@ -1,5 +1,6 @@
 <?php
 require_once("../conexao/conexao.php");
+require_once('../verifica_sessao/verifica_sessao.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_grupo'])) {
     $idGrupo = intval($_POST['id_grupo']);

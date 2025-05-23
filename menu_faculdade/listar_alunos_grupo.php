@@ -13,6 +13,20 @@
 
     <?php
     require_once("../conexao/conexao.php");
+    require_once('../verifica_sessao/verifica_sessao.php');
+
+    if (!isset($_SESSION['id_faculdade'])) {
+        echo "Erro: Não há uma faculdade associada à sua sessão. Verifique o login.";
+        exit;
+    }
+
+    if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
+        echo "<script>
+            alert('Você não está logado!');
+            window.location.href = '../login/login.php';
+        </script>";
+        exit;
+    }
 
     if (isset($_GET['id_grupo'])) {
         $idGrupo = intval($_GET['id_grupo']);

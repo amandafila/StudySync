@@ -1,5 +1,6 @@
 <?php
 require_once("../conexao/conexao.php");
+require_once('../verifica_sessao/verifica_sessao.php');
 
 session_start();
 

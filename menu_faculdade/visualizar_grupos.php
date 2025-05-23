@@ -1,6 +1,6 @@
 <?php
     require_once("../conexao/conexao.php");
-    session_start();
+    require_once('../verifica_sessao/verifica_sessao.php');
 
     $erros = [];
 

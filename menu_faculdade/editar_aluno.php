@@ -1,6 +1,6 @@
 <?php
 require_once("../conexao/conexao.php");
-
+require_once('../verifica_sessao/verifica_sessao.php');
 
 if (isset($_GET['id_aluno'])) {
     $idAluno = intval($_GET['id_aluno']);
