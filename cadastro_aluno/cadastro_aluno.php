@@ -16,7 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($cpf)) $erros[] = "O  CPF é obrigatório.";
     if (empty($usuario)) $erros[] = "O  usuário é obrigatório.";
     if (empty($email)) $erros[] = "o  email é obrigatório.";
-    if (empty($senha_raw)) $erros[] = "a  senha é obrigatório.";
+    if (empty($senha_raw)) {
+    $erros[] = "O campo Senha é obrigatório.";
+    } else {
+        if (strlen($senha_raw) < 8) {
+            $erros[] = "A senha deve ter no mínimo 8 caracteres.";
+        }
+        if (strpos($senha_raw, '@') === false) {
+            $erros[] = "A senha deve conter pelo menos um caractere '@'.";
+        }
+    }
 
 
     if (empty($erros)) {
@@ -113,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
           <input type="password" name="senha" class="form-control" required>
         </div>
+        
         <div class="mb-2">
           <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>
         </div>

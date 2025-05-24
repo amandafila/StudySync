@@ -20,7 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($telefone)) $erros[] = "O campo Telefone é obrigatório.";
     if (empty($usuario)) $erros[] = "O campo Usuário é obrigatório.";
     if (empty($email)) $erros[] = "O campo Email é obrigatório.";
-    if (empty($senha_raw)) $erros[] = "O campo Senha é obrigatório.";
+    if (empty($senha_raw)) {
+    $erros[] = "O campo Senha é obrigatório.";
+    } else {
+        if (strlen($senha_raw) < 8) {
+            $erros[] = "A senha deve ter no mínimo 8 caracteres.";
+        }
+        if (strpos($senha_raw, '@') === false) {
+            $erros[] = "A senha deve conter pelo menos um caractere '@'.";
+        }
+    }
+
 
     if (empty($erros)) {
         $check = "SELECT * FROM faculdade WHERE username = '$usuario' OR email = '$email'";

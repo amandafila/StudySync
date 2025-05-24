@@ -2,89 +2,74 @@
 require_once("../conexao/conexao.php");
 require_once('../verifica_sessao/verifica_sessao.php');
 
-if (isset($_GET['id_aluno'])) {
-    $idAluno = intval($_GET['id_aluno']);
-} elseif (isset($_GET['id'])) {
-    $idAluno = intval($_GET['id']);
-} else {
-    die("ID de aluno inválido.");
+if (!isset($_GET['id'])) {
+    echo "ID do aluno não fornecido.";
+    exit;
 }
 
-$idGrupo = isset($_GET['id_grupo']) ? intval($_GET['id_grupo']) : 0;
+$id_aluno = $_GET['id'];
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email    = trim($_POST['email']    ?? '');
-    $username = trim($_POST['username'] ?? '');
-    $nome     = trim($_POST['nome']     ?? '');
-
-    if ($email === '' || $username === '' || $nome === '') {
-        $erro = "Todos os campos devem ser preenchidos.";
-    } else {
-        $sqlUpdate = "UPDATE aluno
-                    SET email = ?, username = ?, nome = ?
-                    WHERE id_aluno = ?";
-        $stmt = $conexao->prepare($sqlUpdate);
-        $stmt->bind_param("sssi", $email, $username, $nome, $idAluno);
-
-        if ($stmt->execute()) {
-
-            header("Location: listar_alunos.php?id_grupo=$idGrupo");
-            exit;
-        } else {
-            $erro = "Falha ao atualizar: " . $stmt->error;
-        }
-    }
-}
-
-
-$sql = "SELECT email, username, nome, cpf FROM aluno WHERE id_aluno = ?";
+$sql = "SELECT * FROM aluno WHERE id_aluno = ?";
 $stmt = $conexao->prepare($sql);
-$stmt->bind_param("i", $idAluno);
+$stmt->bind_param("i", $id_aluno);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows !== 1) {
-    die("Aluno não encontrado.");
+if ($result->num_rows === 0) {
+    echo "Aluno não encontrado.";
+    exit;
 }
 
 $aluno = $result->fetch_assoc();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = $_POST["email"];
+    $username = $_POST["username"];
+    $nome = $_POST["nome"];
+
+    $sql = "UPDATE aluno SET email = ?, username = ?, nome = ? WHERE id_aluno = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("sssi", $email, $username, $nome, $id_aluno);
+
+    if ($stmt->execute()) {
+        echo "<script>
+                alert('Aluno atualizado com sucesso!');
+                window.location.href = 'listar_alunos.php';
+              </script>";
+    } else {
+        echo "Erro ao atualizar: " . $conexao->error;
+    }
+}
+
 ?>
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Editar Aluno #<?php echo $idAluno; ?></title>
-    <link rel="stylesheet" href="../assets/styles/editar_aluno.css">
+    <link rel="stylesheet" href="../assets/styles/editar_alunos.css">
+    <title>Editar Aluno</title>
 </head>
 <body>
-<header><h1>Editar Aluno #<?php echo $idAluno; ?></h1></header>
+    <h1>Editar Aluno</h1>
+    <form method="POST">
+        <p><strong>ID:</strong> <?= htmlspecialchars($aluno['id_aluno']) ?></p>
+        <p><strong>CPF:</strong> <?= htmlspecialchars($aluno['cpf']) ?></p>
 
-<?php if (!empty($erro)): ?>
-    <p style="color:red;"><?php echo htmlspecialchars($erro); ?></p>
-<?php endif; ?>
+        <label>Email:<br>
+            <input type="email" name="email" value="<?= htmlspecialchars($aluno['email']) ?>" required>
+        </label><br><br>
 
-<form method="post" action="">
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email"
-        value="<?php echo htmlspecialchars($aluno['email']); ?>" required><br><br>
+        <label>Username:<br>
+            <input type="text" name="username" value="<?= htmlspecialchars($aluno['username']) ?>" required>
+        </label><br><br>
 
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username"
-        value="<?php echo htmlspecialchars($aluno['username']); ?>" required><br><br>
+        <label>Nome:<br>
+            <input type="text" name="nome" value="<?= htmlspecialchars($aluno['nome']) ?>" required>
+        </label><br><br>
 
-    <label for="nome">Nome:</label><br>
-    <input type="text" id="nome" name="nome"
-        value="<?php echo htmlspecialchars($aluno['nome']); ?>" required><br><br>
-
-    <label>CPF (não editável):</label><br>
-    <input type="text" value="<?php echo htmlspecialchars($aluno['cpf']); ?>" disabled><br><br>
-
-    <button type="submit">Salvar</button>
-    <a href="listar_alunos_grupo.php?id_grupo=<?php echo $idGrupo; ?>">
-    <button type="button">Cancelar</button>
-    </a>
-</form>
+        <button type="submit">Salvar Alterações</button>
+        <a href="listar_alunos.php"><button type="button">Cancelar</button></a>
+    </form>
 </body>
 </html>
