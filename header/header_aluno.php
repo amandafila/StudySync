@@ -1,3 +1,7 @@
+<?php
+$nome = isset($_SESSION['nome']) ? $_SESSION['nome'] : 'Usuário';
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +13,7 @@
         }
         
         body {
-            overflow-x: hidden; /* Impede scroll horizontal */
+            overflow-x: hidden;
         }
         
         header {
@@ -52,7 +56,7 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            right: -5vw; 
+            right: -2vw; 
             background-color: rgba(21, 13, 4, 0.9);
             min-width: 180px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -84,22 +88,34 @@
             margin-left: 2vw;
             white-space: nowrap;
         }
+
+        .dropdown-dois{
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
     <header> 
-        <a class="esquerda" href="../menu/index.html">StudySync</a> 
+    <a href="../menu/index.html">StudySync</a> 
+    <div class="menu-direita">
         <div class="menu-container">
             <a href="#" class="menu_aluno">Menu</a>
             <div class="dropdown-content">
                 <a href="../menu_aluno/meus_grupos.php">Meus grupos</a>
                 <a href="../menu_aluno/solicitar_entrada.php">Entrar em grupo</a>
                 <a href="../menu_aluno/notificacoes.php">Notificações</a>
-                <a href="../menu_aluno/ver_denuncias.php">Denuncias</a>
+                <a href="../menu_aluno/ver_denuncias.php">Denúncias</a>
                 <a href="../menu_aluno/listar_vagas_candidato.php">Vagas</a>
             </div>
         </div>
-        <div class="identificador">Olá, aluno</div>
+        <div class="menu-container">
+            <a href="#" class="menu_aluno">Olá, <?php echo $nome; ?></a>
+            <div class="dropdown-content">
+                <a href="logout.php">Sair</a>
+                <a href="#">Alterar dados</a>
+            </div>
+        </div>
+    </div>
     </header>
 </body>
 </html>

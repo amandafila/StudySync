@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descricao = $_POST['descricao'];
     $requisitos = $_POST['requisitos'];
     $localizacao = $_POST['localizacao'];
-    $link = $_POST['link']; // Novo campo
+    $link = $_POST['link']; 
 
     $stmt = $conexao->prepare("INSERT INTO vagas (titulo, empresa, descricao, requisitos, localizacao, link) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssss", $titulo, $empresa, $descricao, $requisitos, $localizacao, $link);
@@ -47,13 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php include('../header/header_facul.php'); ?>
         <div class="formulario">
             <div class="formulario_div">
-                <label>Título da vaga:</label>
+                <label>Título da vaga*:</label>
                 <input class="campo" type="text" name="titulo" required>
 
-                <label>Empresa:</label>
+                <label>Empresa*:</label>
                 <input class="campo" type="text" name="empresa" required>
 
-                <label>Descrição:</label>
+                <label>Descrição*:</label>
                 <textarea class="campo" name="descricao" required></textarea>
 
                 <label>Requisitos:</label>
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>Localização:</label>
                 <input class="campo" type="text" name="localizacao">
 
-                <label>Link para inscrição:</label>
+                <label>Link para inscrição*:</label>
                 <input class="campo" type="url" name="link" placeholder="https://exemplo.com" required>
 
                 <button class="botao" type="submit">Criar Vaga</button>

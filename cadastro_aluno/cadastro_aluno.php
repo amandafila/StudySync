@@ -22,9 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (strlen($senha_raw) < 8) {
             $erros[] = "A senha deve ter no mínimo 8 caracteres.";
         }
-        if (strpos($senha_raw, '@') === false) {
-            $erros[] = "A senha deve conter pelo menos um caractere '@'.";
-        }
     }
 
 
@@ -49,6 +46,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Máscara de CPF
+    const cpfInput = document.querySelector('input[name="cpf"]');
+    cpfInput.addEventListener('input', function () {
+        let valor = cpfInput.value.replace(/\D/g, ''); // Remove tudo que não é número
+        valor = valor.slice(0, 11); // Limita a 11 dígitos
+        valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+                     .replace(/(\d{3})(\d)/, '$1.$2')
+                     .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        cpfInput.value = valor;
+    });
+
+    // Validação ao enviar o formulário
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function (e) {
+        const cpf = document.querySelector('input[name="cpf"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const senha = document.querySelector('input[name="senha"]').value;
+        const usuario = document.querySelector('input[name="usuario"]').value;
+
+        let erros = [];
+
+        const regexCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+        if (!regexCPF.test(cpf)) {
+            erros.push("CPF inválido. Use o formato 999.999.999-99.");
+        }
+
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regexEmail.test(email)) {
+            erros.push("Email inválido.");
+        }
+
+        if (senha.length < 8 || !/[!@#$%^&*(),.?":{}|<>]/.test(senha)) {
+            erros.push("A senha deve ter pelo menos 8 caracteres e conter pelo menos um caractere especial.");
+        }
+
+        const regexUsuario = /^[a-zA-Z0-9_]{3,15}$/;
+        if (!regexUsuario.test(usuario)) {
+            erros.push("O usuário deve conter apenas letras, números ou '_' e ter entre 3 e 15 caracteres.");
+        }
+
+        if (erros.length > 0) {
+            e.preventDefault(); // Impede envio
+            alert(erros.join("\n")); // Exibe erros
+        }
+    });
+});
+</script>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -56,6 +102,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="../assets/styles/cadastro_aluno.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+
 </head>
 
 <body>
@@ -94,31 +144,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <form method="POST" action="" enctype="multipart/form-data">
         <div class="mb-2">
           <div class="div_paragrafo">
-            <p class="paragros_left">Nome</p>
+            <p class="paragros_left">Nome*</p>
           </div>
           <input type="text" name="nome" class="form-control" required>
         </div>
         <div class="mb-2">
           <div class="div_paragrafo">
-            <p class="paragros_left">Usuário</p>
+            <p class="paragros_left">Usuário*</p>
           </div>
           <input type="text" name="usuario" class="form-control" required>
         </div>
         <div class="mb-2">
           <div class="div_paragrafo">
-            <p class="paragros_left">CPF</p>
+            <p class="paragros_left">CPF*</p>
           </div>
           <input type="text" name="cpf" class="form-control" required>
         </div>
         <div class="mb-2">
           <div class="div_paragrafo">
-            <p class="paragros_left">Email</p>
+            <p class="paragros_left">Email*</p>
           </div>
           <input type="email" name="email" class="form-control" required>
         </div>
         <div class="mb-2">
           <div class="div_paragrafo">
-            <p class="paragros_left">Senha</p>
+            <p class="paragros_left">Senha*</p>
           </div>
           <input type="password" name="senha" class="form-control" required>
         </div>

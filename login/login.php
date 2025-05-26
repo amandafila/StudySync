@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_start();
         $_SESSION['usuario'] = $usuario;
         $_SESSION['tipo'] = $tipo;
+        $_SESSION['nome'] = $usuario['nome'];
         
         if ($tipo === 'faculdade') {
             $_SESSION['id_faculdade'] = $usuario['id_faculdade']; 

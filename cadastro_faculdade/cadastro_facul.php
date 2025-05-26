@@ -97,31 +97,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="col-6">
       <form method="POST" action="" enctype="multipart/form-data">
         <div class="mb-2">
-          <p class="paragros_left">Nome</p>
+          <p class="paragros_left">Nome*</p>
           <input type="text" name="nome" class="form-control" required>
         </div>
         <div class="mb-2">
-          <p class="paragros_left">CNPJ</p>
+          <p class="paragros_left">CNPJ*</p>
           <input type="text" name="cnpj" class="form-control" required>
         </div>
         <div class="mb-2">
-          <p class="paragros_left">CEP</p>
+          <p class="paragros_left">CEP*</p>
           <input type="text" name="cep" class="form-control" required>
         </div>
         <div class="mb-2">
-          <p class="paragros_left">Telefone</p>
+          <p class="paragros_left">Telefone*</p>
           <input type="text" name="telefone" class="form-control" required>
         </div>
         <div class="mb-2">
-          <p class="paragros_left">Usuário</p>
+          <p class="paragros_left">Usuário*</p>
           <input type="text" name="usuario" class="form-control" >
         </div>
         <div class="mb-2">
-          <p class="paragros_left">Email</p>
+          <p class="paragros_left">Email*</p>
           <input type="email" name="email" class="form-control" required>
         </div>
         <div class="mb-2">
-          <p class="paragros_left">Senha</p>
+          <p class="paragros_left">Senha*</p>
           <input type="password" name="senha" class="form-control" required>
         </div>
         <div class="mb-2">

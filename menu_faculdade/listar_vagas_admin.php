@@ -2,7 +2,6 @@
 require_once("../conexao/conexao.php");
 require_once('../verifica_sessao/verifica_sessao.php');
 
-session_start();
 
 $erros = [];
 
@@ -22,7 +21,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $conexao->query("DELETE FROM vagas WHERE id = $id");
-    echo "Vaga excluída com sucesso!";
+    echo "<script> alert('Vaga excluída com sucesso!'); </script>";
 }
 
 $result = $conexao->query("SELECT * FROM vagas ORDER BY data_postagem DESC");

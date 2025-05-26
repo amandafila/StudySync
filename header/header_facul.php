@@ -9,7 +9,7 @@
         }
         
         body {
-            overflow-x: hidden; /* Impede scroll horizontal */
+            overflow-x: hidden; 
         }
         
         header {
