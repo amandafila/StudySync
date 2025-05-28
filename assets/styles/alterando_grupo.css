@@ -2,118 +2,103 @@
 
 * {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;    
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f8f4e3;
-    padding: 40px;
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+        url('../img/classroom_facul.jpg');
+    background-size: cover; 
+    background-position: top left; 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.grupo-container {
+    width: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    padding-top: 5vh; 
 }
 
-header {
-    background-color: #d0c4b4;
-    width: 100%;
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-}
-
-header h1 {
-    font-size: 36px;
-    color: #333;
-}
-
-.container {
-    width: 90%;
-    max-width: 1000px;
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 20px; 
-}
-
-h1 {
-    font-size: 32px;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-p {
-    font-size: 16px;
-    color: #555;
-    margin-top: 10px;
-}
-
-strong {
-    font-weight: bold;
-}
-
-button {
-    background-color: #c04b4b;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-    margin-right: 10px;
-}
-
-button a {
+.grupo-container h1 {
+    font-size: 3vh;
+    font-weight: 500;
     color: white;
-    text-decoration: none;
-    font-weight: 600;
+    margin-bottom: 3vh; 
 }
 
-button:hover {
-    background-color: #a03c3c;
-}
-
-button:focus {
-    outline: none;
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; 
+    background-color: rgba(36, 24, 18, 0.5);  
+    backdrop-filter: blur(5px); 
+    min-height: 40%; 
+    width: 35%;
+    border: 2px solid white;
     border-radius: 10px;
-    overflow: hidden;
+    padding: 20px;
+    margin-top: 2vh; 
 }
 
-th, td {
-    padding: 15px;
+form p {
+    color: white;
+    margin-bottom: 15px; 
+    font-size: 1.2rem;
     text-align: center;
-    border-bottom: 1px solid #ddd;
 }
 
-th {
-    background-color: #d0c4b4;
-    color: #333;
-    font-weight: 700;
-    font-size: 16px;
+textarea, input[type="email"] {
+    margin-bottom: 15px; 
+    height: 5vh;
+    width: 20vw;
+    border-radius: 10px;
+    border: 2px solid black;
+    text-indent: 5px;
+    padding: 10px;
+    resize: none;
 }
 
-td {
-    font-size: 15px;
-    color: #555;
+textarea {
+    min-height: 100px;
+    height: auto;
 }
 
-tr:hover {
-    background-color: #f0eee8;
+button[type="submit"] {
+    height: 5vh;
+    width: 15vw;
+    border: 2px solid black;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: white;
+    font-weight: 500;
+    margin-top: 10px; 
 }
 
+div[style="color: red; margin-bottom: 15px;"] {
+    background-color: rgba(255, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px; 
+    text-align: center;
+    width: 80%;
+}
+
+div[style="color: red; margin-bottom: 15px;"] p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
