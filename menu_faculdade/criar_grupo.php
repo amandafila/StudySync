@@ -108,9 +108,10 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
 </head>
 <body>
     <?php include('../header/header_facul.php'); ?>
-
+    
     <form class="formulario" action="" method="post">
         <div class="formulario_div">
+            <p>Criar grupo</p>
             <input class="campo" type="text" placeholder="Nome do grupo*" name="nome_grupo" required>
             <input class="campo" type="email" placeholder="Email Administrador*" name="adm" required>
             <input  class="campo" type="text" placeholder="Descrição*" name="descricao" required>
