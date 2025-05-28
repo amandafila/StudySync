@@ -48,18 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Máscara de CPF
     const cpfInput = document.querySelector('input[name="cpf"]');
     cpfInput.addEventListener('input', function () {
-        let valor = cpfInput.value.replace(/\D/g, ''); // Remove tudo que não é número
-        valor = valor.slice(0, 11); // Limita a 11 dígitos
+        let valor = cpfInput.value.replace(/\D/g, '');
+        valor = valor.slice(0, 11); 
         valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
                      .replace(/(\d{3})(\d)/, '$1.$2')
                      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
         cpfInput.value = valor;
     });
 
-    // Validação ao enviar o formulário
     const form = document.querySelector('form');
     form.addEventListener('submit', function (e) {
         const cpf = document.querySelector('input[name="cpf"]').value;
@@ -89,8 +87,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (erros.length > 0) {
-            e.preventDefault(); // Impede envio
-            alert(erros.join("\n")); // Exibe erros
+            e.preventDefault(); 
+            alert(erros.join("\n")); 
         }
     });
 });
@@ -111,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <body>
   <div class="left">
     <div class="div_left_title">
-      <h5 class="title_left">StudySync</h5>
+      <a href="../login/login.php"class="title_left">Login</a>
     </div>
     <div class="div_left_paragraph">
       <p class="left_paragraph">De estudantes,  <br> para estudantes.</p>
@@ -119,14 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 
   <div class="right">
-    <div class="div_header">
-      <div class="header_sobre">
-        <a href="#" class="link_right">Sobre</a>
-      </div>
-      <div class="header_login">
-        <a class="link_right" href="../login/login.php">Login</a>
-      </div>
-    </div>
 
     <h2 class="subtitulo_cadastro">Faça já seu cadastro</h2>
 

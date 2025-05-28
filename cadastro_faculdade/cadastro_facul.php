@@ -1,4 +1,3 @@
-
 <?php
 require_once("../conexao/conexao.php");
 
@@ -13,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
     $senha_raw = $_POST['senha'];
 
-
     if (empty($nome)) $erros[] = "O campo Nome é obrigatório.";
     if (empty($cnpj)) $erros[] = "O campo CNPJ é obrigatório.";
     if (empty($cep)) $erros[] = "O campo CEP é obrigatório.";
@@ -21,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($usuario)) $erros[] = "O campo Usuário é obrigatório.";
     if (empty($email)) $erros[] = "O campo Email é obrigatório.";
     if (empty($senha_raw)) {
-    $erros[] = "O campo Senha é obrigatório.";
+        $erros[] = "O campo Senha é obrigatório.";
     } else {
         if (strlen($senha_raw) < 8) {
             $erros[] = "A senha deve ter no mínimo 8 caracteres.";
@@ -30,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $erros[] = "A senha deve conter pelo menos um caractere '@'.";
         }
     }
-
 
     if (empty($erros)) {
         $check = "SELECT * FROM faculdade WHERE username = '$usuario' OR email = '$email'";
@@ -53,6 +50,90 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const cnpjInput = document.querySelector('input[name="cnpj"]');
+    cnpjInput.addEventListener('input', function () {
+        let valor = cnpjInput.value.replace(/\D/g, '');
+        valor = valor.slice(0, 14);
+        valor = valor.replace(/^(\d{2})(\d)/, '$1.$2')
+                     .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+                     .replace(/\.(\d{3})(\d)/, '.$1/$2')
+                     .replace(/(\d{4})(\d)/, '$1-$2');
+        cnpjInput.value = valor;
+    });
+
+    const cepInput = document.querySelector('input[name="cep"]');
+    cepInput.addEventListener('input', function () {
+        let valor = cepInput.value.replace(/\D/g, '');
+        valor = valor.slice(0, 8);
+        valor = valor.replace(/^(\d{5})(\d)/, '$1-$2');
+        cepInput.value = valor;
+    });
+
+    const telInput = document.querySelector('input[name="telefone"]');
+    telInput.addEventListener('input', function () {
+        let valor = telInput.value.replace(/\D/g, '');
+        if (valor.length > 11) valor = valor.slice(0, 11);
+        
+        if (valor.length > 2) {
+            valor = valor.replace(/^(\d{2})/, '($1) ');
+            if (valor.length > 10) {
+                valor = valor.replace(/(\d{5})(\d)/, '$1-$2');
+            } else {
+                valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
+            }
+        }
+        telInput.value = valor;
+    });
+
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function (e) {
+        const cnpj = document.querySelector('input[name="cnpj"]').value;
+        const cep = document.querySelector('input[name="cep"]').value;
+        const telefone = document.querySelector('input[name="telefone"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const senha = document.querySelector('input[name="senha"]').value;
+        const usuario = document.querySelector('input[name="usuario"]').value;
+
+        let erros = [];
+
+        const regexCNPJ = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+        if (!regexCNPJ.test(cnpj)) {
+            erros.push("CNPJ inválido. Use o formato 99.999.999/9999-99.");
+        }
+
+        const regexCEP = /^\d{5}-\d{3}$/;
+        if (!regexCEP.test(cep)) {
+            erros.push("CEP inválido. Use o formato 99999-999.");
+        }
+
+        const regexTel = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+        if (!regexTel.test(telefone)) {
+            erros.push("Telefone inválido. Use o formato (99) 99999-9999 ou (99) 9999-9999.");
+        }
+
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regexEmail.test(email)) {
+            erros.push("Email inválido.");
+        }
+
+        if (senha.length < 8 || !senha.includes('@')) {
+            erros.push("A senha deve ter pelo menos 8 caracteres e conter '@'.");
+        }
+
+        const regexUsuario = /^[a-zA-Z0-9_]{3,15}$/;
+        if (!regexUsuario.test(usuario)) {
+            erros.push("O usuário deve conter apenas letras, números ou '_' e ter entre 3 e 15 caracteres.");
+        }
+
+        if (erros.length > 0) {
+            e.preventDefault();
+            alert(erros.join("\n"));
+        }
+    });
+});
+</script>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -65,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
   <div class="left">
     <div class="div_left_title">
-      <h5 class="title_left">StudySync</h5>
+      <a href="../login/login.php"class="title_left">Login</a>
     </div>
     <div class="div_left_paragraph">
       <p class="left_paragraph">Faça parte dessa <br> comunidade <br> incrível.</p>
@@ -74,11 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <div class="right">
     <div class="div_header">
-      <div class="header_sobre">
-        <a href="#" class="link_right">Sobre</a>
-      </div>
       <div class="header_login">
-        <a class="link_right" href="../login/login.php">Login</a>
       </div>
     </div>
 
@@ -102,19 +179,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div class="mb-2">
           <p class="paragros_left">CNPJ*</p>
-          <input type="text" name="cnpj" class="form-control" required>
+          <input type="text" name="cnpj" class="form-control" placeholder="99.999.999/9999-99" required>
         </div>
         <div class="mb-2">
           <p class="paragros_left">CEP*</p>
-          <input type="text" name="cep" class="form-control" required>
+          <input type="text" name="cep" class="form-control" placeholder="99999-999" required>
         </div>
         <div class="mb-2">
           <p class="paragros_left">Telefone*</p>
-          <input type="text" name="telefone" class="form-control" required>
+          <input type="text" name="telefone" class="form-control" placeholder="(99) 99999-9999" required>
         </div>
         <div class="mb-2">
           <p class="paragros_left">Usuário*</p>
-          <input type="text" name="usuario" class="form-control" >
+          <input type="text" name="usuario" class="form-control" required>
         </div>
         <div class="mb-2">
           <p class="paragros_left">Email*</p>
@@ -122,7 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div class="mb-2">
           <p class="paragros_left">Senha*</p>
-          <input type="password" name="senha" class="form-control" required>
+          <input type="password" name="senha" class="form-control" placeholder="Mínimo 8 caracteres com @" required>
         </div>
         <div class="mb-2">
           <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>
