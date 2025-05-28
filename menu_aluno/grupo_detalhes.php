@@ -146,41 +146,47 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                 </form>
 
                 
-                <div class="posts-list">
-                    <?php if (count($ultimos_posts_geral) > 0): ?>
-                        <?php foreach ($ultimos_posts_geral as $post): ?>
-                            <div class="post">
-                                <div class="post-header">
-                                    <span class="post-author"><?php echo htmlspecialchars($post['autor']); ?></span>
-                                    <span class="post-date"><?php echo date('d/m/Y H:i', strtotime($post['data_postagem'])); ?></span>
+<div class="posts-list">
+            <?php if (count($ultimos_posts_geral) > 0): ?>
+                <?php foreach ($ultimos_posts_geral as $post): ?>
+                    <div class="post">
+                        <div class="post-header">
+                            <span class="post-author"><?php echo htmlspecialchars($post['autor']); ?></span>
+                            <span class="post-date"><?php echo date('d/m/Y H:i', strtotime($post['data_postagem'])); ?></span>
+                            <?php if ($is_adm || $post['id_aluno'] == $id_aluno): ?>
+                                <form action="excluir_post.php" method="post" class="form-excluir">
+                                    <input type="hidden" name="id_post" value="<?php echo $post['id_post']; ?>">
+                                    <input type="hidden" name="tipo_forum" value="geral">
+                                    <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
+                                    <button type="submit" class="btn-excluir">Excluir</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                        <div class="post-content">
+                            <?php echo nl2br(htmlspecialchars($post['mensagem'])); ?>
+                            <?php if (!empty($post['arquivo'])): ?>
+                                <div class="post-arquivo">
+                                    <?php 
+                                        $ext = pathinfo($post['arquivo'], PATHINFO_EXTENSION);
+                                        $url_arquivo = "../uploads/" . htmlspecialchars($post['arquivo']);
+                                        if (in_array(strtolower($ext), ['jpg','jpeg','png','gif'])) {
+                                            echo "<br><img src=\"$url_arquivo\" alt=\"Anexo\" style=\"max-width:300px; max-height:300px;\">";
+                                        } elseif (strtolower($ext) === 'pdf') {
+                                            echo "<br><a href=\"$url_arquivo\" target=\"_blank\">Abrir arquivo PDF anexado</a>";
+                                        } else {
+                                            echo "<br><a href=\"$url_arquivo\" target=\"_blank\">Download do arquivo anexado</a>";
+                                        }
+                                    ?>
                                 </div>
-                                <div class="post-content">
-                                    <?php echo nl2br(htmlspecialchars($post['mensagem'])); ?>
-                                    <?php if (!empty($post['arquivo'])): ?>
-                                        <div class="post-arquivo">
-                                            <?php 
-                                                $ext = pathinfo($post['arquivo'], PATHINFO_EXTENSION);
-                                                $url_arquivo = "../uploads/" . htmlspecialchars($post['arquivo']);
-                                                if (in_array(strtolower($ext), ['jpg','jpeg','png','gif'])) {
-                                                    echo "<br><img src=\"$url_arquivo\" alt=\"Anexo\" style=\"max-width:300px; max-height:300px;\">";
-                                                } elseif (strtolower($ext) === 'pdf') {
-                                                    echo "<br><a href=\"$url_arquivo\" target=\"_blank\">Abrir arquivo PDF anexado</a>";
-                                                } else {
-                                                    echo "<br><a href=\"$url_arquivo\" target=\"_blank\">Download do arquivo anexado</a>";
-                                                }
-                                            ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-
-                            </div>
-                        <?php endforeach; ?>
-                        <a href="forum_geral_completo.php?id_grupo=<?php echo $id_grupo; ?>" class="btn ver-mais">Ver todas as postagens</a>
-                    <?php else: ?>
-                        <p>Nenhuma postagem ainda. Seja o primeiro a contribuir!</p>
-                    <?php endif; ?>
-                </div>
-            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                <a href="forum_geral_completo.php?id_grupo=<?php echo $id_grupo; ?>" class="btn ver-mais">Ver todas as postagens</a>
+            <?php else: ?>
+                <p>Nenhuma postagem ainda. Seja o primeiro a contribuir!</p>
+            <?php endif; ?>
+        </div>
             
             <div id="forumAdminsContainer" class="forum-container">
                 <h2>Fórum de Administradores</h2>
