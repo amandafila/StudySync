@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php include('../header/header_facul.php'); ?>
         <div class="formulario">
             <div class="formulario_div">
+                <h1>Criar vaga</h1>
                 <label>Título da vaga*:</label>
                 <input class="campo" type="text" name="titulo" required>
 

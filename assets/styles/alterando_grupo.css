@@ -2,25 +2,23 @@
 
 * {
     margin: 0;
-    font-family: 'Montserrat', sans-serif;    
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
     background: 
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
         url('../img/classroom_facul.jpg');
-    background-size: cover; 
-    background-position: top left; 
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    margin: 0;
-    padding: 0;
     min-height: 100vh;
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
+    color: #fff;
 }
 
 .grupo-container {
@@ -29,76 +27,114 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding-top: 5vh; 
+    padding: 5vh 2rem 2rem;
 }
 
 .grupo-container h1 {
-    font-size: 3vh;
-    font-weight: 500;
+    font-size: 2.5rem;
+    font-weight: 600;
     color: white;
-    margin-bottom: 3vh; 
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; 
-    background-color: rgba(36, 24, 18, 0.5);  
-    backdrop-filter: blur(5px); 
-    min-height: 40%; 
-    width: 35%;
-    border: 2px solid white;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 2vh; 
+    background-color: rgba(36, 24, 18, 0.7);
+    backdrop-filter: blur(8px);
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 form p {
     color: white;
-    margin-bottom: 15px; 
-    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
     text-align: center;
+    line-height: 1.5;
 }
 
-textarea, input[type="email"] {
-    margin-bottom: 15px; 
-    height: 5vh;
-    width: 20vw;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-indent: 5px;
-    padding: 10px;
-    resize: none;
+textarea, 
+input[type="email"],
+input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+textarea:focus,
+input[type="email"]:focus,
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
 }
 
 textarea {
-    min-height: 100px;
-    height: auto;
+    min-height: 90px;
+    resize: vertical;
 }
 
 button[type="submit"] {
-    height: 5vh;
-    width: 15vw;
-    border: 2px solid black;
-    border-radius: 20px;
+    width: 100%;
+    padding: 12px;
+    background-color: #4a2f21;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    background-color: white;
-    font-weight: 500;
-    margin-top: 10px; 
+    transition: all 0.3s ease;
+    margin-top: 1rem;
 }
 
-div[style="color: red; margin-bottom: 15px;"] {
-    background-color: rgba(255, 0, 0, 0.2);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px; 
+button[type="submit"]:hover {
+    background-color: #5d3a2a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+    color: #ff6b6b;
+    background-color: rgba(255, 0, 0, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
     text-align: center;
-    width: 80%;
+    width: 100%;
+    border: 1px solid rgba(255, 0, 0, 0.2);
 }
 
-div[style="color: red; margin-bottom: 15px;"] p {
-    margin: 5px 0;
+.error-message p {
+    margin: 0.5rem 0;
     font-size: 0.9rem;
+    color: #ff6b6b;
+}
+
+@media (max-width: 768px) {
+    .grupo-container {
+        padding: 3vh 1.5rem 1.5rem;
+    }
+    
+    .grupo-container h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    form {
+        padding: 1.5rem;
+        width: 90%;
+    }
 }
