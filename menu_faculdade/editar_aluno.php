@@ -51,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Editar Aluno</title>
 </head>
 <body>
+    <?php include('../header/header_facul.php'); ?>
     <h1>Editar Aluno</h1>
     <form method="POST">
         <p><strong>ID:</strong> <?= htmlspecialchars($aluno['id_aluno']) ?></p>

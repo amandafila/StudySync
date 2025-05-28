@@ -1,3 +1,6 @@
+<?php
+$nome = isset($_SESSION['nome']) ? $_SESSION['nome'] : 'Usuário';
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +12,7 @@
         }
         
         body {
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
         
         header {
@@ -34,11 +37,15 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
+        .menu-direita {
+            display: flex;
+            align-items: center;
+        }
+
         .menu-container {   
             position: relative;
             display: inline-block;
-            margin-left: auto; 
-            margin-right: 2vw;
+            margin-left: 2vw;
         }
 
         .menu_aluno {
@@ -52,7 +59,7 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            right: -5vw; 
+            right: 0;
             background-color: rgba(21, 13, 4, 0.9);
             min-width: 180px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -88,18 +95,26 @@
 </head>
 <body>
     <header> 
-        <a class="esquerda" href="../menu/index.html">StudySync</a> 
-        <div class="menu-container">
-            <a href="#" class="menu_aluno">Menu</a>
-            <div class="dropdown-content">
-                <a href="../menu_faculdade/criar_grupo.php">Criar Grupo</a>
-                <a href="../menu_faculdade/visualizar_grupos.php">Visualizar Grupos</a>
-                <a href="../menu_faculdade/listar_alunos.php">Visualizar Alunos</a>
-                <a href="../menu_faculdade/criar_vaga.php">Criar Vaga</a>
-                <a href="../menu_faculdade/listar_vagas_admin.php">Listar Vagas</a>
+        <a href="../menu/index.html">StudySync</a> 
+        <div class="menu-direita">
+            <div class="menu-container">
+                <a href="#" class="menu_aluno">Menu</a>
+                <div class="dropdown-content">
+                    <a href="../menu_faculdade/criar_grupo.php">Criar Grupo</a>
+                    <a href="../menu_faculdade/visualizar_grupos.php">Visualizar Grupos</a>
+                    <a href="../menu_faculdade/listar_alunos.php">Visualizar Alunos</a>
+                    <a href="../menu_faculdade/criar_vaga.php">Criar Vaga</a>
+                    <a href="../menu_faculdade/listar_vagas_admin.php">Listar Vagas</a>
+                </div>
+            </div>
+            <div class="menu-container">
+                <a href="#" class="menu_aluno">Olá, <?php echo $nome; ?></a>
+                <div class="dropdown-content">
+                    <a href="logout.php">Sair</a>
+                    <a href="#">Alterar dados</a>
+                </div>
             </div>
         </div>
-        <div class="identificador">Olá, faculdade</div>
     </header>
 </body>
 </html>

@@ -16,7 +16,7 @@ body {
   background-attachment: fixed;
   color: #f8f4e3;
   min-height: 100vh;
-  padding: 40px 20px;
+  /* padding: 40px 20px; */
 }
 
 h1 {
