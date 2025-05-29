@@ -130,6 +130,26 @@ button:hover {
     font-style: italic;
 }
 
+.btn-tipo {
+    padding: 10px 20px;
+    background: #582c07;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+}
+
+.btn-tipo:hover{
+    background: #381c05;
+}
+
+.selecionar-tipo h3{
+    margin-left: 0.7vw;
+    margin-bottom: 1.5vh;
+}
 @media (max-width: 768px) {
     .container-form {
         padding: 1.5rem;

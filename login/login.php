@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
 </head>
 <body>
+    <a class="menu" href="../menu/index.html">StudySync</a>
     <h1>Login</h1>
     <div class="quadrado_login">
         <form action="" method="post" onsubmit="return validarRadios()">

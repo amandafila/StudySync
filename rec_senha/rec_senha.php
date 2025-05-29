@@ -5,17 +5,19 @@ session_start();
 
 $erros = [];
 $etapa = isset($_GET['etapa']) ? $_GET['etapa'] : 'inicio';
+$tipo_usuario = isset($_GET['tipo']) ? $_GET['tipo'] : '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($etapa == 'inicio') {
-        // Etapa 1: Verificar usuário e chave de recuperação
         $usuario = trim($_POST['usuario']);
         $chave_recuperacao = trim($_POST['chave_recuperacao']);
+        $tabela = ($tipo_usuario == 'faculdade') ? 'faculdade' : 'aluno';
+        $campo_id = ($tipo_usuario == 'faculdade') ? 'id_faculdade' : 'id_aluno';
 
         if (empty($usuario) || empty($chave_recuperacao)) {
             $erros[] = "Todos os campos são obrigatórios.";
         } else {
-            $sql = "SELECT id_aluno, chave_recuperacao_hash FROM aluno WHERE username = ?";
+            $sql = "SELECT $campo_id, chave_recuperacao_hash FROM $tabela WHERE username = ?";
             $stmt = $conexao->prepare($sql);
             $stmt->bind_param("s", $usuario);
             $stmt->execute();
@@ -24,11 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($result->num_rows === 0) {
                 $erros[] = "Usuário não encontrado.";
             } else {
-                $aluno = $result->fetch_assoc();
-                if (!password_verify($chave_recuperacao, $aluno['chave_recuperacao_hash'])) {
+                $usuario_dados = $result->fetch_assoc(); 
+                if (!password_verify($chave_recuperacao, $usuario_dados['chave_recuperacao_hash'])) {
                     $erros[] = "Chave de recuperação inválida.";
                 } else {
-                    $_SESSION['id_aluno_recuperacao'] = $aluno['id_aluno'];
+                    $_SESSION['tipo_recuperacao'] = $tipo_usuario;
+                    $_SESSION['id_recuperacao'] = $usuario_dados[$campo_id]; 
                     $etapa = 'nova_senha';
                 }
             }
@@ -37,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif ($etapa == 'nova_senha') {
         $nova_senha = $_POST['nova_senha'];
         $confirmar_senha = $_POST['confirmar_senha'];
+        $tabela = ($_SESSION['tipo_recuperacao'] == 'faculdade') ? 'faculdade' : 'aluno';
+        $campo_id = ($_SESSION['tipo_recuperacao'] == 'faculdade') ? 'id_faculdade' : 'id_aluno';
 
         if (empty($nova_senha) || empty($confirmar_senha)) {
             $erros[] = "Todos os campos são obrigatórios.";
@@ -46,9 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $erros[] = "As senhas não coincidem.";
         } else {
             $senha_hash = password_hash($nova_senha, PASSWORD_DEFAULT);
-            $sql = "UPDATE aluno SET senha = ? WHERE id_aluno = ?";
-            $stmt = $conexao->prepare($sql);
-            $stmt->bind_param("si", $senha_hash, $_SESSION['id_aluno_recuperacao']);
+            $sql = "UPDATE $tabela SET senha = ? WHERE $campo_id = ?";
+            $stmt = $conexao->prepare($sql); 
+            $stmt->bind_param("si", $senha_hash, $_SESSION['id_recuperacao']);
             
             if ($stmt->execute()) {
                 session_destroy();
@@ -84,8 +89,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endif; ?>
 
         <div class="form-container">
-            <?php if ($etapa == 'inicio'): ?>
-                <form method="POST" action="rec_senha.php?etapa=inicio">
+            <?php if ($etapa == 'inicio' && empty($tipo_usuario)): ?>
+                <div class="selecionar-tipo">
+                    <h3>Selecione o tipo de conta:</h3>
+                    <div class="opcoes-tipo">
+                        <a href="rec_senha.php?etapa=inicio&tipo=aluno" class="btn-tipo">Sou Aluno</a>
+                        <a href="rec_senha.php?etapa=inicio&tipo=faculdade" class="btn-tipo">Sou Instituição</a>
+                    </div>
+                </div>
+            
+            <?php elseif ($etapa == 'inicio'): ?>
+                <form method="POST" action="rec_senha.php?etapa=inicio&tipo=<?= $tipo_usuario ?>">
+                    <input type="hidden" name="tipo_usuario" value="<?= $tipo_usuario ?>">
+                    
                     <label for="usuario">Nome de Usuário</label>
                     <input type="text" id="usuario" name="usuario" required>
                     
@@ -94,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     
                     <button type="submit">Verificar</button>
                 </form>
+            
             <?php elseif ($etapa == 'nova_senha'): ?>
                 <form method="POST" action="rec_senha.php?etapa=nova_senha">
                     <label for="nova_senha">Nova Senha</label>

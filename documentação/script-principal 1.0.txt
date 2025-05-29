@@ -100,3 +100,4 @@ ALTER TABLE vagas
 add COLUMN faculdade VARCHAR(100) NOT NULL,
 ADD FOREIGN KEY (faculdade) REFERENCES faculdade(nome);
 ALTER TABLE aluno ADD COLUMN chave_recuperacao_hash VARCHAR(255);
+ALTER TABLE faculdade ADD COLUMN chave_recuperacao_hash VARCHAR(255);

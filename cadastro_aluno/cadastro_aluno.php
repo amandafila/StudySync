@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $senha_raw = $_POST['senha'];
     $faculdade = trim($_POST['faculdade']);
 
-    // Validações
     if (empty($nome)) $erros[] = "O nome é obrigatório.";
     if (empty($cpf)) $erros[] = "O CPF é obrigatório.";
     if (empty($usuario)) $erros[] = "O usuário é obrigatório.";
@@ -29,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Verifica se usuário ou email já existem
     if (empty($erros)) {
         $check = "SELECT * FROM aluno WHERE username = '$usuario' OR email = '$email'";
         $result = $conexao->query($check);
@@ -38,20 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Processa o cadastro se não houver erros
     if (empty($erros)) {
-        // Gera chave de recuperação e seu hash
         $chave_recuperacao = bin2hex(random_bytes(16));
         $chave_recuperacao_hash = password_hash($chave_recuperacao, PASSWORD_DEFAULT);
         $senha = password_hash($senha_raw, PASSWORD_DEFAULT);
         
-        // Prepara a query com declaração preparada para segurança
         $stmt = $conexao->prepare("INSERT INTO aluno (nome, username, email, senha, cpf, faculdade, chave_recuperacao_hash) 
                                   VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssss", $nome, $usuario, $email, $senha, $cpf, $faculdade, $chave_recuperacao_hash);
         
         if ($stmt->execute()) {
-            // Exibe a chave para o usuário
             $exibir_chave = true;
         } else {
             $erros[] = "Erro ao cadastrar aluno: " . $stmt->error;
@@ -194,7 +188,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <select name="faculdade" class="form-control" required>
             <option value="">Selecione...</option>
             <?php 
-              // Reset o ponteiro do resultado para poder usar fetch_assoc novamente
               $faculdades_result->data_seek(0);
               while ($fac = $faculdades_result->fetch_assoc()): 
             ?>
