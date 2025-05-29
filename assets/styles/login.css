@@ -66,6 +66,7 @@ button {
     margin-right: auto;
     border-radius: 40px;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 5px;
 }
 
 h1{
@@ -82,4 +83,10 @@ button:hover{
     background-color: rgb(182, 155, 130);
     font-weight: 500;
     transform: scale(1.05);
+}
+
+.rec{
+    color: white;
+    font-size: medium;
+    font-weight:500; 
 }

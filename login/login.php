@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input class="item radio" type="radio" value="faculdade" name="selecao_login"> Sou instituição<br>
             <input class="item radio" type="radio" value="aluno" name="selecao_login"> Sou aluno<br>
             <button class="entrar" type="submit">Entrar</button>
+            <a class="rec" href="../rec_senha/rec_senha.php">Recuperar senha</a>
         </form>
     </div>
 </body>

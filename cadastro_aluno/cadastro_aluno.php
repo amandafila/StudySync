@@ -70,6 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <link href="../assets/styles/cadastro_aluno.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
     .chave-recuperacao {
         position: fixed;
         top: 50%;
@@ -89,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         font-family: monospace;
         font-size: 1.5rem;
         font-weight: bold;
-        background: #f5f5f5;
+        background:rgb(216, 181, 158);
         padding: 1rem;
         margin: 1rem 0;
         border-radius: 4px;
@@ -97,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     .chave-recuperacao h3 {
-        color: #d35400;
+        color:rgb(51, 31, 6);
         margin-bottom: 1rem;
     }
 
@@ -107,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     
     .overlay {
+        font-family: "Montserrat";
         position: fixed;
         top: 0;
         left: 0;
