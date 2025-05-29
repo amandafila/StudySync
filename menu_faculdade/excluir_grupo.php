@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_grupo'])) {
     if ($conexao->query($sql)) {
         echo "<script>
                 alert('Grupo excluído com sucesso!');
-                window.location.href = 'menu_faculdade.php';
+                window.location.href = 'visualizar_grupos.php';
             </script>";
     } else {
         echo "Erro ao excluir o grupo: " . $conexao->error;
