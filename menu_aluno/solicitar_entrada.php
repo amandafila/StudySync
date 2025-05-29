@@ -50,6 +50,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+$queryFaculdade = "SELECT f.id_faculdade
+                   FROM aluno a
+                   JOIN faculdade f ON a.faculdade = f.nome
+                   WHERE a.id_aluno = $id_aluno";
+$resFaculdade = $conexao->query($queryFaculdade);
+
+if ($resFaculdade && $resFaculdade->num_rows > 0) {
+    $id_faculdade = $resFaculdade->fetch_assoc()['id_faculdade'];
+} else {
+    echo "Erro: não foi possível identificar a faculdade do aluno.";
+    exit;
+}
+$sql_grupos = "
+    SELECT g.id_grupo, g.nome
+    FROM grupo g
+    WHERE g.id_faculdade = $id_faculdade
+      AND g.id_grupo NOT IN (
+        SELECT ga.id_grupo
+        FROM grupo_aluno ga
+        WHERE ga.id_aluno = $id_aluno
+    )
+";
+$grupos_disponiveis = $conexao->query($sql_grupos);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
