@@ -37,15 +37,28 @@ $result = $conexao->query($sql);
 
     <?php if ($result && $result->num_rows > 0): ?>
         <?php while ($row = $result->fetch_assoc()): ?>
-            <div class="caixa_not" style="flex-direction: column; justify-content: flex-start; height: auto; padding: 15px;">
-                <div class="info">
-                    <p><strong>ID da Denúncia:</strong> <?php echo $row['id_denuncia']; ?></p>
-                    <p><strong>Mensagem do Post:</strong> <?php echo nl2br(htmlspecialchars($row['mensagem_post'])); ?></p>
-                    <p><strong>Tipo do Fórum:</strong> <?php echo htmlspecialchars($row['tipo_forum']); ?></p>
-                    <p><strong>Aluno que denunciou:</strong> <?php echo htmlspecialchars($row['nome_aluno']); ?></p>
-                    <p><strong>Data da Denúncia:</strong> <?php echo date('d/m/Y H:i', strtotime($row['data_hora'])); ?></p>
-                </div>
-            </div>
+            <div class="caixa_not">
+    <div class="info">
+        <p><strong>ID da Denúncia:</strong> <?php echo $row['id_denuncia']; ?></p>
+        
+        <div class="mensagem-denuncia">
+            <p><strong>Mensagem do Post:</strong> <?php echo nl2br(htmlspecialchars($row['mensagem_post'])); ?></p>
+        </div>
+
+        
+        <p><strong>Tipo do Fórum:</strong> <?php echo htmlspecialchars($row['tipo_forum']); ?></p>
+        <p><strong>Aluno que denunciou:</strong> <?php echo htmlspecialchars($row['nome_aluno']); ?></p>
+        <p><strong>Data da Denúncia:</strong> <?php echo date('d/m/Y H:i', strtotime($row['data_hora'])); ?></p>
+        <div class="botao-excluir">
+            <form action="excluir_mensagem.php" method="post">
+                <input type="hidden" name="id_denuncia" value="<?php echo $row['id_denuncia']; ?>">
+                <input type="hidden" name="tipo_forum" value="<?php echo $row['tipo_forum']; ?>">
+                <button type="submit">Excluir mensagem</button>
+            </form>
+        </div>
+    </div>
+</div>
+
         <?php endwhile; ?>
     <?php else: ?>
         <p class="nao_tem">Nenhuma denúncia registrada.</p>

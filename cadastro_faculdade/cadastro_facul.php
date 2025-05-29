@@ -3,6 +3,7 @@ require_once("../conexao/conexao.php");
 
 $erros = [];
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = trim($_POST['nome']);
     $cnpj = trim($_POST['cnpj']);
@@ -34,6 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result = $conexao->query($check);
         if ($result && $result->num_rows > 0) {
             $erros[] = "Usuário ou email já cadastrado.";
+        }
+    }
+    if (empty($erros)) {
+        $checar = "SELECT * FROM faculdade WHERE cnpj = '$cnpj'";
+        $resultado = $conexao->query($checar);
+        if ($resultado && $resultado->num_rows > 0) {
+            $erros[] = "CNPJ ja cadastrado";
+        }
+    }
+    if (empty($erros)) {
+        $checar2 = "SELECT * FROM faculdade WHERE cep = '$cep'";
+        $resultado2 = $conexao->query($checar2);
+        if ($resultado2 && $resultado2->num_rows > 0) {
+            $erros[] = "CEP ja cadastrado";
         }
     }
 
@@ -150,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
     <div class="div_left_paragraph">
       <p class="left_paragraph">Faça parte dessa <br> comunidade <br> incrível.</p>
+  
     </div>
   </div>
 
