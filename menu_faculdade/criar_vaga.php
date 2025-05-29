@@ -4,6 +4,11 @@ require_once('../verifica_sessao/verifica_sessao.php');
 
 $erros = [];
 
+$faculdades_result = $conexao->query("SELECT nome FROM faculdade ORDER BY nome");
+if (!$faculdades_result) {
+    die("Erro ao buscar faculdades: " . $conexao->error);
+}
+
 if (!isset($_SESSION['id_faculdade'])) {
     echo "Erro: Não há uma faculdade associada à sua sessão. Verifique o login.";
     exit;
@@ -25,10 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descricao = $_POST['descricao'];
     $requisitos = $_POST['requisitos'];
     $localizacao = $_POST['localizacao'];
+    $facaulde = $_POST['faculdade'];
     $link = $_POST['link']; 
 
-    $stmt = $conexao->prepare("INSERT INTO vagas (titulo, empresa, descricao, requisitos, localizacao, link) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $titulo, $empresa, $descricao, $requisitos, $localizacao, $link);
+    $stmt = $conexao->prepare("INSERT INTO vagas (titulo, empresa, descricao, requisitos, localizacao, link, faculdade) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $titulo, $empresa, $descricao, $requisitos, $localizacao, $link, $facaulde);
     $stmt->execute();
 
     echo "<script>alert('Vaga criada com sucesso');</script>";
@@ -62,6 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <label>Localização:</label>
                 <input class="campo" type="text" name="localizacao">
+
+                <select name="faculdade" class="campo" required>
+                    <option value="">Selecione...</option>
+                    <?php while ($fac = $faculdades_result->fetch_assoc()): ?>
+                        <option value="<?= htmlspecialchars($fac['nome']) ?>">
+                        <?= htmlspecialchars($fac['nome']) ?>
+                    </option>
+                    <?php endwhile; ?>
+                </select>
 
                 <label>Link para inscrição*:</label>
                 <input class="campo" type="url" name="link" placeholder="https://exemplo.com" required>

@@ -21,11 +21,11 @@ body {
 
 .formulario {
     width: 100%;
-    height: 85vh;
+    height:80vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 6vh;
+    margin-top: 30vh;
 }
 
 .formulario_div {

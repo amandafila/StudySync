@@ -46,9 +46,20 @@
     if (isset($_GET['delete_id'])) {
         delete_row($_GET['delete_id'], $conexao);
     }
+    
+    $id_faculdade = (int) $_SESSION['id_faculdade'];
 
-    $sql = "SELECT id_aluno, email, username, nome, cpf FROM aluno";
+
+    $sql = "
+        SELECT a.id_aluno, a.email, a.username, a.nome, a.cpf
+        FROM aluno a
+        JOIN faculdade f ON a.faculdade = f.nome
+        WHERE f.id_faculdade = {$id_faculdade}
+    ";
+
+
     $resultado = $conexao->query($sql);
+
 
     echo "<table>";
     echo "<tr>

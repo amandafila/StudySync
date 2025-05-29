@@ -19,7 +19,21 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'aluno') {
 
 $id_aluno = $_SESSION['id_aluno'];
 
-$result = $conexao->query("SELECT * FROM vagas ORDER BY data_postagem DESC");
+$queryFaculdade = "SELECT faculdade FROM aluno WHERE id_aluno = $id_aluno";
+$resultFaculdade = $conexao->query($queryFaculdade);
+if ($resultFaculdade && $resultFaculdade->num_rows > 0) {
+    $faculdadeAluno = $resultFaculdade->fetch_assoc()['faculdade'];
+
+    $stmt = $conexao->prepare("SELECT * FROM vagas WHERE faculdade = ? ORDER BY data_postagem DESC");
+    $stmt->bind_param("s", $faculdadeAluno);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    echo "Erro: Faculdade do aluno não encontrada.";
+    exit;
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +54,7 @@ $result = $conexao->query("SELECT * FROM vagas ORDER BY data_postagem DESC");
                 <p class="paragrafo">Requisitos:&nbsp;<?= nl2br(htmlspecialchars($row['requisitos'])) ?></p>
                 <p class="data_postagem paragrafo"><em>Postado em:&nbsp; <?= htmlspecialchars($row['data_postagem']) ?></em></p>
                 <div class="div_link_inscricao">
+                    
                     <?php if (!empty($row['link'])): ?>
                         <p><a class="link_inscricao" href="<?= htmlspecialchars($row['link']) ?>" target="_blank">Inscrever-se</a></p>
                     <?php endif; ?>
