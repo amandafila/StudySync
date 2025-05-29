@@ -111,7 +111,7 @@ $nome = isset($_SESSION['nome']) ? $_SESSION['nome'] : 'Usuário';
                 <a href="#" class="menu_aluno">Olá, <?php echo $nome; ?></a>
                 <div class="dropdown-content">
                     <a href="logout.php">Sair</a>
-                    <a href="#">Alterar dados</a>
+                    <a href="alterar_dados_facul.php">Alterar dados</a>
                 </div>
             </div>
         </div>
