@@ -57,8 +57,8 @@ body{
 }
 .col-6 {
     position: absolute;
-    bottom: 12vw;
-    right: 14vw;
+    bottom: 10vw;
+    right: 7vw;
     /* width: 80%; */
     margin: auto; 
     flex-grow: 1; 
@@ -83,7 +83,7 @@ body{
     font-family: 'Montserrat';
 }
 .paragros_left{
-    margin: 0;
+    margin-right: 200px;
     font-family: 'Montserrat';
     font-weight: 600;
 }

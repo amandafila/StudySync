@@ -3,9 +3,9 @@ USE studysync;
 
 CREATE TABLE faculdade (
     id_faculdade INT PRIMARY KEY AUTO_INCREMENT,
-	email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
-    nome VARCHAR(100) NOT NULL,
+    nome VARCHAR(100) UNIQUE NOT NULL, -- agora é UNIQUE
     cnpj VARCHAR(18) UNIQUE NOT NULL,
     cep VARCHAR(9) NOT NULL,
     telefone VARCHAR(15) NOT NULL,
@@ -13,12 +13,14 @@ CREATE TABLE faculdade (
 );
 
 CREATE TABLE aluno (
-	id_aluno INT PRIMARY KEY AUTO_INCREMENT,
-	email VARCHAR(100) UNIQUE NOT NULL,
+    id_aluno INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
     nome VARCHAR(100) NOT NULL,
     cpf VARCHAR(14) UNIQUE NOT NULL,
-    senha VARCHAR(255) NOT NULL
+    senha VARCHAR(255) NOT NULL,
+    faculdade VARCHAR(100) NOT NULL,
+    FOREIGN KEY (faculdade) REFERENCES faculdade(nome)
 );
 
 CREATE TABLE grupo (

@@ -2,6 +2,11 @@
 <?php
 require_once("../conexao/conexao.php");
 
+$faculdades_result = $conexao->query("SELECT nome FROM faculdade ORDER BY nome");
+if (!$faculdades_result) {
+    die("Erro ao buscar faculdades: " . $conexao->error);
+}
+
 $erros = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -10,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = trim($_POST['usuario']);
     $email = trim($_POST['email']);
     $senha_raw = $_POST['senha'];
+    $faculdade = trim($_POST['faculdade']);
 
 
     if (empty($nome)) $erros[] = "O  nome é obrigatório.";
@@ -35,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($erros)) {
         $senha = password_hash($senha_raw, PASSWORD_DEFAULT);
-        $sql_aluno = "INSERT INTO aluno (nome, username, email, senha, cpf) 
-                      VALUES ('$nome', '$usuario', '$email', '$senha', '$cpf')";
+        $sql_aluno = "INSERT INTO aluno (nome, username, email, senha, cpf, faculdade) 
+                      VALUES ('$nome', '$usuario', '$email', '$senha', '$cpf','$faculdade')";
         if ($conexao->query($sql_aluno)) {
             header("Location: sucesso_aluno.php");
             exit();
@@ -155,6 +161,19 @@ document.addEventListener('DOMContentLoaded', function () {
             <p class="paragros_left">Email*</p>
           </div>
           <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-2">
+        <div class="div_paragrafo">
+          <p class="paragros_left">Faculdade*</p>
+        </div>
+        <select name="faculdade" class="form-control" required>
+          <option value="">Selecione...</option>
+          <?php while ($fac = $faculdades_result->fetch_assoc()): ?>
+            <option value="<?= htmlspecialchars($fac['nome']) ?>">
+              <?= htmlspecialchars($fac['nome']) ?>
+              </option>
+            <?php endwhile; ?>
+          </select>
         </div>
         <div class="mb-2">
           <div class="div_paragrafo">
