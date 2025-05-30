@@ -52,7 +52,7 @@ $is_adm = $dados_grupo['is_adm'];
 $nome_grupo = $dados_grupo['nome_grupo'];
 $descricao = $dados_grupo['descricao'];
 
-$sql_membros = "SELECT a.id_aluno, a.nome, a.email, ga.is_adm 
+$sql_membros = "SELECT a.id_aluno, a.nome, a.email, ga.is_adm, ga.penalizado, ga.data_penalizacao 
                 FROM grupo_aluno ga
                 JOIN aluno a ON ga.id_aluno = a.id_aluno
                 WHERE ga.id_grupo = ?
@@ -124,12 +124,23 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                             </div>
                             
                             <?php if ($is_adm && $membro['id_aluno'] != $id_aluno): ?>
+                            <div class="membro-actions">
+                                <form action="penalizar_membro.php" method="post" class="form-penalizar">
+                                    <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
+                                    <input type="hidden" name="id_aluno" value="<?php echo $membro['id_aluno']; ?>">
+                                    <button type="submit" class="btn-penalizar">
+                                        <?php echo (isset($membro['penalizado']) && $membro['penalizado']) == 1 ? 'Despenalizar' : 'Penalizar'; ?>
+                                    </button>
+                                </form>
+                                
                                 <form action="remover_membro.php" method="post" class="form-remover">
                                     <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
                                     <input type="hidden" name="id_aluno" value="<?php echo $membro['id_aluno']; ?>">
                                     <button type="submit" class="btn-remover">Remover</button>
                                 </form>
-                            <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                            
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -222,6 +233,14 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
     </main>
+    <?php if (isset($_SESSION['alert_message'])): ?>
+    <script>
+        alert('<?php echo $_SESSION['alert_message']; ?>');
+    </script>
+    <?php 
+        unset($_SESSION['alert_message']);
+    endif; 
+    ?>
 
     <script>
 

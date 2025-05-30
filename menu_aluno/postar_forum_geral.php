@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
 require_once("../conexao/conexao.php");
 require_once('../verifica_sessao/verifica_sessao.php');
@@ -22,6 +23,21 @@ $stmt->bind_param("ii", $id_grupo, $id_aluno);
 $stmt->execute();
 
 if ($stmt->get_result()->num_rows === 0) {
+    header("Location: grupo_detalhes.php?id=$id_grupo");
+    exit;
+}
+
+
+$sql_penalizado = "SELECT penalizado FROM grupo_aluno 
+                  WHERE id_grupo = ? AND id_aluno = ?";
+$stmt = $conexao->prepare($sql_penalizado);
+$stmt->bind_param("ii", $id_grupo, $id_aluno);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$dados = $resultado->fetch_assoc();
+
+if ($dados['penalizado'] == 1) {
+    $_SESSION['alert_message'] = 'Você está penalizado e não pode postar mensagens neste grupo.';
     header("Location: grupo_detalhes.php?id=$id_grupo");
     exit;
 }
