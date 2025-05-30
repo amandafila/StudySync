@@ -2,7 +2,6 @@
 require_once("../conexao/conexao.php");
 require_once('../verifica_sessao/verifica_sessao.php');
 
-
 $erros = [];
 
 if (!isset($_SESSION['id_faculdade'])) {
@@ -18,13 +17,46 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
     exit; 
 }
 
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $conexao->query("DELETE FROM vagas WHERE id = $id");
-    echo "<script> alert('Vaga excluída com sucesso!'); </script>";
+$id_faculdade = $_SESSION['id_faculdade'];
+
+// Buscar nome da faculdade logada
+$stmt = $conexao->prepare("SELECT nome FROM faculdade WHERE id_faculdade = ?");
+$stmt->bind_param("i", $id_faculdade);
+$stmt->execute();
+$result_nome = $stmt->get_result();
+
+if ($result_nome->num_rows === 0) {
+    echo "<script>alert('Faculdade não encontrada!');</script>";
+    exit;
 }
 
-$result = $conexao->query("SELECT * FROM vagas ORDER BY data_postagem DESC");
+$nome_faculdade = $result_nome->fetch_assoc()['nome'];
+
+// Excluir vaga (se for da própria faculdade)
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+
+    // Verifica se a vaga pertence à faculdade logada antes de excluir
+    $stmt_verifica = $conexao->prepare("SELECT id FROM vagas WHERE id = ? AND faculdade = ?");
+    $stmt_verifica->bind_param("is", $id, $nome_faculdade);
+    $stmt_verifica->execute();
+    $res_verifica = $stmt_verifica->get_result();
+
+    if ($res_verifica->num_rows > 0) {
+        $stmt_delete = $conexao->prepare("DELETE FROM vagas WHERE id = ?");
+        $stmt_delete->bind_param("i", $id);
+        $stmt_delete->execute();
+        echo "<script> alert('Vaga excluída com sucesso!'); </script>";
+    } else {
+        echo "<script> alert('Você não tem permissão para excluir esta vaga.'); </script>";
+    }
+}
+
+// Buscar apenas as vagas da faculdade logada
+$stmt_vagas = $conexao->prepare("SELECT * FROM vagas WHERE faculdade = ? ORDER BY data_postagem DESC");
+$stmt_vagas->bind_param("s", $nome_faculdade);
+$stmt_vagas->execute();
+$result = $stmt_vagas->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="en">

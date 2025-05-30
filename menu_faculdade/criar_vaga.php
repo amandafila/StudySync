@@ -23,6 +23,19 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'faculdade') {
 }
 
 $id_faculdade = $_SESSION['id_faculdade'];
+// Buscar nome da faculdade pelo ID da sessão
+$stmt_nome = $conexao->prepare("SELECT nome FROM faculdade WHERE id_faculdade = ?");
+$stmt_nome->bind_param("i", $id_faculdade);
+$stmt_nome->execute();
+$result_nome = $stmt_nome->get_result();
+
+if ($result_nome->num_rows > 0) {
+    $row = $result_nome->fetch_assoc();
+    $nome_faculdade = $row['nome'];
+} else {
+    echo "<script>alert('Faculdade não encontrada!');</script>";
+    exit;
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = $_POST['titulo'];
@@ -30,11 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descricao = $_POST['descricao'];
     $requisitos = $_POST['requisitos'];
     $localizacao = $_POST['localizacao'];
-    $facaulde = $_POST['faculdade'];
     $link = $_POST['link']; 
 
     $stmt = $conexao->prepare("INSERT INTO vagas (titulo, empresa, descricao, requisitos, localizacao, link, faculdade) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $titulo, $empresa, $descricao, $requisitos, $localizacao, $link, $facaulde);
+    $stmt->bind_param("sssssss", $titulo, $empresa, $descricao, $requisitos, $localizacao, $link, $nome_faculdade);
     $stmt->execute();
 
     echo "<script>alert('Vaga criada com sucesso');</script>";
@@ -68,15 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <label>Localização:</label>
                 <input class="campo" type="text" name="localizacao">
-
-                <select name="faculdade" class="campo" required>
-                    <option value="">Selecione...</option>
-                    <?php while ($fac = $faculdades_result->fetch_assoc()): ?>
-                        <option value="<?= htmlspecialchars($fac['nome']) ?>">
-                        <?= htmlspecialchars($fac['nome']) ?>
-                    </option>
-                    <?php endwhile; ?>
-                </select>
 
                 <label>Link para inscrição*:</label>
                 <input class="campo" type="url" name="link" placeholder="https://exemplo.com" required>

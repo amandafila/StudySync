@@ -134,8 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
             erros.push("Email inválido.");
         }
 
-        if (senha.length < 8 || !senha.includes('@')) {
-            erros.push("A senha deve ter pelo menos 8 caracteres e conter '@'.");
+        if (senha.length < 8 || !/[!@#$%^&*(),.?":{}|<>]/.test(senha)) {
+            erros.push("A senha deve ter pelo menos 8 caracteres e conter pelo menos um caractere especial..");
         }
 
         const regexUsuario = /^[a-zA-Z0-9_]{3,15}$/;
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         <div class="mb-2">
           <p class="paragros_left">Senha*</p>
-          <input type="password" name="senha" class="form-control" placeholder="Mínimo 8 caracteres com @" required>
+          <input type="password" name="senha" class="form-control" placeholder="8 dígitos e no mínimo 1 caractere especial" required>
         </div>
         <div class="mb-2">
           <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>
