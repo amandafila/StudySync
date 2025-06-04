@@ -113,3 +113,5 @@ CREATE TABLE penalizacoes (
 ALTER TABLE grupo_aluno 
 ADD COLUMN penalizado TINYINT(1) DEFAULT 0,
 ADD COLUMN data_penalizacao DATETIME NULL;
+ALTER TABLE faculdade ADD UNIQUE (cnpj);
+ALTER TABLE faculdade ADD UNIQUE (cep);
