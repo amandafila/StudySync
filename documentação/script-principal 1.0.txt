@@ -110,3 +110,6 @@ CREATE TABLE penalizacoes (
   FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno) ON DELETE CASCADE,
   FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON DELETE CASCADE
 );
+ALTER TABLE grupo_aluno 
+ADD COLUMN penalizado TINYINT(1) DEFAULT 0,
+ADD COLUMN data_penalizacao DATETIME NULL;
