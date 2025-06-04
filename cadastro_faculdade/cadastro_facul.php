@@ -3,7 +3,6 @@ require_once("../conexao/conexao.php");
 
 $erros = [];
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = trim($_POST['nome']);
     $cnpj = trim($_POST['cnpj']);
@@ -19,14 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($telefone)) $erros[] = "O campo Telefone é obrigatório.";
     if (empty($usuario)) $erros[] = "O campo Usuário é obrigatório.";
     if (empty($email)) $erros[] = "O campo Email é obrigatório.";
+
     if (empty($senha_raw)) {
         $erros[] = "O campo Senha é obrigatório.";
     } else {
         if (strlen($senha_raw) < 8) {
             $erros[] = "A senha deve ter no mínimo 8 caracteres.";
         }
-        if (strpos($senha_raw, '@') === false) {
-            $erros[] = "A senha deve conter pelo menos um caractere '@'.";
+        if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $senha_raw)) {
+            $erros[] = "A senha deve conter pelo menos um caractere especial.";
         }
     }
 
@@ -37,18 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $erros[] = "Usuário ou email já cadastrado.";
         }
     }
+
     if (empty($erros)) {
         $checar = "SELECT * FROM faculdade WHERE cnpj = '$cnpj'";
         $resultado = $conexao->query($checar);
         if ($resultado && $resultado->num_rows > 0) {
-            $erros[] = "CNPJ ja cadastrado";
+            $erros[] = "CNPJ já cadastrado.";
         }
     }
+
     if (empty($erros)) {
         $checar2 = "SELECT * FROM faculdade WHERE cep = '$cep'";
         $resultado2 = $conexao->query($checar2);
         if ($resultado2 && $resultado2->num_rows > 0) {
-            $erros[] = "CEP ja cadastrado";
+            $erros[] = "CEP já cadastrado.";
         }
     }
 
@@ -135,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (senha.length < 8 || !/[!@#$%^&*(),.?":{}|<>]/.test(senha)) {
-            erros.push("A senha deve ter pelo menos 8 caracteres e conter pelo menos um caractere especial..");
+            erros.push("A senha deve ter pelo menos 8 caracteres e conter pelo menos um caractere especial.");
         }
 
         const regexUsuario = /^[a-zA-Z0-9_]{3,15}$/;
@@ -195,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
         margin: 0.5rem 0;
         color: #555;
     }
-    
+
     .overlay {
         position: fixed;
         top: 0;
@@ -205,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
         background: rgba(0,0,0,0.7);
         z-index: 999;
     }
-</style>
+  </style>
 </head>
 
 <body>
@@ -232,26 +234,20 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
     <div class="div_left_paragraph">
       <p class="left_paragraph">Faça parte dessa <br> comunidade <br> incrível.</p>
-  
     </div>
   </div>
 
   <div class="right">
     <div class="div_header">
-      <div class="header_login">
-      </div>
+      <div class="header_login"></div>
     </div>
 
     <h2 class="subtitulo_cadastro">Cadastre a sua instituição</h2>
 
     <?php if (!empty($erros)): ?>
-      <div style="color: red; margin-bottom: 10px;">
-        <ul>
-          <?php foreach ($erros as $erro): ?>
-            <li><?= htmlspecialchars($erro) ?></li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
+      <script>
+        alert("<?php echo implode("\\n", array_map('addslashes', $erros)); ?>");
+      </script>
     <?php endif; ?>
 
     <div class="col-6">
@@ -282,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         <div class="mb-2">
           <p class="paragros_left">Senha*</p>
-          <input type="password" name="senha" class="form-control" placeholder="8 dígitos e no mínimo 1 caractere especial" required>
+          <input type="password" name="senha" class="form-control" placeholder="8+ caracteres e 1 caractere especial" required>
         </div>
         <div class="mb-2">
           <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>

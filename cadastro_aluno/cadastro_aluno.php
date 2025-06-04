@@ -23,34 +23,64 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($senha_raw)) {
         $erros[] = "O campo Senha é obrigatório.";
     } else {
-        if (strlen($senha_raw) < 8) {
-            $erros[] = "A senha deve ter no mínimo 8 caracteres.";
+        if (strlen($senha_raw) < 8 || !preg_match('/[!@#$%^&*(),.?":{}|<>]/', $senha_raw)) {
+            $erros[] = "A senha deve ter no mínimo 8 caracteres e conter pelo menos um caractere especial.";
         }
     }
 
+    if (!preg_match('/^\d{3}\.\d{3}\.\d{3}-\d{2}$/', $cpf)) {
+        $erros[] = "CPF inválido. Use o formato 999.999.999-99.";
+    }
+
+    if (!preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]+$/', $email)) {
+        $erros[] = "Email inválido.";
+    }
+
+    if (!preg_match('/^[a-zA-Z0-9_]{3,15}$/', $usuario)) {
+        $erros[] = "O usuário deve conter apenas letras, números ou '_' e ter entre 3 e 15 caracteres.";
+    }
+
     if (empty($erros)) {
-        $check = "SELECT * FROM aluno WHERE username = '$usuario' OR email = '$email'";
+        $check = "SELECT * FROM aluno WHERE username = '$usuario' OR email = '$email' OR cpf = '$cpf'";
         $result = $conexao->query($check);
         if ($result && $result->num_rows > 0) {
-            $erros[] = "Usuário ou email já cadastrado.";
+            while ($row = $result->fetch_assoc()) {
+                if ($row['username'] === $usuario) {
+                    $erros[] = "Usuário já cadastrado.";
+                }
+                if ($row['email'] === $email) {
+                    $erros[] = "Email já cadastrado.";
+                }
+                if ($row['cpf'] === $cpf) {
+                    $erros[] = "CPF já cadastrado.";
+                }
+            }
         }
     }
 
     if (empty($erros)) {
         $chave_recuperacao = bin2hex(random_bytes(16));
-        $chave_recuperacao_hash = password_hash($chave_recuperacao, PASSWORD_DEFAULT);
         $senha = password_hash($senha_raw, PASSWORD_DEFAULT);
-        
-        $stmt = $conexao->prepare("INSERT INTO aluno (nome, username, email, senha, cpf, faculdade, chave_recuperacao_hash) 
+
+        $stmt = $conexao->prepare("INSERT INTO aluno (nome, username, email, senha, cpf, faculdade, chave_recuperacao) 
                                   VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssss", $nome, $usuario, $email, $senha, $cpf, $faculdade, $chave_recuperacao_hash);
-        
+        $stmt->bind_param("sssssss", $nome, $usuario, $email, $senha, $cpf, $faculdade, $chave_recuperacao);
+
         if ($stmt->execute()) {
-            $exibir_chave = true;
+            echo "<script>
+                alert('Cadastro realizado com sucesso!\\nSua chave de recuperação é: $chave_recuperacao\\nAnote-a agora, ela não será exibida novamente.');
+                window.location.href = '../login/login.php';
+            </script>";
+            exit();
         } else {
             $erros[] = "Erro ao cadastrar aluno: " . $stmt->error;
         }
         $stmt->close();
+    }
+
+    if (!empty($erros)) {
+        $msg = implode("\\n", $erros);
+        echo "<script>alert('$msg');</script>";
     }
 }
 ?>
@@ -59,151 +89,64 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="pt-br">
 <head>
   <title>Cadastro de Estudante</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="../assets/styles/cadastro_aluno.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="../assets/styles/cadastro_aluno.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-
-    .chave-recuperacao {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        z-index: 1000;
-        text-align: center;
-        max-width: 500px;
-        width: 90%;
-    }
-
-    .chave-recuperacao .chave {
-        font-family: monospace;
-        font-size: 1.5rem;
-        font-weight: bold;
-        background:rgb(216, 181, 158);
-        padding: 1rem;
-        margin: 1rem 0;
-        border-radius: 4px;
-        word-break: break-all;
-    }
-
-    .chave-recuperacao h3 {
-        color:rgb(51, 31, 6);
-        margin-bottom: 1rem;
-    }
-
-    .chave-recuperacao p {
-        margin: 0.5rem 0;
-        color: #555;
-    }
-    
-    .overlay {
-        font-family: "Montserrat";
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.7);
-        z-index: 999;
-    }
-  </style>
 </head>
-
 <body>
-  <?php if (isset($exibir_chave) && $exibir_chave): ?>
-    <div class="overlay"></div>
-    <div class="chave-recuperacao">
-      <h3>SUA CHAVE DE RECUPERAÇÃO (GUARDE EM LOCAL SEGURO):</h3>
-      <div class="chave"><?php echo $chave_recuperacao; ?></div>
-      <p>Esta chave será necessária caso você esqueça sua senha.</p>
-      <p>Anote agora, pois ela não será exibida novamente.</p>
-      <p>Redirecionando para a página de login em 30 segundos...</p>
-      <button onclick="window.location.href='../login/login.php'" class="btn btn-primary">Ir para Login Agora</button>
-    </div>
-    <script>
-      setTimeout(function() {
-        window.location.href = '../login/login.php';
-      }, 30000);
-    </script>
-  <?php endif; ?>
-
   <div class="left">
     <div class="div_left_title">
       <a href="../login/login.php" class="title_left">Login</a>
     </div>
     <div class="div_left_paragraph">
-      <p class="left_paragraph">De estudantes, <br> para estudantes.</p>
+      <p class="left_paragraph">De estudantes, <br /> para estudantes.</p>
     </div>
   </div>
 
   <div class="right">
     <h2 class="subtitulo_cadastro">Faça já seu cadastro</h2>
 
-    <?php if (!empty($erros)): ?>
-      <div style="color: red; margin-bottom: 10px;">
-        <ul>
-          <?php foreach ($erros as $erro): ?>
-            <li><?= htmlspecialchars($erro) ?></li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
-    <?php endif; ?>
-
     <div class="col-6">
-      <form method="POST" action="" enctype="multipart/form-data">
+      <form method="POST" action="" enctype="multipart/form-data" id="formCadastro">
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Nome*</p>
-          </div>
-          <input type="text" name="nome" class="form-control" required>
+          <div class="div_paragrafo"><p class="paragros_left">Nome*</p></div>
+          <input type="text" name="nome" class="form-control" required />
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Usuário*</p>
-          </div>
-          <input type="text" name="usuario" class="form-control" required>
+          <div class="div_paragrafo"><p class="paragros_left">Usuário*</p></div>
+          <input type="text" name="usuario" class="form-control" required />
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">CPF*</p>
-          </div>
-          <input placeholder="000.000.000-00" type="text" name="cpf" class="form-control" required>
+          <div class="div_paragrafo"><p class="paragros_left">CPF*</p></div>
+          <input placeholder="000.000.000-00" type="text" name="cpf" class="form-control" required />
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Email*</p>
-          </div>
-          <input type="email" name="email" class="form-control" required>
+          <div class="div_paragrafo"><p class="paragros_left">Email*</p></div>
+          <input type="email" name="email" class="form-control" required />
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Faculdade*</p>
-          </div>
+          <div class="div_paragrafo"><p class="paragros_left">Faculdade*</p></div>
           <select name="faculdade" class="form-control" required>
             <option value="">Selecione...</option>
-            <?php 
+            <?php
               $faculdades_result->data_seek(0);
-              while ($fac = $faculdades_result->fetch_assoc()): 
+              while ($fac = $faculdades_result->fetch_assoc()):
             ?>
-              <option value="<?= htmlspecialchars($fac['nome']) ?>">
-                <?= htmlspecialchars($fac['nome']) ?>
-              </option>
+            <option value="<?= htmlspecialchars($fac['nome']) ?>"><?= htmlspecialchars($fac['nome']) ?></option>
             <?php endwhile; ?>
           </select>
         </div>
         <div class="mb-2">
-          <div class="div_paragrafo">
-            <p class="paragros_left">Senha*</p>
-          </div>
-          <input placeholder="8 dígitos e no mínimo 1 caractere especial" type="password" name="senha" class="form-control" required>
+          <div class="div_paragrafo"><p class="paragros_left">Senha*</p></div>
+          <input
+            placeholder="8 dígitos e no mínimo 1 caractere especial"
+            type="password"
+            name="senha"
+            class="form-control"
+            required
+          />
         </div>
-        
         <div class="mb-2">
           <button type="submit" class="mt-2 btn btn-primary">Cadastrar</button>
         </div>
@@ -212,50 +155,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const cpfInput = document.querySelector('input[name="cpf"]');
-        cpfInput.addEventListener('input', function () {
-            let valor = cpfInput.value.replace(/\D/g, '');
-            valor = valor.slice(0, 11); 
-            valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
-                         .replace(/(\d{3})(\d)/, '$1.$2')
-                         .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            cpfInput.value = valor;
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+      const cpfInput = document.querySelector('input[name="cpf"]');
+      cpfInput.addEventListener("input", function () {
+        let valor = cpfInput.value.replace(/\D/g, "");
+        valor = valor.slice(0, 11);
+        valor = valor
+          .replace(/(\d{3})(\d)/, "$1.$2")
+          .replace(/(\d{3})(\d)/, "$1.$2")
+          .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        cpfInput.value = valor;
+      });
 
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function (e) {
-            const cpf = document.querySelector('input[name="cpf"]').value;
-            const email = document.querySelector('input[name="email"]').value;
-            const senha = document.querySelector('input[name="senha"]').value;
-            const usuario = document.querySelector('input[name="usuario"]').value;
+      const form = document.getElementById("formCadastro");
+      form.addEventListener("submit", function (e) {
+        const cpf = document.querySelector('input[name="cpf"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const senha = document.querySelector('input[name="senha"]').value;
+        const usuario = document.querySelector('input[name="usuario"]').value;
 
-            let erros = [];
+        let erros = [];
 
-            const regexCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
-            if (!regexCPF.test(cpf)) {
-                erros.push("CPF inválido. Use o formato 999.999.999-99.");
-            }
+        const regexCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+        if (!regexCPF.test(cpf)) {
+          erros.push("CPF inválido. Use o formato 999.999.999-99.");
+        }
 
-            const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!regexEmail.test(email)) {
-                erros.push("Email inválido.");
-            }
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regexEmail.test(email)) {
+          erros.push("Email inválido.");
+        }
 
-           if (senha.length < 8 || !/[!@#$%^&*(),.?":{}|<>]/.test(senha)) {
-              erros.push("A senha deve ter pelo menos 8 caracteres e conter pelo menos um caractere especial.");
-            }
+        if (senha.length < 8 || !/[!@#$%^&*(),.?\":{}|<>]/.test(senha)) {
+          erros.push("A senha deve ter pelo menos 8 caracteres e conter pelo menos um caractere especial.");
+        }
 
-            const regexUsuario = /^[a-zA-Z0-9_]{3,15}$/;
-            if (!regexUsuario.test(usuario)) {
-                erros.push("O usuário deve conter apenas letras, números ou '_' e ter entre 3 e 15 caracteres.");
-            }
+        const regexUsuario = /^[a-zA-Z0-9_]{3,15}$/;
+        if (!regexUsuario.test(usuario)) {
+          erros.push(
+            "O usuário deve conter apenas letras, números ou '_' e ter entre 3 e 15 caracteres."
+          );
+        }
 
-            if (erros.length > 0) {
-                e.preventDefault(); 
-                alert(erros.join("\n")); 
-            }
-        });
+        if (erros.length > 0) {
+          e.preventDefault();
+          alert(erros.join("\n"));
+        }
+      });
     });
   </script>
 </body>

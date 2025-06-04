@@ -11,7 +11,7 @@
                 alert('Você não está logado!');
                 window.location.href = '../login/login.php';
             </script>";
-            exit();
+            exit(); 
         }
     }
     $_SESSION['ultimo_acesso'] = time();
