@@ -101,3 +101,12 @@ add COLUMN faculdade VARCHAR(100) NOT NULL,
 ADD FOREIGN KEY (faculdade) REFERENCES faculdade(nome);
 ALTER TABLE aluno ADD COLUMN chave_recuperacao_hash VARCHAR(255);
 ALTER TABLE faculdade ADD COLUMN chave_recuperacao_hash VARCHAR(255);
+CREATE TABLE penalizacoes (
+  id_penalizacao INT NOT NULL AUTO_INCREMENT,
+  id_aluno INT NOT NULL,
+  id_grupo INT NOT NULL,
+  data_penalizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id_penalizacao),
+  FOREIGN KEY (id_aluno) REFERENCES aluno(id_aluno) ON DELETE CASCADE,
+  FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON DELETE CASCADE
+);
