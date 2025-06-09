@@ -11,24 +11,6 @@ if (!isset($_GET['id'])) {
     header("Location: meus_grupos.php");
     exit;
 }
-if (!empty($_FILES['arquivo']['name'])) {
-    $arquivo = $_FILES['arquivo'];
-    $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
-
-    
-    if ($extensao !== 'pdf') {
-        die("❌ Apenas arquivos PDF são permitidos.");
-    }
-
-   
-    if ($arquivo['type'] !== 'application/pdf') {
-        die("❌ Tipo de arquivo inválido. Somente PDFs são permitidos.");
-    }
-
- 
-    $arquivo_nome = uniqid() . '.' . $extensao;
-    move_uploaded_file($arquivo['tmp_name'], "../uploads/" . $arquivo_nome);
-}
 
 $id_grupo = $_GET['id'];
 $id_aluno = $_SESSION['id_aluno'];
@@ -52,7 +34,7 @@ $is_adm = $dados_grupo['is_adm'];
 $nome_grupo = $dados_grupo['nome_grupo'];
 $descricao = $dados_grupo['descricao'];
 
-$sql_membros = "SELECT a.id_aluno, a.nome, a.email, ga.is_adm, ga.penalizado, ga.data_penalizacao 
+$sql_membros = "SELECT a.id_aluno, a.nome, a.email, ga.is_adm 
                 FROM grupo_aluno ga
                 JOIN aluno a ON ga.id_aluno = a.id_aluno
                 WHERE ga.id_grupo = ?
@@ -72,7 +54,6 @@ $stmt = $conexao->prepare($sql_forum_geral);
 $stmt->bind_param("i", $id_grupo);
 $stmt->execute();
 $ultimos_posts_geral = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
 
 $sql_forum_admins = "SELECT fa.*, a.nome as autor 
                      FROM forum_admins fa
@@ -124,23 +105,12 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                             </div>
                             
                             <?php if ($is_adm && $membro['id_aluno'] != $id_aluno): ?>
-                            <div class="membro-actions">
-                                <form action="penalizar_membro.php" method="post" class="form-penalizar">
-                                    <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
-                                    <input type="hidden" name="id_aluno" value="<?php echo $membro['id_aluno']; ?>">
-                                    <button type="submit" class="btn-penalizar">
-                                        <?php echo (isset($membro['penalizado']) && $membro['penalizado']) == 1 ? 'Despenalizar' : 'Penalizar'; ?>
-                                    </button>
-                                </form>
-                                
                                 <form action="remover_membro.php" method="post" class="form-remover">
                                     <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
                                     <input type="hidden" name="id_aluno" value="<?php echo $membro['id_aluno']; ?>">
                                     <button type="submit" class="btn-remover">Remover</button>
                                 </form>
-                            </div>
-                        <?php endif; ?>
-                            
+                            <?php endif; ?>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -152,52 +122,45 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                 <form action="postar_forum_geral.php" method="post" class="post-form" enctype="multipart/form-data">
                     <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
                     <textarea name="mensagem" placeholder="Escreva sua mensagem..." required></textarea>
-                    <input type="file" name="arquivo" accept=".pdf">
-                    <button type="submit" class="btn">Postar</button>
-                </form>
-
-                
-<div class="posts-list">
-            <?php if (count($ultimos_posts_geral) > 0): ?>
-                <?php foreach ($ultimos_posts_geral as $post): ?>
-                    <div class="post">
-                        <div class="post-header">
-                            <span class="post-author"><?php echo htmlspecialchars($post['autor']); ?></span>
-                            <span class="post-date"><?php echo date('d/m/Y H:i', strtotime($post['data_postagem'])); ?></span>
-                            <?php if ($is_adm || $post['id_aluno'] == $id_aluno): ?>
-                                <form action="excluir_post.php" method="post" class="form-excluir">
-                                    <input type="hidden" name="id_post" value="<?php echo $post['id_post']; ?>">
-                                    <input type="hidden" name="tipo_forum" value="geral">
-                                    <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
-                                    <button type="submit" class="btn-excluir">Excluir</button>
-                                </form>
-                            <?php endif; ?>
-                        </div>
-                        <div class="post-content">
-                            <?php echo nl2br(htmlspecialchars($post['mensagem'])); ?>
-                            <?php if (!empty($post['arquivo'])): ?>
-                                <div class="post-arquivo">
-                                    <?php 
-                                        $ext = pathinfo($post['arquivo'], PATHINFO_EXTENSION);
-                                        $url_arquivo = "../uploads/" . htmlspecialchars($post['arquivo']);
-                                        if (in_array(strtolower($ext), ['jpg','jpeg','png','gif'])) {
-                                            echo "<br><img src=\"$url_arquivo\" alt=\"Anexo\" style=\"max-width:300px; max-height:300px;\">";
-                                        } elseif (strtolower($ext) === 'pdf') {
-                                            echo "<br><a href=\"$url_arquivo\" target=\"_blank\">Abrir arquivo PDF anexado</a>";
-                                        } else {
-                                            echo "<br><a href=\"$url_arquivo\" target=\"_blank\">Download do arquivo anexado</a>";
-                                        }
-                                    ?>
-                                </div>
-                            <?php endif; ?>
-                        </div>
+                    <div class="file-upload">
+                        <label for="arquivo">Anexar PDF:</label>
+                        <input type="file" name="arquivo" id="arquivo" accept=".pdf">
                     </div>
-                <?php endforeach; ?>
-                <a href="forum_geral_completo.php?id_grupo=<?php echo $id_grupo; ?>" class="btn ver-mais">Ver todas as postagens</a>
-            <?php else: ?>
-                <p>Nenhuma postagem ainda. Seja o primeiro a contribuir!</p>
-            <?php endif; ?>
-        </div>
+                    <button type="submit" class="btn-postar">Postar</button>
+                </form>
+                
+                <div class="posts-list">
+                    <?php if (count($ultimos_posts_geral) > 0): ?>
+                        <?php foreach ($ultimos_posts_geral as $post): ?>
+                            <div class="post">
+                                <div class="post-header">
+                                    <span class="post-author"><?php echo htmlspecialchars($post['autor']); ?></span>
+                                    <span class="post-date"><?php echo date('d/m/Y H:i', strtotime($post['data_postagem'])); ?></span>
+                                    <?php if ($is_adm || $post['id_aluno'] == $id_aluno): ?>
+                                        <form action="excluir_post.php" method="post" class="form-excluir">
+                                            <input type="hidden" name="id_post" value="<?php echo $post['id_post']; ?>">
+                                            <input type="hidden" name="tipo_forum" value="geral">
+                                            <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
+                                            <button type="submit" class="btn-excluir">Excluir</button>
+                                        </form>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="post-content">
+                                    <?php echo nl2br(htmlspecialchars($post['mensagem'])); ?>
+                                    <?php if (!empty($post['arquivo'])): ?>
+                                        <div class="post-arquivo">
+                                            <a href="../uploads/<?php echo htmlspecialchars($post['arquivo']); ?>" target="_blank">Abrir PDF anexado</a>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                        <a href="forum_geral_completo.php?id_grupo=<?php echo $id_grupo; ?>" class="btn ver-mais">Ver todas as postagens</a>
+                    <?php else: ?>
+                        <p>Nenhuma postagem ainda. Seja o primeiro a contribuir!</p>
+                    <?php endif; ?>
+                </div>
+            </div>
             
             <div id="forumAdminsContainer" class="forum-container">
                 <h2>Fórum de Administradores</h2>
@@ -219,6 +182,14 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                                     <span class="post-author"><?php echo htmlspecialchars($post['autor']); ?></span>
                                     <span class="post-date"><?php echo date('d/m/Y H:i', strtotime($post['data_postagem'])); ?></span>
                                     <h3 class="post-title"><?php echo htmlspecialchars($post['titulo']); ?></h3>
+                                    <?php if ($is_adm || $post['id_aluno'] == $id_aluno): ?>
+                                        <form action="excluir_post.php" method="post" class="form-excluir">
+                                            <input type="hidden" name="id_post" value="<?php echo $post['id_post']; ?>">
+                                            <input type="hidden" name="tipo_forum" value="admins">
+                                            <input type="hidden" name="id_grupo" value="<?php echo $id_grupo; ?>">
+                                            <button type="submit" class="btn-excluir-adm">Excluir</button>
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="post-content">
                                     <?php echo nl2br(htmlspecialchars($post['mensagem'])); ?>
@@ -233,131 +204,24 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
     </main>
-    <?php if (isset($_SESSION['alert_message'])): ?>
-    <script>
-        alert('<?php echo $_SESSION['alert_message']; ?>');
-    </script>
-    <?php 
-        unset($_SESSION['alert_message']);
-    endif; 
-    ?>
 
     <script>
-
     const palavrasProibidas = [
-	"lazarento",
-	"arrombado",
-	"foda",
-	"foda-se",
-	"vai se foder",
-	"vai a merda",
-	"arrombada",
-	"fudeo",
-	"fudeu",
-	"gozar",
-	"gozada",
-	"merda",
-	"bosta",
-	"punheta",
-	"filho da puta",
-	"filha da puta",
-	"punhetinha",
-	"punheteiro",
-	"fdp",
-	"cuzão",
-	"cusão",
-	"cusão",
-	"viado",
-	"viadinho",
-	"xota",
-	"putaria",
-	"putero",
-	"puto",
-	"puteiro",
-	"bilau",
-	"vadiazinha",
-	"putinha",
-	"babaca",
-	"retardado",
-	"cusinho",
-	"cuzinho",
-	"filho de um corno",
-	"rapariga",
-	"rabão",
-	"vadia",
-	"puta",
-	"arrombada",
-	"caralho",
-	"broxa",
-	"imbecil",
-	"imbessil",
-	"bastarda",
-	"bastardo",
-	"buceta",
-	"bucetuda",
-	"vsf",
-	"vai se foder",
-	"boceta",
-	"cu",
-	"rola",
-	"rolas",
-	"biscate",
-	"pau no cu",
-	"pau no seu cu",
-	"pica",
-	"pika",
-	"piroca",
-	"piroka",
-	"coco",
-	"cocozão",
-	"pirok",
-	"caraio",
-	"vai tomar no cu",
-	"vagabunda",
-	"vagaba",
-	"porra",
-	"corno",
-	"bixa",
-	"bicha",
-	"baitola",
-	"boquete",
-	"bronha",
-	"brioco",
-	"caga",
-	"enrabada",
-	"enrabado",
-	"cagar",
-	"cagado",
-	"cagada",
-	"arregaçada",
-	"arregaçado",
-	"bixinha",
-	"bichinha",
-	"bichona",
-	"bixona",
-	"arregassado",
-	"arregassada",
-	"chota",
-	"chupada",
-	"chupeta",
-	"xupeta",
-	"grelo",
-	"grelinho",
-	"greluda",
-	"otario",
-	"otaria",
-	"prega",
-	"rabuda",
-	"raxada",
-	"siririca",
-	"tesuda",
-	"tezuda",
-	"xavasca",
-	"chavasca",
-	"xibiu",
-	"xoxota",
-	"chochota"
-];
+        "lazarento", "arrombado", "foda", "foda-se", "vai se foder", "vai a merda", "arrombada",
+        "fudeo", "fudeu", "gozar", "gozada", "merda", "bosta", "punheta", "filho da puta",
+        "filha da puta", "punhetinha", "punheteiro", "fdp", "cuzão", "cusão", "viado", "viadinho",
+        "xota", "putaria", "putero", "puto", "puteiro", "bilau", "vadiazinha", "putinha", "babaca",
+        "retardado", "cusinho", "cuzinho", "filho de um corno", "rapariga", "rabão", "vadia", "puta",
+        "caralho", "broxa", "imbecil", "imbessil", "bastarda", "bastardo", "buceta", "bucetuda",
+        "vsf", "vai se foder", "boceta", "cu", "rola", "rolas", "biscate", "pau no cu", "pau no seu cu",
+        "pica", "pika", "piroca", "piroka", "coco", "cocozão", "pirok", "caraio", "vai tomar no cu",
+        "vagabunda", "vagaba", "porra", "corno", "bixa", "bicha", "baitola", "boquete", "bronha",
+        "brioco", "caga", "enrabada", "enrabado", "cagar", "cagado", "cagada", "arregaçada",
+        "arregaçado", "bixinha", "bichinha", "bichona", "bixona", "arregassado", "arregassada",
+        "chota", "chupada", "chupeta", "xupeta", "grelo", "grelinho", "greluda", "otario", "otaria",
+        "prega", "rabuda", "raxada", "siririca", "tesuda", "tezuda", "xavasca", "chavasca", "xibiu",
+        "xoxota", "chochota"
+    ];
 
     function temPalavrao(texto) {
         return palavrasProibidas.some(
@@ -365,66 +229,84 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         );
     }
 
-    document.querySelector('form[action="postar_forum_geral.php"]')
-        .addEventListener('submit', function(e) {
-            const mensagem = this.querySelector('textarea').value;
+    document.querySelector('form[action="postar_forum_geral.php"]').addEventListener('submit', function(e) {
+        const mensagem = this.querySelector('textarea').value;
+        const arquivoInput = this.querySelector('input[type="file"]');
+        
+        if (temPalavrao(mensagem)) {
+            e.preventDefault(); 
+            alert("⚠️ Sua mensagem contém linguagem inapropriada. Remova as palavras ofensivas antes de enviar.");
+            return;
+        }
+        
+        if (arquivoInput.files.length > 0) {
+            const arquivo = arquivoInput.files[0];
+            const extensao = arquivo.name.split('.').pop().toLowerCase();
             
-            if (temPalavrao(mensagem)) {
-                e.preventDefault(); 
-                alert("⚠️ Sua mensagem contém linguagem inapropriada. Remova as palavras ofensivas antes de enviar.");
+            if (extensao !== 'pdf' || arquivo.type !== 'application/pdf') {
+                e.preventDefault();
+                alert("❌ Apenas arquivos PDF são permitidos.");
+                return;
             }
-        });
+            
+            if (arquivo.size > 5 * 1024 * 1024) {  5MB
+                e.preventDefault();
+                alert("❌ O arquivo é muito grande. O tamanho máximo permitido é 5MB.");
+                return;
+            }
+        }
+    });
 
-        const containers = {
-            toggleMembros: 'membrosContainer',
-            toggleForumGeral: 'forumGeralContainer',
-            toggleForumAdmins: 'forumAdminsContainer'
-        };
-        
-        function hideAllContainers() {
-            Object.values(containers).forEach(id => {
-                document.getElementById(id).style.display = 'none';
-            });
-        }
-        
-        function resetButtons() {
-            Object.keys(containers).forEach(id => {
-                const button = document.getElementById(id);
-                button.textContent = button.textContent.replace('Ocultar ', '');
-            });
-        }
-        
-        Object.entries(containers).forEach(([buttonId, containerId]) => {
-            const button = document.getElementById(buttonId);
-            const container = document.getElementById(containerId);
-            
-            button.addEventListener('click', function() {
-                if (container.style.display === 'block') {
-                    container.style.display = 'none';
-                    this.textContent = this.textContent.replace('Ocultar ', '');
-                } else {
-                    hideAllContainers();
-                    resetButtons();
-                    container.style.display = 'block';
-                    this.textContent = 'Ocultar ' + this.textContent;
-                }
-            });
+    const containers = {
+        toggleMembros: 'membrosContainer',
+        toggleForumGeral: 'forumGeralContainer',
+        toggleForumAdmins: 'forumAdminsContainer'
+    };
+    
+    function hideAllContainers() {
+        Object.values(containers).forEach(id => {
+            document.getElementById(id).style.display = 'none';
         });
+    }
+    
+    function resetButtons() {
+        Object.keys(containers).forEach(id => {
+            const button = document.getElementById(id);
+            button.textContent = button.textContent.replace('Ocultar ', '');
+        });
+    }
+    
+    Object.entries(containers).forEach(([buttonId, containerId]) => {
+        const button = document.getElementById(buttonId);
+        const container = document.getElementById(containerId);
         
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const aba = urlParams.get('aba');
-            
-            if (aba === 'forumGeral') {
+        button.addEventListener('click', function() {
+            if (container.style.display === 'block') {
+                container.style.display = 'none';
+                this.textContent = this.textContent.replace('Ocultar ', '');
+            } else {
                 hideAllContainers();
-                document.getElementById('forumGeralContainer').style.display = 'block';
-                document.getElementById('toggleForumGeral').textContent = 'Ocultar Fórum Geral';
-            } else if (aba === 'forumAdmins') {
-                hideAllContainers();
-                document.getElementById('forumAdminsContainer').style.display = 'block';
-                document.getElementById('toggleForumAdmins').textContent = 'Ocultar Fórum de Admins';
+                resetButtons();
+                container.style.display = 'block';
+                this.textContent = 'Ocultar ' + this.textContent;
             }
         });
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const aba = urlParams.get('aba');
+        
+        if (aba === 'forumGeral') {
+            hideAllContainers();
+            document.getElementById('forumGeralContainer').style.display = 'block';
+            document.getElementById('toggleForumGeral').textContent = 'Ocultar Fórum Geral';
+        } else if (aba === 'forumAdmins') {
+            hideAllContainers();
+            document.getElementById('forumAdminsContainer').style.display = 'block';
+            document.getElementById('toggleForumAdmins').textContent = 'Ocultar Fórum de Admins';
+        }
+    });
     </script>
 </body>
 </html>
