@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     } else {
         echo "<script>alert('Email ou senha incorretos.');</script>";
+        exit;
     }
 }
 ?>
@@ -55,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
 </head>
 <body>
-    <a class="menu" href="../menu/index.html">StudySync</a>
+    <a class="menu" href="../menu/index.php">StudySync</a>
     <h1>Login</h1>
     <div class="quadrado_login">
         <form action="" method="post" onsubmit="return validarRadios()">

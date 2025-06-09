@@ -1,3 +1,8 @@
+<?php
+    session_start();
+    session_unset(); 
+    session_destroy(); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +23,7 @@
         <h1>Sync.</h1>
     </div>
     <footer>
-        <p>Amanda, Carlos e Arthur</p>
+        <p>Desenvolvido por Amanda, Carlos e Arthur</p>
     </footer>
 </body>
 </html>

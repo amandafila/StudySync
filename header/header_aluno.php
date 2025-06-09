@@ -96,7 +96,7 @@ $nome = isset($_SESSION['nome']) ? $_SESSION['nome'] : 'Usuário';
 </head>
 <body>
     <header> 
-    <a href="../menu/index.html">StudySync</a> 
+    <a href="../menu/index.php">StudySync</a> 
     <div class="menu-direita">
         <div class="menu-container">
             <a href="#" class="menu_aluno">Menu</a>
