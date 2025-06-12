@@ -65,15 +65,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conexao->prepare("INSERT INTO aluno (nome, username, email, senha, cpf, faculdade, chave_recuperacao_hash) 
                                   VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssss", $nome, $usuario, $email, $senha, $cpf, $faculdade, $chave_recuperacao);
-        $id_aluno = $conexao->insert_id;
-       
-        session_start();
-        $_SESSION['usuario'] = $usuario;
-        $_SESSION['tipo'] = 'aluno';
-        $_SESSION['nome'] = $nome;
-         $_SESSION['id_aluno'] = $id_aluno;
 
         if ($stmt->execute()) {
+            $id_aluno = $conexao->insert_id;
+
+            session_start();
+
+            $sql = "SELECT * FROM aluno WHERE email = '$email'";
+            $resultado = mysqli_query($conexao, $sql);
+            $usuario = mysqli_fetch_assoc($resultado);
+
+            $_SESSION['usuario'] = $usuario;
+            $_SESSION['tipo'] = 'aluno';
+            $_SESSION['nome'] = $usuario['nome'];
+            $_SESSION['id_aluno'] = $id_aluno;
+
             echo "<script>
                 alert('Cadastro realizado com sucesso!\\nSua chave de recuperação é: $chave_recuperacao\\nAnote-a agora, ela não será exibida novamente.');
                 window.location.href = '../menu_aluno/meus_grupos.php';
