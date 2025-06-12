@@ -146,7 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         background: rgba(0,0,0,0.7);
         z-index: 999;
     }
-    /* Estilo para o botão dentro do modal */
     .chave-recuperacao button {
         padding: 10px 20px;
         background-color: #007bff;

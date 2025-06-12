@@ -16,9 +16,9 @@ $id_grupo = $_GET['id'];
 $id_aluno = $_SESSION['id_aluno'];
 
 $sql_verifica = "SELECT ga.is_adm, g.nome as nome_grupo, g.descricao 
-                 FROM grupo_aluno ga
-                 JOIN grupo g ON ga.id_grupo = g.id_grupo
-                 WHERE ga.id_grupo = ? AND ga.id_aluno = ?";
+                     FROM grupo_aluno ga
+                     JOIN grupo g ON ga.id_grupo = g.id_grupo
+                     WHERE ga.id_grupo = ? AND ga.id_aluno = ?";
 $stmt = $conexao->prepare($sql_verifica);
 $stmt->bind_param("ii", $id_grupo, $id_aluno);
 $stmt->execute();
@@ -35,32 +35,31 @@ $nome_grupo = $dados_grupo['nome_grupo'];
 $descricao = $dados_grupo['descricao'];
 
 $sql_membros = "SELECT a.id_aluno, a.nome, a.email, ga.is_adm 
-                FROM grupo_aluno ga
-                JOIN aluno a ON ga.id_aluno = a.id_aluno
-                WHERE ga.id_grupo = ?
-                ORDER BY ga.is_adm DESC, a.nome ASC";
+                 FROM grupo_aluno ga
+                 JOIN aluno a ON ga.id_aluno = a.id_aluno
+                 WHERE ga.id_grupo = ?
+                 ORDER BY ga.is_adm DESC, a.nome ASC";
 $stmt = $conexao->prepare($sql_membros);
 $stmt->bind_param("i", $id_grupo);
 $stmt->execute();
 $membros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 $sql_forum_geral = "SELECT fg.*, a.nome as autor 
-                    FROM forum_geral fg
-                    JOIN aluno a ON fg.id_aluno = a.id_aluno
-                    WHERE fg.id_grupo = ?
-                    ORDER BY fg.data_postagem DESC
-                    LIMIT 3";
+                     FROM forum_geral fg
+                     JOIN aluno a ON fg.id_aluno = a.id_aluno
+                     WHERE fg.id_grupo = ?
+                     ORDER BY fg.data_postagem DESC
+                     LIMIT 3";
 $stmt = $conexao->prepare($sql_forum_geral);
 $stmt->bind_param("i", $id_grupo);
 $stmt->execute();
 $ultimos_posts_geral = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 $sql_forum_admins = "SELECT fa.*, a.nome as autor 
-                     FROM forum_admins fa
-                     JOIN aluno a ON fa.id_aluno = a.id_aluno
-                     WHERE fa.id_grupo = ?
-                     ORDER BY fa.data_postagem DESC
-                     LIMIT 3";
+                      FROM forum_admins fa
+                      JOIN aluno a ON fa.id_aluno = a.id_aluno
+                      WHERE fa.id_grupo = ?
+                      ORDER BY fa.data_postagem DESC";
 $stmt = $conexao->prepare($sql_forum_admins);
 $stmt->bind_param("i", $id_grupo);
 $stmt->execute();
@@ -74,6 +73,17 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($nome_grupo); ?> - StudySync</title>
     <link rel="stylesheet" href="../assets/styles/grupo_detalhes.css">
+    <style>
+        .forum-container {
+            display: none;
+        }
+        .forum-container.active {
+            display: block;
+        }
+        .btn.active {
+            color: #333; 
+        }
+    </style>
 </head>
 <body>
     <?php include('../header/header_aluno.php'); ?>
@@ -86,9 +96,9 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         
         <div class="grupo-content">
             <div class="grupo-actions">
-                <button id="toggleMembros" class="btn">Mostrar Membros</button>
-                <button id="toggleForumGeral" class="btn">Fórum Geral</button>
-                <button id="toggleForumAdmins" class="btn">Fórum de Admins</button>
+                <button id="toggleMembros" class="btn" data-original-text="Mostrar Membros">Mostrar Membros</button>
+                <button id="toggleForumGeral" class="btn" data-original-text="Fórum Geral">Fórum Geral</button>
+                <button id="toggleForumAdmins" class="btn" data-original-text="Fórum de Admins">Fórum de Admins</button>
             </div>
             
             <div id="membrosContainer" class="forum-container">
@@ -196,7 +206,6 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                                 </div>
                             </div>
                         <?php endforeach; ?>
-                        <a href="forum_admins_completo.php?id_grupo=<?php echo $id_grupo; ?>" class="btn ver-mais">Ver todas as postagens</a>
                     <?php else: ?>
                         <p>Nenhuma postagem ainda.</p>
                     <?php endif; ?>
@@ -249,7 +258,7 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                 return;
             }
             
-            if (arquivo.size > 5 * 1024 * 1024) {  5MB
+            if (arquivo.size > 5 * 1024 * 1024) { 
                 e.preventDefault();
                 alert("❌ O arquivo é muito grande. O tamanho máximo permitido é 5MB.");
                 return;
@@ -258,53 +267,62 @@ $ultimos_posts_admins = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     });
 
     const containers = {
-        toggleMembros: 'membrosContainer',
-        toggleForumGeral: 'forumGeralContainer',
-        toggleForumAdmins: 'forumAdminsContainer'
+        'toggleMembros': 'membrosContainer',
+        'toggleForumGeral': 'forumGeralContainer',
+        'toggleForumAdmins': 'forumAdminsContainer'
     };
-    
-    function hideAllContainers() {
-        Object.values(containers).forEach(id => {
-            document.getElementById(id).style.display = 'none';
+
+    function hideAllContainersAndResetButtons() {
+        Object.keys(containers).forEach(buttonId => {
+            const container = document.getElementById(containers[buttonId]);
+            const button = document.getElementById(buttonId);
+
+            container.classList.remove('active');
+            button.classList.remove('active');
+            button.textContent = button.dataset.originalText;
         });
     }
-    
-    function resetButtons() {
-        Object.keys(containers).forEach(id => {
-            const button = document.getElementById(id);
-            button.textContent = button.textContent.replace('Ocultar ', '');
-        });
-    }
-    
-    Object.entries(containers).forEach(([buttonId, containerId]) => {
+
+    Object.keys(containers).forEach(buttonId => {
         const button = document.getElementById(buttonId);
-        const container = document.getElementById(containerId);
-        
+        const container = document.getElementById(containers[buttonId]);
+
         button.addEventListener('click', function() {
-            if (container.style.display === 'block') {
-                container.style.display = 'none';
-                this.textContent = this.textContent.replace('Ocultar ', '');
+            if (container.classList.contains('active')) {
+                container.classList.remove('active');
+                button.classList.remove('active');
+                button.textContent = button.dataset.originalText;
             } else {
-                hideAllContainers();
-                resetButtons();
-                container.style.display = 'block';
-                this.textContent = 'Ocultar ' + this.textContent;
+                hideAllContainersAndResetButtons();
+
+                container.classList.add('active');
+                button.classList.add('active');
+                button.textContent = 'Ocultar ' + button.dataset.originalText;
             }
         });
     });
-    
+
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
         const aba = urlParams.get('aba');
         
+        hideAllContainersAndResetButtons();
+
         if (aba === 'forumGeral') {
-            hideAllContainers();
-            document.getElementById('forumGeralContainer').style.display = 'block';
-            document.getElementById('toggleForumGeral').textContent = 'Ocultar Fórum Geral';
+            document.getElementById('forumGeralContainer').classList.add('active');
+            const button = document.getElementById('toggleForumGeral');
+            button.classList.add('active');
+            button.textContent = 'Ocultar Fórum Geral';
         } else if (aba === 'forumAdmins') {
-            hideAllContainers();
-            document.getElementById('forumAdminsContainer').style.display = 'block';
-            document.getElementById('toggleForumAdmins').textContent = 'Ocultar Fórum de Admins';
+            document.getElementById('forumAdminsContainer').classList.add('active');
+            const button = document.getElementById('toggleForumAdmins');
+            button.classList.add('active');
+            button.textContent = 'Ocultar Fórum de Admins';
+        } else {
+            document.getElementById('membrosContainer').classList.add('active');
+            const button = document.getElementById('toggleMembros');
+            button.classList.add('active');
+            button.textContent = 'Ocultar Membros';
         }
     });
     </script>
