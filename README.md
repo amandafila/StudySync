@@ -10,4 +10,4 @@ O StudySync foi pensado para resolver este problema! A ideia é unificar a comun
 - Configure o banco de dados com base no script contido na pasta "documentação".
 
 ## Link 
-studysync.infinityfreeapp.com
+[StudySync](https://studysync.infinityfreeapp.com)
